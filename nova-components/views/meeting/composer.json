@@ -1,0 +1,29 @@
+{
+    "name": "nova-custom-views/meeting-views",
+    "description": "A Laravel Nova custom views.",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NovaCustomViews\\MeetingViews\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NovaCustomViews\\MeetingViews\\MeetingViewsServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

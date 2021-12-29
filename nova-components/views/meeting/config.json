@@ -1,0 +1,11 @@
+{
+    "views": {
+        "meeting": {
+            "detail": {
+                "route": "detail",
+                "component": "Detail",
+                "name": "meeting-detail-view"
+            }
+        }
+    }
+}

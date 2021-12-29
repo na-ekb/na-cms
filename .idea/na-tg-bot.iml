@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Modules" isTestSource="false" packagePrefix="Modules\" />
+      <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/database/factories" isTestSource="false" packagePrefix="Database\Factories\" />
+      <sourceFolder url="file://$MODULE_DIR$/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/Feature" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/Unit" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-translatable" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-package-tools" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nette/utils" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nette/schema" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/dflydev/dot-access-data" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php81" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/config" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nascent-africa/jetstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/genl/matice" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/codenco-dev/nova-grid-system" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/optimistdigital/nova-settings" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/optimistdigital/nova-translations-loader" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/vyuldashev/nova-permission" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/spatie/laravel-permission" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/david-griffiths/nova-dark-theme" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/optimistdigital/nova-multiselect-field" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kabbouchi/nova-logs-tool" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kabbouchi/laravel-ward" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bensampo/laravel-enum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-code" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-eventmanager" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-zendframework-bridge" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hanneskod/classtools" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/genealabs/nova-map-marker-field" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/thanks" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lhilton/text-auto-complete" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/optimistdigital/nova-simple-repeatable" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laraning/nova-time-field" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/techouse/intl-date-time" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mannikj/laravel-sti" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/gobrightspot/nova-detached-actions" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hflabs/dadata" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/arrilot/laravel-widgets" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/prima-ca/nova-custom-views" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/serializable-closure" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

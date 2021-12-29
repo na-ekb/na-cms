@@ -1,0 +1,41 @@
+.translatable-field {
+  display: flex;
+  flex-direction: column;
+  .locale-tabs {
+    margin-top: 16px;
+  }
+  &>.select-none {
+    position: absolute;
+    right: 2%;
+  }
+}
+
+.nova-nested-form-header,
+form > div > div > div > div,
+form > div > div > div {
+  width: 100%;
+}
+
+.nova-nested-form-header {
+  padding: .5rem 2rem;
+}
+
+.nova-nested-form-header {
+  border-bottom: 2px solid white;
+}
+
+.nova-nested-form-with-content > .card:last-child .nova-nested-form-header {
+  border-bottom: none;
+}
+
+.nova-nested-form-with-content > .card:nth-child(1) {
+  border-radius: .5rem .5rem 0 0;
+
+}
+
+.ap-dropdown-menu {
+  z-index: 9999!important;
+}
+.border-b {
+  border-bottom-width: 0!important;
+}

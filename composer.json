@@ -1,0 +1,129 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
+    "license": "MIT",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/DaDataSuggestion"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaDependencyContainer"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaTranslatable"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaNestedForm"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/views/meeting"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "arrilot/laravel-widgets": "^3.13",
+        "bensampo/laravel-enum": "^3.4",
+        "codenco-dev/nova-grid-system": "^1.0",
+        "david-griffiths/nova-dark-theme": "^1.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "genealabs/nova-map-marker-field": "^0.3.1",
+        "genl/matice": "^1.1",
+        "gobrightspot/nova-detached-actions": "^1.1",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "hflabs/dadata": "^20.12",
+        "inertiajs/inertia-laravel": "^0.4.2",
+        "joshbrw/laravel-module-installer": "^2.0",
+        "kabbouchi/nova-logs-tool": "^0.4.0",
+        "laraning/nova-time-field": "^1.2",
+        "laravel-lang/lang": "~8.0",
+        "laravel/framework": "^8.40",
+        "laravel/jetstream": "^2.3",
+        "laravel/nova": "~3.0",
+        "laravel/sanctum": "^2.6",
+        "laravel/tinker": "^2.5",
+        "lhilton/text-auto-complete": "^1.0",
+        "mannikj/laravel-sti": "^3.0",
+        "na-ekb/tg-bot-module": "^0.5.1",
+        "nova-components/dadata-suggestion": "*",
+        "nova-components/nova-dependency-container": "*",
+        "nova-components/nova-nested-form": "*",
+        "nova-components/nova-translatable": "*",
+        "nova-custom-views/meeting-views": "*",
+        "nwidart/laravel-modules": "^8.2",
+        "optimistdigital/nova-multiselect-field": "^2.3",
+        "optimistdigital/nova-settings": "^3.2",
+        "optimistdigital/nova-simple-repeatable": "^1.4",
+        "prima-ca/nova-custom-views": "^1.71",
+        "spatie/laravel-translatable": "^5.0",
+        "techouse/intl-date-time": "^1.6",
+        "tightenco/ziggy": "^1.0",
+        "vyuldashev/nova-permission": "^3.0",
+        "wapmorgan/morphos": "^3.2"
+    },
+    "require-dev": {
+        "coderello/laravel-nova-lang": "^1.7",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/envoy": "^2.7",
+        "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.4",
+        "mockery/mockery": "^1.4.2",
+        "nascent-africa/jetstrap": "^2.4",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/",
+            "Modules\\": "Modules/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "laravel/telescope"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
