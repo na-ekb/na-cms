@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eda8e84519b60180db460dc612d01670",
+    "content-hash": "fcacdebd27d43703619f61cb6bb505df",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -4135,6 +4135,86 @@
             "time": "2020-01-05T04:49:34+00:00"
         },
         {
+            "name": "na-ekb/service-site-module",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/na-ekb/service-site-module.git",
+                "reference": "6a03f1b95880edbf3b62bc66c05fcf1cb2162adb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/na-ekb/service-site-module/zipball/6a03f1b95880edbf3b62bc66c05fcf1cb2162adb",
+                "reference": "6a03f1b95880edbf3b62bc66c05fcf1cb2162adb",
+                "shasum": ""
+            },
+            "type": "laravel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\ServiceSite\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Denis",
+                    "email": "mail@na-ekb.ru"
+                }
+            ],
+            "description": "NaCMS - Site for internal use.",
+            "support": {
+                "issues": "https://github.com/na-ekb/service-site-module/issues",
+                "source": "https://github.com/na-ekb/service-site-module/tree/v0.5.1"
+            },
+            "time": "2021-12-29T17:50:12+00:00"
+        },
+        {
+            "name": "na-ekb/site-module",
+            "version": "v0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/na-ekb/site-module.git",
+                "reference": "4b627290a631d1d85db51f3ad1f752c4d175b510"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/na-ekb/site-module/zipball/4b627290a631d1d85db51f3ad1f752c4d175b510",
+                "reference": "4b627290a631d1d85db51f3ad1f752c4d175b510",
+                "shasum": ""
+            },
+            "type": "laravel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [],
+                    "aliases": []
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Site\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Denis",
+                    "email": "mail@na-ekb.ru"
+                }
+            ],
+            "description": "NaCMS - Site for public.",
+            "support": {
+                "issues": "https://github.com/na-ekb/site-module/issues",
+                "source": "https://github.com/na-ekb/site-module/tree/v0.5.1"
+            },
+            "time": "2021-12-30T08:24:30+00:00"
+        },
+        {
             "name": "na-ekb/telegram-bot-sdk",
             "version": "v3.5.4",
             "source": {
@@ -4211,16 +4291,16 @@
         },
         {
             "name": "na-ekb/tg-bot-module",
-            "version": "v0.5.1",
+            "version": "v0.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/na-ekb/tg-bot-module.git",
-                "reference": "0f695eb8147dc7154d9cda7ffcba6e897b4def5b"
+                "reference": "b36dbac081a6928ed31bb3bbe2a56faf60ad47c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/na-ekb/tg-bot-module/zipball/0f695eb8147dc7154d9cda7ffcba6e897b4def5b",
-                "reference": "0f695eb8147dc7154d9cda7ffcba6e897b4def5b",
+                "url": "https://api.github.com/repos/na-ekb/tg-bot-module/zipball/b36dbac081a6928ed31bb3bbe2a56faf60ad47c4",
+                "reference": "b36dbac081a6928ed31bb3bbe2a56faf60ad47c4",
                 "shasum": ""
             },
             "require": {
@@ -4248,9 +4328,9 @@
             "description": "NaCMS - Telegram bot with groups announcements etc.",
             "support": {
                 "issues": "https://github.com/na-ekb/tg-bot-module/issues",
-                "source": "https://github.com/na-ekb/tg-bot-module/tree/v0.5.1"
+                "source": "https://github.com/na-ekb/tg-bot-module/tree/v0.5.2"
             },
-            "time": "2021-06-23T07:30:24+00:00"
+            "time": "2021-12-29T17:54:44+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -4552,7 +4632,7 @@
         },
         {
             "name": "nova-components/dadata-suggestion",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/DaDataSuggestion",
@@ -4588,7 +4668,7 @@
         },
         {
             "name": "nova-components/nova-dependency-container",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/NovaDependencyContainer",
@@ -4624,7 +4704,7 @@
         },
         {
             "name": "nova-components/nova-nested-form",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/NovaNestedForm",
@@ -4666,7 +4746,7 @@
         },
         {
             "name": "nova-components/nova-translatable",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/NovaTranslatable",
@@ -4719,7 +4799,7 @@
         },
         {
             "name": "nova-custom-views/meeting-views",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/views/meeting",
@@ -12217,5 +12297,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
