@@ -58,6 +58,8 @@
         "laravel/tinker": "^2.5",
         "lhilton/text-auto-complete": "^1.0",
         "mannikj/laravel-sti": "^3.0",
+        "na-ekb/service-site-module": "^0.5.1",
+        "na-ekb/site-module": "^0.5.1",
         "na-ekb/tg-bot-module": "^0.5.1",
         "nova-components/dadata-suggestion": "*",
         "nova-components/nova-dependency-container": "*",
@@ -122,7 +124,11 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/thanks": true,
+            "joshbrw/laravel-module-installer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
