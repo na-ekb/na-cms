@@ -1,9 +1,9 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/js/dashboard.js": "/js/dashboard.js",
-    "/css/app.css": "/css/app.css",
-    "/css/admin.css": "/css/admin.css",
-    "/css/dashboard.css": "/css/dashboard.css",
-    "/js/site.js": "/js/site.js",
-    "/css/site.css": "/css/site.css"
+    "/js/site-main.js": "/js/site-main.js",
+    "/css/site.css": "/css/site.css",
+    "/js/site-main.js.map": "/js/site-main.js.map",
+    "/css/site.css.map": "/css/site.css.map",
+    "/js/site-meetings.js": "/js/site-meetings.js",
+    "/js/site-meetings.js.map": "/js/site-meetings.js.map",
+    "/js/cookieClicker.min.js": "/js/cookieClicker.min.js"
 }

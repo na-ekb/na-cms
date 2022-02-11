@@ -5,7 +5,95 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b63607e6-82c0-4811-a4f0-00c044e3d41b" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/PageCommand.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Database/Migrations/2022_02_07_121828_create_tg_pages_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Database/Migrations/2022_02_09_121828_create_tg_pages_relations_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Entities/TgPage.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Nova/TgPage.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/admin/resources/groups.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/admin/resources/pages.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/Api/V1/MeetingsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/Nova/Tools/NovaSettings.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/lang/ru/errors.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/fields/action-button.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/blade.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blade.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/na-tg-bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/na-tg-bot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Envoy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Envoy.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Config/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Config/responsecache.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Config/responsecache.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Console/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Database/Migrations/2021_06_27_193234_create_tg_jft_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Database/Migrations/2021_06_27_193234_create_tg_jft_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Entities/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Entities/Jft.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Entities/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Entities/Page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Controllers/SiteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Jft.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Meetings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Meetings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Sharing.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Sharing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Jobs/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Jobs/Jft.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Providers/ScheduleServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Providers/ScheduleServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Providers/SiteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Providers/SiteServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/assets/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/assets/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/assets/sass/app.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/footer.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/header.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/menu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/jft.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/meetings.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/sharing.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/Routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/Site/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/MeetingDay.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/MeetingDay.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Setting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Setting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/Meeting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/Meeting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/deploy.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/deploy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/session.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_08_22_020043_add_meeting_days_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_08_22_020043_add_meeting_days_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/ServiceSite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/site.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/.htaccess" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/address.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/arrow.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/banner-logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/cluster.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/cookie.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/cursor.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/download.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/favicon/browserconfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/favicon/browserconfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/favicon/site.webmanifest" beforeDir="false" afterPath="$PROJECT_DIR$/public/img/favicon/site.webmanifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/icons.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/logo-nav.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/logo-white.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/mail.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/minilogo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/og-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/og-logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/open.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/path.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/phone.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/point.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/print.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/toggler.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/vk-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/img/zoom.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/site.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/site.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ru/admin/resources/settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ru/admin/resources/settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,18 +116,23 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Envoy.blade.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/resources/js/dashboard.js" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadEnvironmentVariables.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Services/TelegramBotApiService.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/Models/Module.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Providers/TgBotServiceProvider.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/config/deploy.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/Nova/Resources/Resource.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Routes/web.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/app/Nova/Resources/Module.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/.env" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Entities/TgPage.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Database/Migrations/2022_02_07_121828_create_tg_pages_table.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Models/Module.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/resources/js/dashboard.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/Site/Database/Migrations/2021_08_08_090025_create_page_metas_table.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Nova/TgPage.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Services/TelegramBotApiService.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Nova/Resources/Resource.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Providers/TgBotServiceProvider.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/LoadEnvironmentVariables.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Modules/TgBot/Nova/Actions/SetUpWebhook.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/Site/Entities/Page.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/app/Nova/Resources/Module.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Modules/TgBot/Routes/web.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Envoy.blade.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/config/deploy.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -222,6 +315,29 @@
       <path value="$PROJECT_DIR$/vendor/arrilot/laravel-widgets" />
       <path value="$PROJECT_DIR$/vendor/prima-ca/nova-custom-views" />
       <path value="$PROJECT_DIR$/vendor/laravel/serializable-closure" />
+      <path value="$PROJECT_DIR$/vendor/nova-components/nova-nested-form" />
+      <path value="$PROJECT_DIR$/vendor/nova-components/dadata-suggestion" />
+      <path value="$PROJECT_DIR$/vendor/nova-components/nova-dependency-container" />
+      <path value="$PROJECT_DIR$/vendor/nova-components/nova-translatable" />
+      <path value="$PROJECT_DIR$/vendor/nova-custom-views/meeting-views" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-responsecache" />
+      <path value="$PROJECT_DIR$/vendor/jenssegers/date" />
+      <path value="$PROJECT_DIR$/vendor/tucker-eric/eloquentfilter" />
+      <path value="$PROJECT_DIR$/vendor/intervention/image" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/vendor/nicmart/tree" />
+      <path value="$PROJECT_DIR$/vendor/spatie/browsershot" />
+      <path value="$PROJECT_DIR$/vendor/spatie/robots-txt" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-sitemap" />
+      <path value="$PROJECT_DIR$/vendor/spatie/crawler" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image-optimizer" />
+      <path value="$PROJECT_DIR$/vendor/spatie/image" />
+      <path value="$PROJECT_DIR$/vendor/spatie/temporary-directory" />
+      <path value="$PROJECT_DIR$/vendor/league/glide" />
+      <path value="$PROJECT_DIR$/vendor/codedge/laravel-selfupdater" />
+      <path value="$PROJECT_DIR$/vendor/spatie/laravel-csp" />
+      <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
+      <path value="$PROJECT_DIR$/vendor/dillingham/nova-attach-many" />
     </include_path>
   </component>
   <component name="ProjectId" id="1sZmrYGy0JJh42WO2Pp5Nldj6G5" />
@@ -235,7 +351,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Modules/TgBot/Database/Migrations" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Modules/TgBot/Commands" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -244,18 +360,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\Modules\TgBot\Database\Migrations" />
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\Modules\TgBot\Entities" />
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\Modules\TgBot\Commands" />
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\app\Models" />
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\app\Nova\Resources" />
+      <recent name="$PROJECT_DIR$/Modules/TgBot/Commands" />
+      <recent name="$PROJECT_DIR$/Modules/TgBot/Nova" />
+      <recent name="$PROJECT_DIR$/Modules/TgBot/Database/Migrations" />
+      <recent name="$PROJECT_DIR$/Modules/Site/Database/Migrations" />
+      <recent name="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/admin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Modules/Site/Resources/views/widgets" />
       <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\Modules\TgBot" />
       <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\Modules\Nova\Actions" />
       <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\resources\lang\ru\admin" />
       <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\resources\views\vendor\php-junior" />
-      <recent name="\\wsl$\Ubuntu-20.04\home\nikovonlas\na\na-tg-bot\resources\lang\ru" />
     </key>
   </component>
   <component name="RunManager">
@@ -315,10 +431,26 @@
       <workItem from="1639041478674" duration="1861000" />
       <workItem from="1640157684729" duration="13466000" />
       <workItem from="1640510972628" duration="15438000" />
+      <workItem from="1641478975922" duration="57054000" />
+      <workItem from="1641989848020" duration="3118000" />
+      <workItem from="1642099644055" duration="15881000" />
+      <workItem from="1642944316059" duration="43020000" />
+      <workItem from="1644229505601" duration="29777000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

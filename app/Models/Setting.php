@@ -8,7 +8,7 @@ use OptimistDigital\NovaSettings\NovaSettings;
 
 class Setting extends Settings
 {
-    public function getValueAttribute()
+    public function getValueAttribute($value)
     {
         $value = $this->attributes['value'] ?? null;
         $casts = NovaSettings::getCasts();

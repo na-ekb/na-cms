@@ -1,0 +1,14 @@
+{
+    "name": "TgBot",
+    "alias": "tg-bot-module",
+    "description": "Telegram bot with groups announcements etc.",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\TgBot\\Providers\\TgBotServiceProvider",
+        "Modules\\TgBot\\Providers\\ScheduleServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

@@ -14,9 +14,6 @@ return [
             'linked_files'   => ['.env'],
             'linked_dirs'    => ['storage/app', 'storage/framework', 'storage/logs'],
             'copied_dirs'    => ['node_modules', 'vendor'],
-        ],
-        'local'     => [
-            'ssh_host'       => '127.0.0.1',
         ]
     ],
 

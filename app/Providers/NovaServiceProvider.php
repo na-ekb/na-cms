@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Fields\Timezone;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravel\Nova\Panel;
+
 use OptimistDigital\MultiselectField\Multiselect;
 use OptimistDigital\NovaSettings\NovaSettings;
+
 use KABBOUCHI\LogsTool\LogsTool;
 use CodencoDev\NovaGridSystem\NovaGridSystem;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
@@ -36,6 +39,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->options(Language::get()->pluck('native_name', 'code'))
                     ->reorderable()
                     ->help(__('admin/resources/settings.languages_help')),
+                Timezone::make(__('admin/resources/settings.timezone'), 'timezone')
+                    ->help(
+                        __('admin/resources/settings.timezone_help')
+                    ),
             ]),
         ], [
            'languages' => 'array'

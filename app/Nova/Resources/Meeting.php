@@ -144,6 +144,10 @@ class Meeting extends Resource
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
+            Text::make(__('admin/resources/meetings.fields.city'), 'city')
+                ->onlyOnIndex()
+                ->sortable(),
+
             Text::make(__('admin/resources/meetings.fields.title'), 'title')
                 ->translatable()
                 ->required(true)
@@ -151,12 +155,13 @@ class Meeting extends Resource
 
             Text::make(__('admin/resources/meetings.fields.type'), function() {
                 return MeetingsType::fromValue($this->type)->description;
-            })->showOnDetail(),
+            })->showOnDetail()->showOnIndex(),
 
             Select::make(__('admin/resources/meetings.fields.type'), 'type')
                 ->options(MeetingsType::asSelectArray())
                 ->required(true)
                 ->hideFromDetail()
+                ->hideFromIndex()
                 ->size('w-full'),
 
             NovaDependencyContainer::make([

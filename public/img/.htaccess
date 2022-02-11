@@ -1,6 +1,0 @@
-AddDefaultCharset UTF-8
-
-Options +SymLinksIfOwnerMatch
-RewriteEngine On
-RewriteBase /img/
-RewriteRule ^groups.png$ groups.php

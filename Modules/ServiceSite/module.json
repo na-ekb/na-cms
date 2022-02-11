@@ -1,0 +1,13 @@
+{
+    "name": "ServiceSite",
+    "alias": "servicesite",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ServiceSite\\Providers\\ServiceSiteServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

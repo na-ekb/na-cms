@@ -23,7 +23,7 @@ class AddMeetingDaysTable extends Migration
             $table->json('format_second')->nullable();
             $table->unsignedTinyInteger('online')->nullable();
             $table->unsignedTinyInteger('day_type')->nullable();
-            $table->enum('day', [1, 2, 3, 4, 5, 6, 7]);
+            $table->enum('day', [1, 2, 3, 4, 5, 6, 0]);
             $table->timestamp('date')->nullable();
             $table->timeTz('time');
             $table->unsignedInteger('duration');

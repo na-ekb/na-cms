@@ -1,0 +1,24 @@
+{
+    "name": "na-ekb/service-site-module",
+    "type": "laravel-module",
+    "description": "NaCMS - Site for internal use.",
+    "authors": [
+        {
+            "name": "Denis",
+            "email": "mail@na-ekb.ru"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ServiceSite\\": ""
+        }
+    }
+}

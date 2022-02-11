@@ -25,6 +25,7 @@
 @endtask
 
 @story('deploy')
+    test
     update-code
     install-dependencies
     create-symlinks
@@ -65,17 +66,17 @@
     ln -sfn {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG {{ $currentEnv['deploy_path'] }}/current
 
     cd {{ $currentEnv['deploy_path'] }}/current
-    cat bootstrap/app.prod.php > bootstrap/app.php
+    cat bootstrap/app.production.php > bootstrap/app.php
 @endtask
 
 @task('install-dependencies')
-    cd {{ $currentEnv['deploy_path'] }}
+    cd {{ $currentEnv['deploy_path'] }}/current
     composer install --prefer-dist --no-dev
 @endtask
 
 
 @task('restart-queues')
-    cd {{ $currentEnv['deploy_path'] }}
+    cd {{ $currentEnv['deploy_path'] }}/current
     php artisan queue:restart
 @endtask
 
