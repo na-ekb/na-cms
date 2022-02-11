@@ -44,6 +44,8 @@
         | cut --delimiter='/' --fields=3 \
         | xargs -I % echo 'mkdir -p % && echo %' | sh)
 
+    export CURRENT_DEPLOY_TAG
+
     cd "$CURRENT_DEPLOY_TAG"
 
     git clone -b "$CURRENT_DEPLOY_TAG" --single-branch --depth 1 {{ $currentEnv['repository_url'] }} . || true
@@ -56,7 +58,7 @@
 @task('create-symlinks')
     if [ ! -d "{{ $currentEnv['deploy_path'] }}/storage" ]
     then
-        cp -R {{ $currentEnv['deploy_path'] }}/current/storage {{ $currentEnv['deploy_path'] }}/storage
+        cp -R {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG/storage {{ $currentEnv['deploy_path'] }}/storage
     fi
 
     rm -rf storage
@@ -70,7 +72,7 @@
 @endtask
 
 @task('install-dependencies')
-    cd {{ $currentEnv['deploy_path'] }}/current
+    cd {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG
     composer install --prefer-dist --no-dev
 @endtask
 
