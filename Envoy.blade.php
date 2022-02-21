@@ -6,22 +6,30 @@
     $dotenv->required(['DEPLOY_PATH'])->notEmpty();
 
     $config = include('./config/deploy.php');
-    $servers = [];
-    foreach($config['environments'] as $name => $env) {
-        if(empty($env['ssh_user'])) {
-            $servers[$name] = $env['ssh_host'];
-        } else {
-            $servers[$name] = "{$env['ssh_user']}@{$env['ssh_host']}";
-        }
+
+    $env = isset($env) ? $env : $config['current'];
+    if (!isset($config['environments'][$env])) {
+        throw new Exception('Env to deploy dont setted!');
     }
-    $currentEnv = $config['environments'][$config['current']];
+
+    $envName = $env;
+    $env = $config['environments'][$env];
+
+    if(empty($env['ssh_user'])) {
+        $host = $env['ssh_host'];
+    } else {
+        $host = "{$env['ssh_user']}@{$env['ssh_host']}";
+    }
+    $servers = [
+        $envName => $host
+    ];
 @endsetup
 
 @servers($servers)
 
 @task('test')
-    echo {{ $currentEnv['deploy_path'] }}
-    echo {{ $currentEnv['repository_url'] }}
+    echo {{ $env['deploy_path'] }}
+    echo {{ $env['repository_url'] }}
 @endtask
 
 @story('deploy')
@@ -29,26 +37,20 @@
     update-code
     install-dependencies
     create-symlinks
-    restart-queues
 @endstory
 
 @task('update-code')
-    cd {{ $currentEnv['deploy_path'] }}
+    cd {{ $env['deploy_path'] }}
 
     mkdir -p tags
     cd tags
 
-    CURRENT_DEPLOY_TAG=$(git -c 'versionsort.suffix=-' \
-        ls-remote --exit-code --refs --sort='version:refname' --tags {{ $currentEnv['repository_url'] }} '*.*.*' \
-        | tail --lines=1 \
-        | cut --delimiter='/' --fields=3 \
-        | xargs -I % echo 'mkdir -p % && echo %' | sh)
+    mkdir -p {{ $env['tag'] }}
+    cd {{ $env['tag'] }}
 
-    export CURRENT_DEPLOY_TAG
+    git clone -b {{ $env['tag'] }} --single-branch --depth 1 {{ $env['repository_url'] }} . || true
 
-    cd "$CURRENT_DEPLOY_TAG"
-
-    git clone -b "$CURRENT_DEPLOY_TAG" --single-branch --depth 1 {{ $currentEnv['repository_url'] }} . || true
+    cat ./bootstrap/app.production.php > ./bootstrap/app.php
 @endtask
 
 @task('build-assets', ['on' => 'local'])
@@ -56,30 +58,29 @@
 @endtask
 
 @task('create-symlinks')
-    if [ ! -d "{{ $currentEnv['deploy_path'] }}/storage" ]
+    if [ ! -d "{{ $env['deploy_path'] }}/storage" ]
     then
-        cp -R {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG/storage {{ $currentEnv['deploy_path'] }}/storage
+        cp -R {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}/storage {{ $env['deploy_path'] }}/storage
     fi
 
     rm -rf storage
-    ln -sfn {{ $currentEnv['deploy_path'] }}/storage {{ $currentEnv['deploy_path'] }}/current/storage
-    ln -sfn {{ $currentEnv['deploy_path'] }}/storage/app/public {{ $currentEnv['deploy_path'] }}/current/public/storage
+    ln -sfn {{ $env['deploy_path'] }}/storage {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}/storage
+    ln -sfn {{ $env['deploy_path'] }}/storage/app/public {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}/public/storage
 
-    ln -sfn {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG {{ $currentEnv['deploy_path'] }}/current
+    ln -sfn {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }} {{ $env['deploy_path'] }}/current
 
-    cd {{ $currentEnv['deploy_path'] }}/current
-    cat bootstrap/app.production.php > bootstrap/app.php
+    cd {{ $env['deploy_path'] }}/current
 @endtask
 
 @task('install-dependencies')
-    cd {{ $currentEnv['deploy_path'] }}/tags/$CURRENT_DEPLOY_TAG
-    composer install --prefer-dist --no-dev
+    cd {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}
+    composer-php8.0 install --prefer-dist --no-dev --ignore-platform-reqs
 @endtask
 
 
 @task('restart-queues')
-    cd {{ $currentEnv['deploy_path'] }}/current
-    php artisan queue:restart
+    cd {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}
+    php8.0 artisan queue:restart
 @endtask
 
 @finished

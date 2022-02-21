@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Set bootstrap to inertia
-        //JetstrapFacade::useCoreUi3();
+        // JetstrapFacade::useCoreUi3();
         Paginator::useBootstrap();
     }
 }
