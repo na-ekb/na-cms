@@ -17,6 +17,11 @@ class ServiceSiteController extends Controller
         return view('servicesite::index');
     }
 
+    public function events()
+    {
+        return view('servicesite::index');
+    }
+
     /**
      * Show the form for creating a new resource.
      * @return Renderable

@@ -4,43 +4,109 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b63607e6-82c0-4811-a4f0-00c044e3d41b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/blade.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blade.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/laravel-idea.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/laravel-idea.xml" afterDir="false" />
+    <list default="true" id="b63607e6-82c0-4811-a4f0-00c044e3d41b" name="Default Changelist" comment="All in one">
+      <change afterPath="$PROJECT_DIR$/Modules/ServiceSite/Entities/Events.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/assets/js/telegram-web-app.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/views/webapp/cleanTime/parseData.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/LICENSE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/composer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/dist/css/field.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/dist/js/field.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/dist/mix-manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/TimePicker.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/components/DetailField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/components/FormField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/components/IndexField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/field.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/js/mixins/Timezones.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/resources/sass/field.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/src/FieldServiceProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/src/NovaTimeField.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/src/TimeField.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/NovaTimeField/webpack.mix.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/composer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/demo/demo.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/dist/css/field.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/dist/js/field.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/dist/mix-manifest.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/js/components/DetailField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/js/components/FormField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/js/components/IndexField.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/js/components/ItemTemplate.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/js/field.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/resources/sass/field.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/src/FieldServiceProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/src/TextAutoComplete.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/nova-components/TextAutoComplete/webpack.mix.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/na-tg-bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/na-tg-bot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Envoy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Envoy.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Config/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Config/responsecache.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Config/responsecache.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Console/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Database/Migrations/2021_06_27_193234_create_tg_jft_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Database/Migrations/2021_06_27_193234_create_tg_jft_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Entities/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Entities/Jft.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Entities/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Entities/Page.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Controllers/SiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Controllers/SiteController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Jft.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Meetings.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Meetings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Sharing.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Http/Widgets/Sharing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Jobs/Jft.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Jobs/Jft.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Providers/ScheduleServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Providers/ScheduleServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Providers/SiteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Providers/SiteServiceProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/assets/js/app.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/assets/sass/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/assets/sass/app.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/footer.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/footer.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/header.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/header.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/menu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Resources/views/layouts/master/partials/menu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/jft.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/meetings.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Resources/views/partials/sharing.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/Routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/Routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Modules/Site/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/Site/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/Http/Controllers/ServiceSiteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ServiceSite/Http/Controllers/ServiceSiteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/Resources/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ServiceSite/Resources/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/Resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ServiceSite/Resources/views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/Resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ServiceSite/Resources/views/layouts/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/ServiceSite/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/ServiceSite/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/AbstractCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/AbstractCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/CleanTimeCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/CleanTimeCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/GeoCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/GeoCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/GroupsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/GroupsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/MemberMenuCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/MemberMenuCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Commands/StartCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Commands/StartCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Database/Seeders/TgBotDatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Database/Seeders/TgBotDatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Helpers/GroupFormatter.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Helpers/GroupFormatter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Http/Controllers/TgBotController.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Http/Controllers/TgBotController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Providers/RouteServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Providers/RouteServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Providers/TgBotServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Providers/TgBotServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Resources/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Classes/WebAppInfo.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/commands.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/commands.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Resources/views/layouts/master.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Resources/views/layouts/master.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Routes/api.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/Routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/Routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Modules/TgBot/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/Modules/TgBot/webpack.mix.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Meeting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Meeting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Fields/DaDataSuggestion.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/Meeting.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/Meeting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayOneTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayOneTime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayOneTimeOnline.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayOneTimeOnline.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayRegular.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayRegular.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayRegularOnline.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Nova/Resources/MeetingDayRegularOnline.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Providers/NovaServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/deploy.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/deploy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/modules.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/modules.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/nova-settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/nova-settings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/DaDataSuggestion/dist/css/field.css" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/DaDataSuggestion/dist/css/field.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/DaDataSuggestion/dist/js/field.js" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/DaDataSuggestion/dist/js/field.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/DaDataSuggestion/resources/js/components/FormField.vue" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/DaDataSuggestion/resources/js/components/FormField.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/DaDataSuggestion/src/DaDataSuggestion.php" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/DaDataSuggestion/src/DaDataSuggestion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/NovaNestedForm/dist/js/field.js" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/NovaNestedForm/dist/js/field.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/NovaNestedForm/resources/js/components/NestedFormAdd.vue" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/NovaNestedForm/resources/js/components/NestedFormAdd.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/NovaNestedForm/resources/js/components/NestedFormHeader.vue" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/NovaNestedForm/resources/js/components/NestedFormHeader.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/NovaNestedForm/src/NestedForm.php" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/NovaNestedForm/src/NestedForm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nova-components/NovaTranslatable/src/HandlesTranslatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/nova-components/NovaTranslatable/src/HandlesTranslatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/servicesite.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/servicesite.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/site.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/site.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/site.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/site.css.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/servicesite.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/servicesite.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/site-main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/site-main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/site-main.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/site-main.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/site-meetings.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/site-meetings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/site-meetings.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/site-meetings.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/ru/admin/resources/settings.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/ru/admin/resources/settings.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,8 +117,16 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
@@ -205,12 +279,8 @@
       <path value="$PROJECT_DIR$/vendor/laravel/envoy" />
       <path value="$PROJECT_DIR$/vendor/na-ekb/telegram-bot-sdk" />
       <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts_compare" />
-      <path value="$PROJECT_DIR$/vendor/moontoast/math" />
       <path value="$PROJECT_DIR$/vendor/cakephp/chronos" />
       <path value="$PROJECT_DIR$/vendor/paragonie/constant_time_encoding" />
-      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
-      <path value="$PROJECT_DIR$/vendor/phpseclib/bcmath_compat" />
-      <path value="$PROJECT_DIR$/vendor/phpseclib/phpseclib" />
       <path value="$PROJECT_DIR$/vendor/spatie/once" />
       <path value="$PROJECT_DIR$/vendor/laravel/ui" />
       <path value="$PROJECT_DIR$/vendor/laravel/nova" />
@@ -258,7 +328,6 @@
       <path value="$PROJECT_DIR$/vendor/hanneskod/classtools" />
       <path value="$PROJECT_DIR$/vendor/genealabs/nova-map-marker-field" />
       <path value="$PROJECT_DIR$/vendor/symfony/thanks" />
-      <path value="$PROJECT_DIR$/vendor/lhilton/text-auto-complete" />
       <path value="$PROJECT_DIR$/vendor/optimistdigital/nova-simple-repeatable" />
       <path value="$PROJECT_DIR$/vendor/laraning/nova-time-field" />
       <path value="$PROJECT_DIR$/vendor/techouse/intl-date-time" />
@@ -291,6 +360,8 @@
       <path value="$PROJECT_DIR$/vendor/spatie/laravel-csp" />
       <path value="$PROJECT_DIR$/vendor/_laravel_idea" />
       <path value="$PROJECT_DIR$/vendor/dillingham/nova-attach-many" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/nova-components/text-auto-complete" />
     </include_path>
   </component>
   <component name="ProjectId" id="1sZmrYGy0JJh42WO2Pp5Nldj6G5" />
@@ -304,20 +375,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Modules/TgBot/Commands" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Modules/ServiceSite/Entities" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Modules/ServiceSite/Entities" />
+      <recent name="$PROJECT_DIR$/nova-components" />
       <recent name="$PROJECT_DIR$/Modules/TgBot/Commands" />
       <recent name="$PROJECT_DIR$/Modules/TgBot/Nova" />
       <recent name="$PROJECT_DIR$/Modules/TgBot/Database/Migrations" />
-      <recent name="$PROJECT_DIR$/Modules/Site/Database/Migrations" />
-      <recent name="$PROJECT_DIR$/Modules/TgBot/Resources/lang/ru/admin" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Modules/Site/Resources/views/widgets" />
@@ -392,8 +464,30 @@
       <workItem from="1644795295498" duration="2126000" />
       <workItem from="1645011377373" duration="1198000" />
       <workItem from="1645015345137" duration="3181000" />
-      <workItem from="1645481678221" duration="4380000" />
+      <workItem from="1645481678221" duration="5432000" />
+      <workItem from="1646212752837" duration="4966000" />
+      <workItem from="1646551193761" duration="39000" />
+      <workItem from="1646551382169" duration="598000" />
+      <workItem from="1647257238833" duration="636000" />
+      <workItem from="1647422669694" duration="75000" />
+      <workItem from="1648877254828" duration="11857000" />
+      <workItem from="1650738846487" duration="47081000" />
     </task>
+    <task id="LOCAL-00001" summary="All in one">
+      <created>1645486289636</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1645486289636</updated>
+    </task>
+    <task id="LOCAL-00002" summary="All in one">
+      <created>1645486359639</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1645486359639</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -409,5 +503,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="All in one" />
+    <option name="LAST_COMMIT_MESSAGE" value="All in one" />
   </component>
 </project>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\MeetingDayWeekdaysType;
+use App\Models\Meeting as MeetingModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -99,5 +100,24 @@ class Meeting extends Model
         return $query->whereHas('meetingDays', function($subQ) use ($day) {
             return $subQ->day($day);
         });
+    }
+
+    /**
+     * Get all unique attributes for search fields
+     *
+     * @param string $attribute
+     * @return array
+     */
+    public static function getAllUnique(string $attribute) :array
+    {
+        $values = [];
+        static::all()
+            ->pluck($attribute)
+            ->each(function ($value) use (&$values) {
+                if (!empty($value) && !in_array($value, $values)) {
+                    $values[] = $value;
+                }
+            });
+        return $values;
     }
 }

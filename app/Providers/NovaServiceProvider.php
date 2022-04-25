@@ -6,14 +6,16 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 use Laravel\Nova\Cards\Help;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Timezone;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Laravel\Nova\Panel;
 
+use NovaComponents\TextAutoComplete\TextAutoComplete;
+
 use OptimistDigital\MultiselectField\Multiselect;
 use OptimistDigital\NovaSettings\NovaSettings;
-
 use KABBOUCHI\LogsTool\LogsTool;
 use CodencoDev\NovaGridSystem\NovaGridSystem;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
@@ -21,6 +23,7 @@ use Vyuldashev\NovaPermission\NovaPermissionTool;
 use App\Models\Language;
 use App\Nova\Resources\Role;
 use App\Nova\Resources\Permission;
+use App\Models\Meeting as MeetingModel;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -34,7 +37,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
 
         NovaSettings::addSettingsFields([
-            Panel::make(__('admin/resources/settings.languages'), [
+            Panel::make(__('admin/resources/settings.primary'), [
+                TextAutoComplete::make(__('admin/resources/settings.primary_city'), 'primary_city')
+                    ->items(MeetingModel::getAllUnique('city'))
+                    ->placeholder(__('admin/resources/settings.primary_city_placeholder'))
+                    ->help(__('admin/resources/settings.languages_help')),
                 Multiselect::make(__('admin/resources/settings.languages'), 'languages')
                     ->options(Language::get()->pluck('native_name', 'code'))
                     ->reorderable()
@@ -43,6 +50,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ->help(
                         __('admin/resources/settings.timezone_help')
                     ),
+            ]),
+            Panel::make(__('admin/resources/settings.groups_meetings'), [
+                Number::make(__('admin/resources/settings.meetings_duration'), 'meetings_duration')
+                    ->placeholder(60)
+                    ->help(__('admin/resources/settings.meetings_duration_help'))
             ]),
         ], [
            'languages' => 'array'
@@ -58,18 +70,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             config([
                 'nova-translatable' => array_merge(config('nova-translatable'), [
                     'locales' => $locales
-                ])
-            ]);
-
-
-            Nova::translations(resource_path('lang/ru/admin/nova.json'));
-
-
-            Nova::sortResourcesBy(function ($resource) {
-                return $resource::$priority ?? 99999;
-            });
-
-            config([
+                ]),
                 'nova-group-order' => array_merge(
                     config('nova-group-order') ?? [],
                     [
@@ -78,6 +79,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     ]
                 )
             ]);
+
+            Nova::translations(resource_path('lang/ru/admin/nova.json'));
+
+            Nova::sortResourcesBy(function ($resource) {
+                return $resource::$priority ?? 99999;
+            });
         });
 
         Nova::userTimezone(function (Request $request) {

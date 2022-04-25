@@ -14,7 +14,7 @@ class GroupFormatter {
 
         if (mb_strtolower($meeting->location) != 'онлайн') {
             $address = explode(',', $meeting->formatted_address);
-            if ($meeting->region !== config('TgBot.tg_default_city')) {
+            if ($meeting->region !== config('primary.primary_city')) {
                 $text .= trim($address[2]) . ', ' . array_shift($address) . array_shift($address);
             } else {
                 $text .= array_shift($address) . array_shift($address);

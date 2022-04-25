@@ -52,13 +52,6 @@ class TgBotDatabaseSeeder extends Seeder
         Setting::create([
             'module'    => 'TgBot',
             'key'       => 'tg_webhook_token',
-            //'value'     =>
-        ]);
-
-        // Default city name
-        Setting::create([
-            'module'    => 'TgBot',
-            'key'       => 'tg_default_city'
         ]);
     }
 }

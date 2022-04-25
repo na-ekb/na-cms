@@ -60,7 +60,6 @@ trait HandlesTranslatable
         if (empty($replacements)) {
             return $rules;
         }
-
         return collect($rules)->map(function ($rules) use ($replacements) {
             return collect($rules)->map(function ($rule) use ($replacements) {
                 return is_string($rule)

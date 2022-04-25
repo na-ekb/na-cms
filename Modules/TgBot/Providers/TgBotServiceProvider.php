@@ -62,7 +62,6 @@ class TgBotServiceProvider extends ServiceProvider
             Panel::make(__('tgbot::admin/settings.primary'), [
                 Text::make(__('tgbot::admin/settings.api_key'), 'tg_api_key'),
                 Text::make(__('tgbot::admin/settings.webhook_token'), 'tg_webhook_token'),
-                Text::make(__('tgbot::admin/settings.default_city'), 'tg_default_city'),
                 Text::make(__('tgbot::admin/settings.channel'), 'tg_channel'),
             ]),
             Panel::make('', [

@@ -21,7 +21,7 @@
                             <div class="hidden md:block">
                                 <div class="ml-1 flex items-baseline space-x-4">
                                     <span class="text-3xl transition-all text-gray-900 dark:text-gray-100  px-3 py-2">
-                                        Самара
+                                        {{ config('primary.primary_city') }}
                                     </span>
                                 </div>
                                 <div class="ml-10 flex items-baseline space-x-4 hidden">

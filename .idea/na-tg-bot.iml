@@ -35,7 +35,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/hanneskod/classtools" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/genealabs/nova-map-marker-field" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/thanks" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/lhilton/text-auto-complete" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/optimistdigital/nova-simple-repeatable" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laraning/nova-time-field" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/techouse/intl-date-time" />
@@ -65,6 +64,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/dillingham/nova-attach-many" />
       <excludeFolder url="file://$MODULE_DIR$/storage/app" />
       <excludeFolder url="file://$MODULE_DIR$/storage/framework" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nova-components/text-auto-complete" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -469,17 +469,40 @@ class NestedForm extends Field implements RelatableField
      */
     protected function createOrUpdateChildren(NovaRequest $request, $model, $children, $requestAttribute, $relatedKeys)
     {
-        $children->each(function ($child, $index) use ($request, $model, $requestAttribute, $relatedKeys) {
+        $errors = [];
+        $children->each(function ($child, $index) use ($request, $model, $requestAttribute, $relatedKeys, &$errors) {
             try {
                 if (isset($child[$this->keyName])) {
-                    return $this->updateChild($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                    if (!empty($errors)) {
+                        $this->validateChildForUpdate($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                    } else {
+                        return $this->updateChild($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                    }
                 }
 
-                return $this->createChild($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                if (!empty($errors)) {
+                    $this->validateChildForCreation($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                } else {
+                    return $this->createChild($request, $model, $child, $index, $requestAttribute, $relatedKeys);
+                }
             } catch (ValidationException $exception) {
-                $this->throwValidationException($exception, $index);
+                $errors = empty($errors) ?
+                    $this->getValidationErrors($exception, $index) :
+                    array_merge($errors, $this->getValidationErrors($exception, $index));
             }
         });
+
+        if (!empty($errors)) {
+            throw ValidationException::withMessages($errors);
+        }
+    }
+
+    /**
+     * Validate the child through the request.
+     */
+    protected function validateChildForCreation(NovaRequest $request, $model, $child, $index, $requestAttribute, $relatedKeys)
+    {
+        ($request->resource())::validateForCreation($this->getCreateRequest($request, $model, $child, $index, $requestAttribute, $relatedKeys));
     }
 
     /**
@@ -488,6 +511,14 @@ class NestedForm extends Field implements RelatableField
     protected function createChild(NovaRequest $request, $model, $child, $index, $requestAttribute, $relatedKeys)
     {
         return (new ResourceStoreController)->handle($this->getCreateRequest($request, $model, $child, $index, $requestAttribute, $relatedKeys));
+    }
+
+    /**
+     * Validate the child through the request.
+     */
+    protected function validateChildForUpdate(NovaRequest $request, $model, $child, $index, $requestAttribute, $relatedKeys)
+    {
+        ($request->resource())::validateForUpdate($this->getUpdateRequest($request, $model, $child, $index, $requestAttribute, $relatedKeys));
     }
 
     /**

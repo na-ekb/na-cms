@@ -7,6 +7,8 @@ use Illuminate\Pagination\Paginator;
 
 use NascentAfrica\Jetstrap\JetstrapFacade;
 
+use App\Models\Setting;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -32,5 +34,15 @@ class AppServiceProvider extends ServiceProvider
         // Set bootstrap to inertia
         // JetstrapFacade::useCoreUi3();
         Paginator::useBootstrap();
+
+        config([
+            'primary' => Setting::where('key', 'like', 'primary_%')
+                ->get()
+                ->keyBy('key')
+                ->transform(function ($setting) {
+                    return $setting->value;
+                })
+                ->toArray()
+        ]);
     }
 }

@@ -67,9 +67,9 @@
     ln -sfn {{ $env['deploy_path'] }}/storage {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}/storage
     ln -sfn {{ $env['deploy_path'] }}/storage/app/public {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }}/public/storage
 
-    ln -sfn {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }} {{ $env['deploy_path'] }}/current
+    ln -sfn {{ $env['deploy_path'] }}/tags/{{ $env['tag'] }} {{ $env['deploy_path'] }}/{{ $env['current_folder'] }}
 
-    cd {{ $env['deploy_path'] }}/current
+    cd {{ $env['deploy_path'] }}/{{ $env['current_folder'] }}
 @endtask
 
 @task('install-dependencies')

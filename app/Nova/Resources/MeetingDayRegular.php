@@ -2,25 +2,26 @@
 
 namespace App\Nova\Resources;
 
-use App\Models\MeetingDay;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\BelongsToMany;
-use Lhilton\TextAutoComplete\TextAutoComplete;
-use OptimistDigital\NovaSimpleRepeatable\SimpleRepeatable;
+
 use Laraning\NovaTimeField\TimeField;
+
+use NovaComponents\TextAutoComplete\TextAutoComplete;
+use NovaComponents\NovaDependencyContainer\HasDependencies;
 
 use App\Nova\Concerns\PermissionsBasedAuthTrait;
 use App\Models\MeetingDayRegular as MeetingDayRegularModel;
 use App\Models\MeetingDayFormat;
-use App\Nova\Resources\Meeting;
+use App\Models\MeetingDay;
+use App\Models\Setting;
 use App\Enums\MeetingDayWeekdaysType;
 use App\Enums\Weekdays;
-use NovaComponents\NovaDependencyContainer\HasDependencies;
 
 class MeetingDayRegular extends Resource
 {
@@ -96,18 +97,34 @@ class MeetingDayRegular extends Resource
 
             Select::make(__('admin/resources/days.fields.type'), 'day_type')
                 ->options(MeetingDayWeekdaysType::asSelectArray())
+                ->default(MeetingDayWeekdaysType::Regular())
+                ->required()
+                ->rules([
+                    'required',
+                    Rule::in(MeetingDayWeekdaysType::getValues()),
+                ])
                 ->size('w-1/2'),
 
             Select::make(__('admin/resources/days.fields.day'), 'day')
                 ->options(Weekdays::asSelectArray())
+                ->required()
+                ->rules([
+                    'required',
+                    Rule::in(Weekdays::getValues()),
+                ])
                 ->size('w-1/2'),
 
             TimeField::make(__('admin/resources/days.fields.time'), 'time')
                 ->withTimezoneAdjustments()
+                ->required()
+                ->rules(['required', 'date_format:H:i'])
                 ->size('w-1/2'),
 
             Number::make(__('admin/resources/days.fields.duration'), 'duration')
                 ->placeholder(60)
+                ->default(Setting::getValueForKey('meetings_duration'))
+                ->required()
+                ->rules(['required', 'integer'])
                 ->size('w-1/2'),
 
             Select::make(__('admin/resources/days.fields.format'), 'format')
@@ -116,7 +133,14 @@ class MeetingDayRegular extends Resource
                         ->mapWithKeys(function ($item, $key) {
                             return [$item->id => "{$item->title} — {$item->description}"];
                         })->toArray()
-                )->size('w-1/2'),
+                )
+                ->default(MeetingDayFormat::first()->id ?? null)
+                ->required()
+                ->rules([
+                    'required',
+                    Rule::in(MeetingDayFormat::all()->pluck('id')->toArray()),
+                ])
+                ->size('w-1/2'),
 
             TextAutoComplete::make(__('admin/resources/days.fields.format_second'), 'format_second')
                 ->items(
@@ -125,7 +149,8 @@ class MeetingDayRegular extends Resource
                         ->filter()
                         ->values()
                         ->toArray()
-                )->translatable()
+                )
+                ->translatable()
                 ->size('w-1/2'),
         ];
     }

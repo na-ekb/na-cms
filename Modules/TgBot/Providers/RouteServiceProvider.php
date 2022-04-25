@@ -45,8 +45,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('api')
+        Route::middleware('web')
             ->namespace($this->moduleNamespace)
-            ->group(module_path('TgBot', '/Routes/api.php'));
+            ->group(module_path('TgBot', '/Routes/web.php'));
     }
 }

@@ -13,148 +13,103 @@ use function morphos\English\pluralize as engPluralize;
 use Modules\TgBot\Entities\TgCleanDate;
 use Modules\TgBot\Entities\TgState;
 
-class CleanTimeCommand extends Command
+class CleanTimeCommand extends AbstractCommand
 {
-    /**
-     * @var string Command Name
-     */
+    /** @inheritdoc */
     protected $name = 'cleanTime';
 
-    /** @var string Command Argument Pattern */
+    /** @inheritdoc */
     protected $pattern = 'cleanTime{action?}';
 
-    /**
-     * @var string Command Description
-     */
-    protected $description;
-
-    public function __construct() {
-        if (empty(config('TgBot.tg_channel'))) {
-            $this->description = __('tgbot::commands.clean_time.description');
+    /** @inheritdoc */
+    protected function main()
+    {
+        if (TgCleanDate::where('tg_user_id', $this->userId)->exists()) {
+            $this->start();
         } else {
-            $this->description = __('tgbot::commands.clean_time.description_channel');
+            $this->set(true);
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function handle(array $arguments = [])
-    {
-        $arguments['action'] = $arguments['action'] ?? 'start';
+    protected function start() {
+        $from = TgCleanDate::where('tg_user_id', $this->userId)->first()->date;
+        $diff = Carbon::now()->diff($from);
+        $years = $diff->y;
+        $months = $diff->m;
+        $days = $diff->d;
 
-        $this->replyWithChatAction(['action' => Actions::TYPING]);
-        $this->{$arguments['action']}($arguments);
-
-        return true;
-    }
-
-    protected function start(array $arguments = [])
-    {
-        $user_id = $this->getUpdate()->getMessage()->getChat()->getId();
-        if (TgCleanDate::where('tg_user_id', $user_id)->exists()) {
-            $from = TgCleanDate::where('tg_user_id', $user_id)->first()->date;
-            $diff = Carbon::now()->diff($from);
-            $years = $diff->y;
-            $months = $diff->m;
-            $days = $diff->d;
-
-            $date = '';
-            if($years > 0) {
-                if (app()->getLocale() == 'ru') {
-                    $date .= pluralize($years, 'год');
-                } else {
-                    $date .= engPluralize($years, 'year');
-                }
+        $date = '';
+        if($years > 0) {
+            if (app()->getLocale() == 'ru') {
+                $date .= pluralize($years, 'год');
+            } else {
+                $date .= engPluralize($years, 'year');
             }
-
-            if($months > 0) {
-                if (app()->getLocale() == 'ru') {
-                    $date .= ' ' . pluralize($months, 'месяц');
-                } else {
-                    $date .= ' ' . engPluralize($months, 'month');
-                }
-            }
-
-            if($days > 0) {
-                if ($months > 0 || $years > 0) {
-                    $date .= ' ' . __('tgbot::commands.and');
-                }
-                if (app()->getLocale() == 'ru') {
-                    $date .= ' ' . pluralize($days, 'день');
-                } else {
-                    $date .= ' ' . engPluralize($days, 'day');
-                }
-            }
-
-            if (empty($date)) {
-                $date = 'tgbot::commands.clean_time.jft';
-            }
-
-            $text = __('tgbot::commands.clean_time.clean', [
-                'date' => $date
-            ]);
-            $keyboard = [
-                [
-                    Keyboard::button([
-                        'text' => 'Удалить дату',
-                        'callback_data' => 'cleanTime  del'
-                    ]),
-                ]
-            ];
-        } else {
-            return $this->set($arguments, true);
         }
 
-        $keyboard[] = [
-            Keyboard::button([
-                'text'          => __('tgbot::commands.main'),
-                'callback_data' => 'start'
-            ])
+        if($months > 0) {
+            if (app()->getLocale() == 'ru') {
+                $date .= ' ' . pluralize($months, 'месяц');
+            } else {
+                $date .= ' ' . engPluralize($months, 'month');
+            }
+        }
+
+        if($days > 0) {
+            if ($months > 0 || $years > 0) {
+                $date .= ' ' . __('tgbot::commands.and');
+            }
+            if (app()->getLocale() == 'ru') {
+                $date .= ' ' . pluralize($days, 'день');
+            } else {
+                $date .= ' ' . engPluralize($days, 'day');
+            }
+        }
+
+        if (empty($date)) {
+            $date = 'tgbot::commands.clean_time.jft';
+        }
+
+        $text = __('tgbot::commands.clean_time.clean', [
+            'date' => $date
+        ]);
+
+        $keyboard = [
+            [
+                Keyboard::button([
+                    'text'          => __('tgbot::commands.clean_time.delete'),
+                    'callback_data' => 'cleanTime  del'
+                ]),
+            ]
         ];
 
-        $this->replyWithMessage([
-            'text' => $text,
-            'reply_markup' => new Keyboard([
-                'inline_keyboard' => $keyboard
-            ])
-        ]);
+        $this->reply($text, $keyboard, true, false);
     }
 
-    protected function set(array $arguments = [], bool $first = false)
+    protected function set(bool $first = false)
     {
-        $user_id = $this->getUpdate()->getMessage()->getChat()->getId();
-        Cache::forever("TgBot.withoutState.{$user_id}", 1);
-        TgState::updateOrCreate([
-            'tg_user_id' => $user_id
-        ], [
-            'state' => 'cleanTime  parse'
-        ]);
+        //$this->setCommandState('cleanTime  parse');
+
         if (empty(config('TgBot.tg_channel'))) {
             $text = __('tgbot::commands.clean_time.set');
         } else {
             $text = __('tgbot::commands.clean_time.set_channel');
         }
 
-        $keyboard = [];
-        if ($first) {
-            $keyboard[0][] = Keyboard::button([
-                'text'          => __('tgbot::commands.back'),
-                'callback_data' => "cleanTime"
-            ]);
-        }
+        $keyboard = [
+            [
+                Keyboard::button([
+                    'text'      => __('tgbot::commands.clean_time.set_btn'),
+                    'web_app'   => route('tgbot.webapp', [
+                        'command'   => $this->name,
+                        'action'    => 'parseData',
+                        'token'     => config('telegram.webhook_secret_token')
+                    ])
+                ]),
+            ]
+        ];
 
-        $keyboard[0][] = Keyboard::button([
-            'text'          => __('tgbot::commands.main'),
-            'callback_data' => 'start'
-        ]);
-
-        $this->replyWithMessage([
-            'text' => $text,
-            'reply_markup' => new Keyboard([
-                'inline_keyboard' => $keyboard
-            ])
-        ]);
+        $this->reply($text, $keyboard, true, false);
     }
 
     protected function parse(array $arguments = [])

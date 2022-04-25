@@ -2,27 +2,31 @@
 
 namespace App\Nova\Resources;
 
-use App\Enums\MeetingDayWeekdaysType;
-use App\Enums\Weekdays;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
-use Lhilton\TextAutoComplete\TextAutoComplete;
 
-use App\Nova\Concerns\PermissionsBasedAuthTrait;
-use App\Models\Meeting as MeetingModel;
-use App\Enums\MeetingsType;
 use NovaComponents\DaDataSuggestion\DaDataSuggestion;
 use NovaComponents\NovaDependencyContainer\HasDependencies;
 use NovaComponents\NovaDependencyContainer\NovaDependencyContainer;
 use NovaComponents\NovaNestedForm\NestedForm;
+use NovaComponents\NovaTranslatable\HandlesTranslatable;
+use NovaComponents\TextAutoComplete\TextAutoComplete;
+
+use App\Nova\Concerns\PermissionsBasedAuthTrait;
+use App\Models\Meeting as MeetingModel;
+use App\Models\Setting;
+use App\Enums\MeetingsType;
+use App\Enums\MeetingDayWeekdaysType;
+use App\Enums\Weekdays;
 
 class Meeting extends Resource
 {
-    use PermissionsBasedAuthTrait, HasDependencies;
+    use PermissionsBasedAuthTrait, HasDependencies, HandlesTranslatable;
 
     /**
      * {@inheritdoc}
@@ -103,15 +107,14 @@ class Meeting extends Resource
         $weekDays           = json_encode(Weekdays::asSelectArray());
         $newDayRegular      = __('admin/resources/meetings.new.regular');
         $newDayOneTime      = __('admin/resources/meetings.new.one-time');
+        $languages          = Setting::getValueForKey('languages');
+        $primaryLang        = is_array($languages) ? array_shift($languages) : $languages;
 
         $meetingDayRegularHeading = "
                     let fn = function(child) {
                         let fieldDayType = child.fields.find(
                             (field) => field.originalAttribute === 'day_type'
                         );
-                        if (typeof fieldDayType == 'undefined' || fieldDayType.value == null) {
-                            return '{$newDayRegular} ({{INDEX}})';
-                        }
                         
                         let fieldWeekDay = child.fields.find(
                             (field) => field.originalAttribute === 'day'
@@ -141,6 +144,7 @@ class Meeting extends Resource
                     };
                     fn(this.child);
                 ";
+
         return [
             ID::make(__('ID'), 'id')->sortable(),
 
@@ -150,7 +154,11 @@ class Meeting extends Resource
 
             Text::make(__('admin/resources/meetings.fields.title'), 'title')
                 ->translatable()
-                ->required(true)
+                ->required()
+                ->rules(['max:50'])
+                ->rulesFor($primaryLang, [
+                    'required'
+                ])
                 ->size('w-full'),
 
             Text::make(__('admin/resources/meetings.fields.type'), function() {
@@ -159,7 +167,10 @@ class Meeting extends Resource
 
             Select::make(__('admin/resources/meetings.fields.type'), 'type')
                 ->options(MeetingsType::asSelectArray())
-                ->required(true)
+                ->rules(
+                    'required',
+                    Rule::in(MeetingsType::getValues()),
+                )
                 ->hideFromDetail()
                 ->hideFromIndex()
                 ->size('w-full'),
@@ -171,50 +182,43 @@ class Meeting extends Resource
                     ->geoLat('lat')
                     ->geoLon('long')
                     ->cityDistrictWithType('location')
-                    ->streetWithType('address')
+                    ->streetWithHouse('address')
+                    ->flatWithType('address_description')
                     ->size('w-full')
                     ->fillUsing(function() {
                         return null;
                     }),
 
                 TextAutoComplete::make(
-                    __('admin/resources/meetings.fields.city'), 'city'
-                )->items(
-                    MeetingModel::all()
-                        ->pluck('city')
-                        ->filter()
-                        ->values()
-                        ->toArray()
-                )->translatable('w-1/2')
-                ->size('w-1/2'),
+                        __('admin/resources/meetings.fields.city'), 'city'
+                    )
+                    ->items(MeetingModel::getAllUnique('city'))->translatable('w-1/2')
+                    ->required()
+                    ->rulesFor($primaryLang, [
+                        'required'
+                    ])
+                    ->size('w-1/2'),
 
                 Text::make(__('admin/resources/meetings.fields.address'), 'address')
-                    ->required()
                     ->translatable('w-1/2')
+                    ->required()
+                    ->rulesFor($primaryLang, [
+                        'required'
+                    ])
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(
-                    __('admin/resources/meetings.fields.address_description'), 'address_description'
-                )->items(
-                    MeetingModel::all()
-                        ->pluck('address_description')
-                        ->filter()
-                        ->values()
-                        ->toArray()
-                )->translatable('w-1/2')
-                ->help(__('admin/resources/meetings.fields.address_description_help'))
-                ->size('w-1/2'),
+                        __('admin/resources/meetings.fields.address_description'), 'address_description'
+                    )
+                    ->items(MeetingModel::getAllUnique('address_description'))->translatable('w-1/2')
+                    ->help(__('admin/resources/meetings.fields.address_description_help'))
+                    ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.location'), 'location')
-                ->items(
-                    MeetingModel::all()
-                        ->pluck('location')
-                        ->filter()
-                        ->values()
-                        ->toArray()
-                )->translatable('w-1/2')
-                ->help(__('admin/resources/meetings.fields.location_help'))
-                ->size('w-1/2'),
+                    ->items(MeetingModel::getAllUnique('location'))
+                    ->translatable('w-1/2')
+                    ->help(__('admin/resources/meetings.fields.location_help'))
+                    ->size('w-1/2'),
 
                 Text::make(__('admin/resources/meetings.fields.lat'), 'lat')
                     ->size('w-1/2'),
@@ -231,21 +235,19 @@ class Meeting extends Resource
                     ->geoLat('lat')
                     ->geoLon('long')
                     ->cityDistrictWithType('location')
-                    ->streetWithType('address')
+                    ->streetWithHouse('address')
+                    ->flatWithType('address_description')
                     ->size('w-full')
                     ->fillUsing(function() {
                         return null;
                     }),
 
                 TextAutoComplete::make(
-                    __('admin/resources/meetings.fields.city'), 'city'
-                )->items(
-                    MeetingModel::all()
-                        ->pluck('city')
-                        ->filter()
-                        ->values()
-                        ->toArray()
-                )->translatable('w-1/2')
+                        __('admin/resources/meetings.fields.city'), 'city'
+                    )
+                    ->items(MeetingModel::getAllUnique('city'))
+                    ->translatable('w-1/2')
+                    ->required()
                     ->size('w-1/2'),
 
                 Text::make(__('admin/resources/meetings.fields.address'), 'address')
@@ -255,24 +257,15 @@ class Meeting extends Resource
 
                 TextAutoComplete::make(
                     __('admin/resources/meetings.fields.address_description'), 'address_description'
-                )->items(
-                    MeetingModel::all()
-                        ->pluck('address_description')
-                        ->filter()
-                        ->values()
-                        ->toArray()
-                )->translatable('w-1/2')
+                    )
+                    ->items(MeetingModel::getAllUnique('address_description'))
+                    ->translatable('w-1/2')
                     ->help(__('admin/resources/meetings.fields.address_description_help'))
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.location'), 'location')
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('location')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )->translatable('w-1/2')
+                    ->items(MeetingModel::getAllUnique('location'))
+                    ->translatable('w-1/2')
                     ->help(__('admin/resources/meetings.fields.location_help'))
                     ->size('w-1/2'),
 
@@ -283,95 +276,49 @@ class Meeting extends Resource
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.link'), 'link')
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('link')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('link'))
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.link_text'), 'link_text')
                     ->help(__('admin/resources/meetings.fields.link_text_help'))
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('link_text')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('link_text'))
                     ->translatable()
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.online'), 'online')
                     ->help(__('admin/resources/meetings.fields.online_help'))
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('online')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('online'))
                     ->translatable()
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.password'), 'password')
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('password')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('password'))
                     ->size('w-1/2'),
 
-            ])->dependsOn('type', MeetingsType::LiveAndStream)->size('w-full'),
+            ])
+            ->dependsOn('type', MeetingsType::LiveAndStream)
+            ->size('w-full'),
 
             NovaDependencyContainer::make([
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.link'), 'link')
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('link')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('link'))
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.link_text'), 'link_text')
                     ->help(__('admin/resources/meetings.fields.link_text_help'))
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('link_text')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('link_text'))
                     ->translatable()
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.online'), 'online')
                     ->help(__('admin/resources/meetings.fields.online_help'))
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('online')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('online'))
                     ->translatable()
                     ->size('w-1/2'),
 
                 TextAutoComplete::make(__('admin/resources/meetings.fields.password'), 'password')
-                    ->items(
-                        MeetingModel::all()
-                            ->pluck('password')
-                            ->filter()
-                            ->values()
-                            ->toArray()
-                    )
+                    ->items(MeetingModel::getAllUnique('password'))
                     ->size('w-1/2'),
 
             ])->dependsOn('type', MeetingsType::OnlyStream)->size('w-full'),

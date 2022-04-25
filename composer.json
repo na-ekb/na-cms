@@ -30,6 +30,10 @@
         },
         {
             "type": "path",
+            "url": "./nova-components/TextAutoComplete"
+        },
+        {
+            "type": "path",
             "url": "./nova-components/views/meeting"
         }
     ],
@@ -59,7 +63,6 @@
         "laravel/nova": "~3.0",
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
-        "lhilton/text-auto-complete": "^1.0",
         "mannikj/laravel-sti": "^3.0",
         "na-ekb/service-site-module": "^0.5.1",
         "na-ekb/site-module": "^0.5.1",
@@ -69,6 +72,7 @@
         "nova-components/nova-dependency-container": "*",
         "nova-components/nova-nested-form": "*",
         "nova-components/nova-translatable": "*",
+        "nova-components/text-auto-complete": "*",
         "nova-custom-views/meeting-views": "*",
         "nwidart/laravel-modules": "^8.2",
         "optimistdigital/nova-multiselect-field": "^2.3",

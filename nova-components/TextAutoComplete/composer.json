@@ -1,0 +1,35 @@
+{
+    "name": "nova-components/text-auto-complete",
+    "description": "A Laravel Nova text field supporting autocomplete from an array of values.",
+    "authors": [
+        {
+            "name": "Lee Hilton",
+            "email": "lee.hilton@leezilla.net"
+        }
+    ],
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "NovaComponents\\TextAutoComplete\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NovaComponents\\TextAutoComplete\\FieldServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -13,6 +13,7 @@ class StartCommand extends AbstractCommand
     /** @inheritdoc */
     protected $pattern = 'start{token?}';
 
+    /** @inheritdoc */
     protected function main() {
         if (
             !empty($this->arguments['token']) &&

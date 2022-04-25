@@ -43,23 +43,17 @@ export default {
                 }
             }
 
+            this.child.heading = this.child.heading.replaceAll(
+                new RegExp(`${this.field.wrapLeft}(.*?)(?:\\|(.*?))?${this.field.wrapRight}`, 'gm'),
+                (match, attribute, defaultValue = "") => {
+                  const field = this.child.fields.find(
+                      (field) => field.originalAttribute === attribute
+                  );
+                  return field ? field.value : defaultValue;
+                }
+            );
 
-            return eval(this.child.heading);
-
-            return this.child.heading
-                ? this.child.heading.replace(
-                    new RegExp(
-                        `${this.field.wrapLeft}(.*?)(?:\\|(.*?))?${this.field.wrapRight}`,
-                        "g"
-                    ),
-                    (match, attribute, defaultValue = "") => {
-                        const field = this.child.fields.find(
-                            (field) => field.originalAttribute === attribute
-                        );
-                        return field ? field.value : defaultValue;
-                    }
-                )
-                : null;
+            return eval(this.child.heading) || null;
         },
     },
 };

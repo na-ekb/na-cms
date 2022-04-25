@@ -35,8 +35,8 @@ class MemberMenuCommand extends Command
 
         $keyboard = [];
 
-        if (!empty(config('TgBot.tg_default_city'))) {
-            $where = GeographicalNamesInflection::getCase(config('TgBot.tg_default_city'), Cases::LOCATIVE);
+        if (!empty(config('primary.primary_city'))) {
+            $where = GeographicalNamesInflection::getCase(config('primary.primary_city'), Cases::LOCATIVE);
             $keyboard[] = [
                 Keyboard::button([
                     'text'          => __('tgbot::commands.member.groups_in') . " {$where}",

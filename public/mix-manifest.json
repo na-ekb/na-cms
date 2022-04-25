@@ -1,9 +1,13 @@
 {
-    "/js/site-main.js": "/js/site-main.js",
-    "/css/site.css": "/css/site.css",
-    "/js/site-main.js.map": "/js/site-main.js.map",
-    "/css/site.css.map": "/css/site.css.map",
-    "/js/site-meetings.js": "/js/site-meetings.js",
-    "/js/site-meetings.js.map": "/js/site-meetings.js.map",
-    "/js/cookieClicker.min.js": "/js/cookieClicker.min.js"
+    "/js/site-main.js": "/js/site-main.js?id=9adc8d000778156a8ce1",
+    "/css/site.css": "/css/site.css?id=548127c6b80ad09da8d2",
+    "/js/site-main.js.map": "/js/site-main.js.map?id=ab86655da444fd2e8448",
+    "/css/site.css.map": "/css/site.css.map?id=71c78b6e8efee4ba761c",
+    "/js/site-meetings.js": "/js/site-meetings.js?id=58f40e921d14206351ed",
+    "/js/site-meetings.js.map": "/js/site-meetings.js.map?id=91dabc76ca9f7630d6b9",
+    "/js/cookieClicker.min.js": "/js/cookieClicker.min.js?id=7a7567464fadb94acdfb",
+    "/js/telegram-web-app.js": "/js/telegram-web-app.js",
+    "/css/tgbot.css": "/css/tgbot.css",
+    "/js/servicesite.js": "/js/servicesite.js",
+    "/css/servicesite.css": "/css/servicesite.css"
 }

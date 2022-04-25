@@ -1,8 +1,7 @@
 @extends('servicesite::layouts.master')
 
 @section('content')
-    <h1 class="my-8 text-3xl">Служебный сайт сообщества "Анонимные Наркоманы" Самары</h1>
-
+    <div id="calendar"></div>
     <div class="flex flex-col w-full bg-white text-gray-800 rounded shadow-lg w-full md:w-1/2 my-4">
         <div class="flex flex-col w-full">
             <div class="p-4 font-normal text-gray-800">

@@ -10,7 +10,7 @@ return [
     /**
      * URL path of settings page
      */
-    'base_path' => 'nova-settings',
+    'base_path' => 'settings',
 
     /**
      * Reload the entire page on save. Useful when updating any Nova UI related settings.

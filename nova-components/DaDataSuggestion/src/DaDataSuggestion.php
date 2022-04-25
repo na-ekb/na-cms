@@ -101,6 +101,10 @@ class DaDataSuggestion extends Field
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
+    public function streetWithType(string $field){
+        return $this->withMeta([__FUNCTION__ => $field]);
+    }
+
     public function streetType(string $field){
         return $this->withMeta([__FUNCTION__ => $field]);
     }
@@ -113,7 +117,7 @@ class DaDataSuggestion extends Field
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
-    public function streetWithType(string $field){
+    public function streetWithHouse(string $field){
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
@@ -126,6 +130,10 @@ class DaDataSuggestion extends Field
     }
 
     public function house(string $field){
+        return $this->withMeta([__FUNCTION__ => $field]);
+    }
+
+    public function houseWithType(string $field){
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
@@ -153,11 +161,19 @@ class DaDataSuggestion extends Field
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
+    public function flatWithType(string $field){
+        return $this->withMeta([__FUNCTION__ => $field]);
+    }
+
     public function geoLat(string $field){
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 
     public function geoLon(string $field){
+        return $this->withMeta([__FUNCTION__ => $field]);
+    }
+
+    public function metro(string $field){
         return $this->withMeta([__FUNCTION__ => $field]);
     }
 }

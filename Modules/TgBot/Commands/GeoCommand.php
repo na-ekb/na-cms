@@ -41,11 +41,11 @@ class GeoCommand extends Command
         if ($message->has('location')) {
             $groups = TgMeeting::where('location', '!=', 'онлайн')
                 ->where(function($q) use ($arguments) {
-                    if (!empty(config('TgBot.tg_default_city'))) {
+                    if (!empty(config('primary.primary_city'))) {
                         if ((int) $arguments['region'] == 1) {
-                            return $q->where('region', '!=', config('TgBot.tg_default_city'));
+                            return $q->where('region', '!=', config('primary.primary_city'));
                         }
-                        return $q->where('region', config('TgBot.tg_default_city'));
+                        return $q->where('region', config('primary.primary_city'));
                     }
                     return $q;
                 })

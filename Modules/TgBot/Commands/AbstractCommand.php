@@ -1,6 +1,9 @@
 <?php
 namespace Modules\TgBot\Commands;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
+
 use Telegram\Bot\Actions;
 use Telegram\Bot\Commands\Command;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -27,14 +30,19 @@ abstract class AbstractCommand extends Command
     protected $description;
 
     /** @var TgPage Page for command */
-    protected $page;
+    protected TgPage $page;
+
+    /** @var int User id */
+    protected int $userId;
+
 
     /**
      * Set content for description and fetch whole page if exists
      */
     public function __construct() {
         $this->page = TgPage::whereLike('command', $this->name)->first();
-        $this->description = $this->page->content ?? __('tgbot::commands.start.description');
+        $this->description = $this->page->content ?? __('tgbot::commands.' . Str::snake($this->name) . '.description');
+        $this->userId = $this->getUpdate()->getMessage()->getChat()->getId();
     }
 
     /**
@@ -51,7 +59,7 @@ abstract class AbstractCommand extends Command
         return true;
     }
 
-    protected function reply(?string $msg = '', ?array $keyboard = [], ?bool $back = true, ?string $parseMode = 'HTML')
+    protected function reply(?string $msg = '', ?array $keyboard = [], ?bool $back = true, ?bool $main = true, ?string $parseMode = 'HTML')
     {
         if (!empty($this->page)) {
             foreach ($this->page->childrens()->orderBy('order') as $child) {
@@ -77,11 +85,29 @@ abstract class AbstractCommand extends Command
             $user_id = $this->getUpdate()->getMessage()->getChat()->getId();
             $state = TgState::where('tg_user_id', $user_id)->first();
 
+            if ($main) {
+                $keyboard[] = [
+                    Keyboard::button([
+                        'text'          => __('tgbot::commands.back'),
+                        'callback_data' => $state->prev
+                    ]),
+                    Keyboard::button([
+                        'text'          => __('tgbot::commands.main'),
+                        'callback_data' => 'start'
+                    ])
+                ];
+            } else {
+                $keyboard[] = [
+                    Keyboard::button([
+                        'text'          => __('tgbot::commands.back'),
+                        'callback_data' => $state->prev
+                    ])
+                ];
+            }
+        }
+
+        if (!$back && $main) {
             $keyboard[] = [
-                Keyboard::button([
-                    'text'          => __('tgbot::commands.back'),
-                    'callback_data' => $state->prev
-                ]),
                 Keyboard::button([
                     'text'          => __('tgbot::commands.main'),
                     'callback_data' => 'start'
@@ -97,6 +123,22 @@ abstract class AbstractCommand extends Command
                 ]
             ]),
             'parse_mode'    => 'HTML'
+        ]);
+    }
+
+    /**
+     * Set state to some action in command
+     *
+     * @param string $state
+     * @param int $userId
+     * @return void
+     */
+    protected function setCommandState(string $state) {
+        Cache::forever("TgBot.withoutState.{$this->userId}", 1);
+        TgState::updateOrCreate([
+            'tg_user_id' => $this->userId
+        ], [
+            'state' => $state
         ]);
     }
 

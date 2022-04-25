@@ -15,6 +15,7 @@ return [
             'linked_files'   => ['.env'],
             'linked_dirs'    => ['storage/app', 'storage/framework', 'storage/logs'],
             'copied_dirs'    => ['node_modules', 'vendor'],
+            'current_folder' => env('DEPLOY_CURRENT_FOLDER', 'current'),
         ],
         'prod_ekb' => [
             'ssh_host'       => env('DEPLOY_SSH_HOST_2', 'example.com'),
@@ -25,6 +26,7 @@ return [
             'linked_files'   => ['.env'],
             'linked_dirs'    => ['storage/app', 'storage/framework', 'storage/logs'],
             'copied_dirs'    => ['node_modules', 'vendor'],
+            'current_folder' => env('DEPLOY_CURRENT_FOLDER', 'current')
         ]
     ],
 

@@ -74,13 +74,28 @@
             },
 
             changeValue(field, ru, en) {
-                if (document.getElementById(`${field}.en`) != null) {
+                if (document.getElementById(`${field}.en`) != null && ru != null) {
+                    let el = document.getElementById(`${field}.en`);
+                    if (el.nodeName !== 'INPUT') {
+                        let inputs = el.getElementsByTagName('input');
+                        if (inputs.length > 0) {
+                            inputs[0].value = en;
+                        }
+                    }
                     Nova.$emit(`${field}.en-value`, en);
                 }
-                if (document.getElementById(`${field}.ru`) != null) {
+                if (document.getElementById(`${field}.ru`) != null && en != null) {
+                    let el = document.getElementById(`${field}.ru`);
+                    if (el.nodeName !== 'INPUT') {
+                      let inputs = el.getElementsByTagName('input');
+                      if (inputs.length > 0) {
+                        inputs[0].value = ru;
+                      }
+                    }
                     Nova.$emit(`${field}.ru-value`, ru);
                 }
-                if (document.getElementById(`${field}`) != null) {
+
+                if (document.getElementById(`${field}`) != null && ru != null) {
                     Nova.$emit(`${field}-value`, ru);
                 }
             },
@@ -114,15 +129,37 @@
                         'settlement', 'streetType', 'streetTypeFull', 'street',
                         'houseType', 'houseTypeFull', 'house', 'blockType',
                         'blockTypeFull', 'block', 'flatType', 'flatTypeFull',
-                        'flat', 'geoLat', 'geoLon', 'streetWithType'
+                        'flat', 'geoLat', 'geoLon', 'streetWithType', 'streetWithHouse', 'flatWithType', 'metro'
                     ];
                     if(fields.includes(key) && this.field[key] !== undefined) {
                         let kkey = key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`);
-                        this.changeValue(
-                            this.field[key],
-                            suggestionLang.ru.data[kkey],
-                            suggestionLang.en.data[kkey]
-                        )
+                        if (key === 'streetWithHouse') {
+                          let ru = `${suggestionLang.ru.data['street_with_type']}, ${suggestionLang.ru.data['house']}`;
+                          if (suggestionLang.ru.data['block_type_full'] != null) {
+                            ru += ` ${suggestionLang.ru.data['block_type_full']} ${suggestionLang.ru.data['block']}`;
+                          }
+                          let en = `${suggestionLang.en.data['street_with_type']}, ${suggestionLang.en.data['house']}`;
+                          if (suggestionLang.en.data['block_type_full'] != null) {
+                            en += ` ${suggestionLang.en.data['block_type_full']} ${suggestionLang.en.data['block']}`;
+                          }
+                          this.changeValue(this.field[key], ru, en);
+                        } else if (key === 'flatWithType') {
+                          let ru = null;
+                          let en = null;
+                          if (suggestionLang.ru.data['block_type_full'] != null) {
+                            ru = `${suggestionLang.ru.data['flat_type_full']} ${suggestionLang.ru.data['flat']}`;
+                          }
+                          if (suggestionLang.en.data['block_type_full'] != null) {
+                            en = `${suggestionLang.en.data['flat_type_full']} ${suggestionLang.en.data['flat']}`;
+                          }
+                          this.changeValue(this.field[key], ru, en);
+                        } else {
+                          this.changeValue(
+                              this.field[key],
+                              suggestionLang.ru.data[kkey],
+                              suggestionLang.en.data[kkey]
+                          );
+                        }
                     }
                 }
             }
