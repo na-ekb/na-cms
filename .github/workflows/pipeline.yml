@@ -43,6 +43,10 @@ jobs:
           extensions: mbstring, pdo, pdo_mysql, zip, gd, intl
           coverage: none
 
+      - name: Clone oc-packages mirror
+        run: |
+          git clone https://x-access-token:${{ secrets.OC_PACKAGES_TOKEN }}@github.com/na-ekb/oc-packages.git oc-packages
+
       - uses: actions/cache@v4
         with:
           path: ~/.composer/cache
@@ -50,8 +54,6 @@ jobs:
 
       - name: Composer install
         run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
-        env:
-          COMPOSER_AUTH: ${{ secrets.OCTOBER_COMPOSER_AUTH }}
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
