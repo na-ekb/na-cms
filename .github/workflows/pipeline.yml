@@ -106,7 +106,7 @@ jobs:
 
   # ─── 3. Deploy: только по кнопке workflow_dispatch ────────────────────────
   deploy:
-    name: Deploy → ${{ inputs.environment }}
+    name: Deploy → ${{ inputs.environment || 'skipped' }}
     needs: [secrets, build]
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch'
