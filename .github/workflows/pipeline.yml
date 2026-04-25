@@ -51,7 +51,11 @@ jobs:
       - name: Composer install
         run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
         env:
-          COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.OC_PACKAGES_TOKEN }}"}}'
+          COMPOSER_AUTH: >-
+            {
+              "github-oauth": {"github.com": "${{ secrets.OC_PACKAGES_TOKEN }}"},
+              "bearer": {"raw.githubusercontent.com": "${{ secrets.OC_PACKAGES_TOKEN }}"}
+            }
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
