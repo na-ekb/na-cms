@@ -1,0 +1,221 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Окружение для деплоя"
+        required: true
+        type: choice
+        options:
+          - ekb
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  # ─── 1. Gitleaks: scan for leaked secrets ─────────────────────────────────
+  secrets:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ─── 2. Build: PHP deps + frontend assets ─────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, pdo, pdo_mysql, zip, gd, intl
+          coverage: none
+
+      - name: Get Composer cache dir
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Composer install
+        run: composer install --no-interaction --no-dev --prefer-dist --no-scripts
+        env:
+          COMPOSER_AUTH: >-
+            {
+              "github-oauth": {"github.com": "${{ secrets.OC_PACKAGES_TOKEN }}"},
+              "bearer": {"raw.githubusercontent.com": "${{ secrets.OC_PACKAGES_TOKEN }}"}
+            }
+
+      - name: Composer dump-autoload
+        run: composer dump-autoload --no-interaction --no-scripts --optimize
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: npm install
+        run: npm ci
+
+      - name: Build assets
+        run: npm run production
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          path: |
+            .
+            !.git
+            !node_modules
+            !vendor
+            !.docker
+            !tests
+          retention-days: 7
+
+  # ─── 3. Deploy ────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy → ekb
+    needs: [secrets, build]
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Resolve environment config
+        id: config
+        run: |
+          case "${{ inputs.environment }}" in
+            ekb)
+              echo "host=design24.beget.tech"              >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                    >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/vk.na-ekb"      >> $GITHUB_OUTPUT
+              echo "env_file=.env.ekb.enc"                 >> $GITHUB_OUTPUT
+              ;;
+            # добавить новое окружение:
+            # staging)
+            #   echo "host=staging.example.com"            >> $GITHUB_OUTPUT
+            #   echo "user=deploy_user"                    >> $GITHUB_OUTPUT
+            #   echo "base=/home/user/project"             >> $GITHUB_OUTPUT
+            #   echo "env_file=.env.staging.enc"           >> $GITHUB_OUTPUT
+            #   ;;
+          esac
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+
+      - name: Install SOPS + age
+        run: |
+          curl -fsSL https://github.com/getsops/sops/releases/download/v3.9.1/sops-v3.9.1.linux.amd64 -o /usr/local/bin/sops
+          chmod +x /usr/local/bin/sops
+          curl -fsSL https://github.com/FiloSottile/age/releases/download/v1.2.0/age-v1.2.0-linux-amd64.tar.gz | tar -xz -C /tmp
+          mv /tmp/age/age /usr/local/bin/age
+
+      - name: Decrypt .env
+        run: sops -d ${{ steps.config.outputs.env_file }} > .env
+        env:
+          SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Create release dir
+        id: release
+        run: |
+          RELEASE_NAME=$(date +%Y%m%d%H%M%S)
+          RELEASE_DIR="${{ steps.config.outputs.base }}/releases/$RELEASE_NAME"
+          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} "mkdir -p $RELEASE_DIR"
+          echo "dir=$RELEASE_DIR" >> $GITHUB_OUTPUT
+
+      - name: Upload .env to shared folder
+        run: |
+          scp -i ~/.ssh/id_ed25519 .env \
+            ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }}:${{ steps.config.outputs.base }}/.env
+
+      - name: rsync to release dir
+        run: |
+          rsync -az --delete \
+            --exclude='.env' \
+            --exclude='.env.*' \
+            --exclude='storage' \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.idea' \
+            --exclude='.docker' \
+            --exclude='.DS_Store' \
+            --exclude='.mage' \
+            --exclude='.mage.yml' \
+            --exclude='.gitattributes' \
+            --exclude='.gitignore' \
+            --exclude='.editorconfig' \
+            --exclude='.php_cs' \
+            --exclude='.php_cs.cache' \
+            --exclude='.phpstorm.meta.php' \
+            --exclude='.babelrc' \
+            --exclude='.jshintrc' \
+            --exclude='.styleci.yml' \
+            --exclude='.travis.yml' \
+            --exclude='.sops.yaml' \
+            --exclude='/vendor' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='/server.php' \
+            --exclude='/webpack.config.js' \
+            --exclude='/webpack.mix.js' \
+            --exclude='/webpack.helpers.js' \
+            --exclude='phpcs.xml' \
+            --exclude='phpunit.xml' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='auth.json' \
+            --exclude='_ide_helper.php' \
+            --exclude='README.md' \
+            --exclude='CHANGELOG.md' \
+            --exclude='LICENSE.md' \
+            --exclude='SECURITY.md' \
+            --exclude='DEPLOY.md' \
+            --exclude='SOPS.md' \
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            ./ ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }}:${{ steps.release.outputs.dir }}/
+
+      - name: Post-deploy
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << EOF
+            set -e
+            BASE=${{ steps.config.outputs.base }}
+            RELEASE=${{ steps.release.outputs.dir }}
+
+            cp \$BASE/.env \$RELEASE/.env
+            ln -sfn \$BASE/storage \$RELEASE/storage
+
+            cd \$RELEASE
+            /usr/local/bin/php8.2 /home/d/design24/.local/bin/composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+            php8.2 artisan optimize:clear
+            php8.2 artisan optimize
+            php8.2 artisan october:migrate
+
+            ln -sfn \$RELEASE \$BASE/current
+            ln -sfn \$BASE/current \$BASE/public_html
+
+            ls -dt \$BASE/releases/*/ | tail -n +4 | xargs rm -rf
+          EOF
