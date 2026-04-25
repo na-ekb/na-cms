@@ -1,0 +1,69 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+
+    search:
+        type: NAEkb\Pages\FormWidgets\MenuItemSearch
+
+    title:
+        span: left
+        label: naekb.pages::lang.menuitem.title
+
+    type:
+        span: right
+        label: naekb.pages::lang.menuitem.type
+        type: dropdown
+
+    url:
+        label: naekb.pages::lang.menuitem.url
+
+    reference:
+        label: naekb.pages::lang.menuitem.reference
+        type: dropdown
+        cssClass: input-sidebar-control
+
+    cmsPage:
+        label: naekb.pages::lang.menuitem.cms_page
+        comment: naekb.pages::lang.menuitem.cms_page_comment
+        type: dropdown
+        cssClass: input-sidebar-control
+
+    nesting:
+        label: naekb.pages::lang.menuitem.allow_nested_items
+        comment: naekb.pages::lang.menuitem.allow_nested_items_comment
+        type: checkbox
+        default: true
+
+    replace:
+        label: naekb.pages::lang.menuitem.replace
+        comment: naekb.pages::lang.menuitem.replace_comment
+        type: checkbox
+        default: true
+
+tabs:
+    fields:
+        viewBag[isHidden]:
+            label: naekb.pages::lang.menuitem.hidden
+            comment: naekb.pages::lang.menuitem.hidden_comment
+            type: checkbox
+            tab: naekb.pages::lang.menuitem.display_tab
+
+        code:
+            label: naekb.pages::lang.menuitem.code
+            comment: naekb.pages::lang.menuitem.code_comment
+            tab: naekb.pages::lang.menuitem.attributes_tab
+            span: auto
+
+        viewBag[cssClass]:
+            label: naekb.pages::lang.menuitem.css_class
+            comment: naekb.pages::lang.menuitem.css_class_comment
+            tab: naekb.pages::lang.menuitem.attributes_tab
+            span: auto
+
+        viewBag[isExternal]:
+            label: naekb.pages::lang.menuitem.external_link
+            comment: naekb.pages::lang.menuitem.external_link_comment
+            type: checkbox
+            tab: naekb.pages::lang.menuitem.attributes_tab

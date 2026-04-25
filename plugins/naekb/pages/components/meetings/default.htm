@@ -1,0 +1,75 @@
+<div class="meeting-days position-relative p-4">
+    <div class="left-arrow direction d-flex d-md-none" data-js="changeDay" data-dir="prev">
+        <img class="icon icon-40" src="{{ 'assets/img/arrow.svg'|theme }}" alt="предыдущий день">
+    </div>
+    <div class="right-arrow direction d-flex d-md-none" data-js="changeDay" data-dir="next">
+        <img class="icon icon-40" src="{{ 'assets/img/arrow.svg'|theme }}" alt="следующий день">
+    </div>
+
+    <p class="d-md-none text-center text-md-start meeting-days-date fs-10" data-js="date">{{ date }}</p>
+    <p class="d-none d-md-block text-center text-md-start meeting-days-date fs-10">
+        <span class="weekLink d-none" data-js="prevWeek">←</span> {{ startOfWeek }} – {{ endOfWeek }} <span class="weekLink d-none" data-js="nextWeek">→</span>
+    </p>
+    <ul class="meeting-days-menu justify-content-center justify-content-md-between">
+        {% for day, weekday in weekdays %}
+            <li {% if dayOfWeek == day %} class="active" {% endif %}>
+                <button data-js="filterDay" data-day="{{ day }}">{{ weekday }}</button>
+            </li>
+        {% endfor %}
+        <li class="d-md-none all-days">
+            <button>Все дни</button>
+        </li>
+    </ul>
+    <div class="mob-time d-md-none text-center d-md-none">
+        Сейчас: <span data-js="clock">{{ time }}</span>
+    </div>
+</div>
+<div class="row mt-2 mt-md-4 px-0 px-lg-4 meeting-filters">
+    <div class="fs-5 col-12 col-md-3 col-xl-4 px-4 p-lg-0 fw-bold time d-none d-md-flex">
+        Сейчас&nbsp;<span data-js="clock">{{ time }}</span>
+    </div>
+    <form id="filterForm" data-request="{{__SELF__}}::onFilter" data-request-update='{ "meetings::meeting": true }' class="col-12 col-md-9 col-xl-8">
+        <div class="row">
+            <div class="col-12 col-md-4 mt-3 mt-md-0 px-0 pl-md-3 d-flex justify-content-end view-buttons">
+                <select class="form-control filter-select w-100" data-js="selectCity" aria-label="Город">
+                    <option value="">Все города</option>
+                    {% for cityName in cities %}
+                        <option value="{{ cityName }}" {{ cityName == this.request.city ? 'selected="selected"' : '' }}>{{ cityName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-4 mt-3 mt-md-0 px-0 pl-md-3 d-flex justify-content-end view-buttons">
+                <select class="form-control filter-select w-100" data-js="selectLocation" aria-label="Район">
+                    <option value="">Все районы</option>
+                    {% for locationName in locations %}
+                        <option value="{{ locationName }}" {{ locationName == this.request.location ? 'selected="selected"' : '' }}>{{ locationName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-4 mt-3 mt-md-0 px-0 pl-md-3 d-flex justify-content-end">
+                <div class="tri-state-toggle">
+                    <button class="tri-state-toggle-button active" value="list" data-js="switchView">
+                        День
+                    </button>
+                    <button class="tri-state-toggle-button" value="week" data-js="switchView">
+                        Неделя
+                    </button>
+                    <button class="tri-state-toggle-button" value="map" data-js="switchView">
+                        Карта
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="map" class="mt-4"></div>
+{% ajaxPartial __SELF__ ~ "::meeting-map" groups=groups %}
+<div class="all-meetings">
+    {% ajaxPartial __SELF__ ~ "::meeting" meetings=meetings %}
+</div>
+<div class="week-meetings">
+    {% ajaxPartial __SELF__ ~ "::meeting-week" groupsWeek=groupsWeek %}
+</div>
+<script>
+    window.timezone = '{{ this.site.timezone }}';
+</script>

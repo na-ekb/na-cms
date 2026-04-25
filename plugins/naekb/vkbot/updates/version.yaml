@@ -1,0 +1,9 @@
+v1.0.1: First version of Vk-bot
+v2.0.0:
+    - New version of VK Bot
+    - create_vk_clean_dates_table.php
+    - create_vk_states_table.php
+    - create_vk_stats_table.php
+v2.1.0:
+    - Added photos to clean date
+    - create_vk_photos_table.php

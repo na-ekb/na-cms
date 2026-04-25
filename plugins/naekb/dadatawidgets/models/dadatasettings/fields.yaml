@@ -1,0 +1,12 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    token:
+        label: naekb.dadatawidgets::lang.settings.token
+        type: sensitive
+        allowCopy: true
+        hideOnTabChange: true
+        commentHtml: true
+        comment: naekb.dadatawidgets::lang.settings.token_comment

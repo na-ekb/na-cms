@@ -1,0 +1,19 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    site_key:
+        label: naekb.pages::lang.settings.site_key
+        type: sensitive
+        allowCopy: true
+        hideOnTabChange: true
+        commentHtml: true
+        comment: naekb.pages::lang.settings.site_key_comment
+    secret:
+        label: naekb.pages::lang.settings.secret
+        type: sensitive
+        allowCopy: true
+        hideOnTabChange: true
+        commentHtml: true
+        comment: naekb.pages::lang.settings.secret_comment

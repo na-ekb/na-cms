@@ -1,0 +1,50 @@
+items:
+    -
+        title: Главная
+        nesting: 0
+        type: static-page
+        url: null
+        code: ''
+        reference: index
+        cmsPage: null
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: 'Информация об АН'
+        nesting: 0
+        type: static-page
+        url: null
+        code: ''
+        reference: info
+        cmsPage: null
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: Собрания
+        nesting: 0
+        type: static-page
+        code: ''
+        reference: meetings
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+    -
+        title: 'Связь с нами'
+        nesting: 0
+        type: static-page
+        code: ''
+        reference: feedback
+        replace: 0
+        viewBag:
+            isHidden: '0'
+            cssClass: ''
+            isExternal: '0'
+name: 'Главное меню'

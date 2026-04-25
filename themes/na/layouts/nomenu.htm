@@ -1,0 +1,22 @@
+description = "Без меню"
+
+[staticPage]
+useContent = 1
+default = 0
+
+[vcard]
+[meetings]
+==
+<!DOCTYPE html>
+<html lang="{{ this.site.locale }}">
+    {% partial 'header' %}
+    <body>
+    <div class="content container w-100 px-1 px-md-3">
+        <div class="row w-100">
+            <div id="page-content" class="col">
+                {% page %}
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

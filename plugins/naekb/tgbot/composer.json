@@ -1,0 +1,15 @@
+{
+    "name": "na-ekb/tg-bot-plugin",
+    "type": "october-plugin",
+    "description": "No description provided yet...",
+    "require": {
+        "composer/installers": "~1.0",
+        "wapmorgan/morphos": "^3.2.29",
+        "irazasyed/telegram-bot-sdk": "^3.13"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

@@ -1,0 +1,106 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+tabs:
+    fields:
+        first_name:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.name
+            span: left
+        last_name:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.lastName
+            span: right
+        company:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.company
+            span: full
+        url:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.site
+            span: full
+        phones:
+            label: naekb.integrations::lang.settings.phones
+            type: repeater
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            form:
+                fields:
+                    label:
+                        label: naekb.integrations::lang.settings.label
+                        span: left
+                    desc:
+                        label: naekb.integrations::lang.settings.desc
+                        span: right
+                    phone:
+                        label: naekb.integrations::lang.settings.phone
+                        span: left
+                    types:
+                        label: naekb.integrations::lang.settings.phoneTypes.title
+                        type: checkboxlist
+                        options:
+                            HOME: naekb.integrations::lang.settings.phoneTypes.home
+                            MSG: naekb.integrations::lang.settings.phoneTypes.msg
+                            WORK: naekb.integrations::lang.settings.phoneTypes.work
+                            PREF: naekb.integrations::lang.settings.phoneTypes.pref
+                            VOICE: naekb.integrations::lang.settings.phoneTypes.voice
+                            FAX: naekb.integrations::lang.settings.phoneTypes.fax
+                            CELL: naekb.integrations::lang.settings.phoneTypes.cell
+                            VIDEO: naekb.integrations::lang.settings.phoneTypes.video
+                        default: VOICE
+                        span: right
+                    menu:
+                        label: naekb.integrations::lang.settings.menu
+                        type: checkbox
+                        span: left
+
+        emails:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.emails
+            type: repeater
+            form:
+                fields:
+                    email:
+                        label: naekb.integrations::lang.settings.email
+                        span: full
+                    label:
+                        label: naekb.integrations::lang.settings.label
+                        span: left
+                    desc:
+                        label: naekb.integrations::lang.settings.desc
+                        span: right
+                    menu:
+                        label: naekb.integrations::lang.settings.menu
+                        type: checkbox
+                        span: left
+
+        others:
+            tab: naekb.integrations::lang.settings.tabs.contacts
+            label: naekb.integrations::lang.settings.others
+            type: repeater
+            form:
+                fields:
+                    icon:
+                        label: naekb.integrations::lang.settings.icon
+                        type: mediafinder
+                        mode: image
+                        imageWidth: 28
+                        imageHeight: 28
+                        span: left
+                    label:
+                        label: naekb.integrations::lang.settings.label
+                        span: right
+                    linkText:
+                        label: naekb.integrations::lang.settings.link_text
+                        span: left
+                    link:
+                        label: naekb.integrations::lang.settings.link
+                        span: right
+                    desc:
+                        label: naekb.integrations::lang.settings.desc
+                        span: left
+                    type:
+                        label: naekb.integrations::lang.settings.type
+                        span: right
+
+

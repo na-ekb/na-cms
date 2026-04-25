@@ -1,0 +1,48 @@
+<div class="share-block col-12 col-xs-12 col-lg-12">
+	<span class="share-text col-12 col-xs-6 col-lg-6">
+        {{ 'naekb.pages::lang.snippet.share_text' | trans | raw }}
+    </span>
+    <span class="share-btns col-12 col-xs-6 col-lg-6 mt-3 mb-5 mt-lg-0 mb-lg-0">
+		<a aria-label="{{ 'naekb.pages::lang.snippet.share_vk' | trans }}" rel="noopener" href="https://vk.ru/share.php?url={{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_VK" target="_blank">
+			<span class="share-vk"></span>
+		</a>
+		<a aria-label="{{ 'naekb.pages::lang.snippet.share_tg' | trans }}" rel="noopener" href="https://t.me/share/url?url={{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_TG" target="_blank">
+			<span class="share-tg"></span>
+		</a>
+		<a aria-label="{{ 'naekb.pages::lang.snippet.share_ok' | trans }}" rel="noopener" href="https://connect.ok.ru/offer?url={{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_OK" target="_blank">
+			<span class="share-ok"></span>
+		</a>
+        <a aria-label="{{ 'naekb.pages::lang.snippet.share_wa' | trans }}" rel="noopener" href="https://wa.me/?text={{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_WA" target="_blank">
+			<span class="share-wa"></span>
+		</a>
+		<a aria-label="{{ 'naekb.pages::lang.snippet.share_tw' | trans }}" rel="noopener" href="https://twitter.com/share?url={{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_TW" target="_blank">
+			<span class="share-tw"></span>
+		</a>
+        <span aria-label="{{ 'naekb.pages::lang.snippet.share_else' | trans }}" role="button" id="share-else" class="d-none" data-title="{{ this.theme.site_name }}" data-text="{{ this.page.meta_title ?? '' }}" data-url="{{ url(this.page.url) }}" data-js="reachGoal" data-goal="SHARE_ELSE">
+			<span class="share-else"></span>
+		</span>
+	</span>
+</div>
+<script>
+    if (typeof domReady === 'undefined') {
+        function domReady(fn) {
+            document.addEventListener('DOMContentLoaded', fn);
+            if (document.readyState === 'interactive' || document.readyState === 'complete' ) {
+                fn();
+            }
+        }
+    }
+    domReady(() => {
+        if (navigator.share) {
+            let btn = document.getElementById('share-else');
+            btn.classList.remove('d-none');
+            btn.addEventListener('click', async () => {
+                await navigator.share({
+                    title: btn.dataset.title,
+                    text: btn.dataset.text,
+                    url: btn.dataset.url,
+                });
+            });
+        }
+    });
+</script>

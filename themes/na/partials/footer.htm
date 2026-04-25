@@ -1,0 +1,17 @@
+<footer>
+    <!--
+    <script>
+        window.timezone = '{{ config('app.timezone') }}';
+        window.siteLocale = localStorage.getItem('locale') === null ? '{!! config('default_lang') !!}' : localStorage.getItem('locale');
+    </script>
+    -->
+    {% framework %}
+    {{ vite([ { path: 'assets/js/main.js', defer: true } ]) }}
+    {% scripts %}
+
+    {% if this.theme.footer %}
+    <div class="col-12 footer">
+        {{ this.theme.footer }}
+    </div>
+    {% endif %}
+</footer>

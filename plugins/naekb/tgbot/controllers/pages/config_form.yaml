@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Page
+
+# Model Form Field configuration
+form: $/naekb/tgbot/models/page/fields.yaml
+
+# Model Class name
+modelClass: NaEkb\TgBot\Models\Page
+
+# Default redirect location
+defaultRedirect: naekb/tgbot/pages
+
+# Create page
+create:
+    title: backend::lang.form.create_title
+    redirect: naekb/tgbot/pages/update/:id
+    redirectClose: naekb/tgbot/pages
+
+# Update page
+update:
+    title: backend::lang.form.update_title
+    redirect: naekb/tgbot/pages
+    redirectClose: naekb/tgbot/pages
+
+# Preview page
+preview:
+    title: backend::lang.form.preview_title

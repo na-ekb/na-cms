@@ -1,0 +1,15 @@
+{
+    "name": "na-ekb/vk-bot-plugin",
+    "type": "october-plugin",
+    "description": "No description provided yet...",
+    "require": {
+        "composer/installers": "~1.0",
+        "vkcom/vk-php-sdk": "^5.131",
+        "wapmorgan/morphos": "^3.2.29"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
+}

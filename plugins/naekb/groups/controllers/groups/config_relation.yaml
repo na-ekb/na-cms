@@ -1,0 +1,16 @@
+meetings:
+    label: Meeting
+    view:
+        list: $/naekb/groups/models/groupmeeting/columns.yaml
+        toolbarButtons: create|delete
+        recordsPerPage: 20
+    manage:
+        form: $/naekb/groups/models/groupmeeting/fields.yaml
+changes:
+    label: Meeting change
+    view:
+        list: $/naekb/groups/models/groupchange/columns.yaml
+        toolbarButtons: create|delete
+        recordsPerPage: 20
+    manage:
+        form: $/naekb/groups/models/groupchange/fields.yaml

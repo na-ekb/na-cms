@@ -1,0 +1,27 @@
+columns:
+    id:
+        type: text
+        invisible: true
+        label: ID
+    format:
+        type: selectable
+        label: Формат
+    date:
+        type: date
+        label: Дата
+    type:
+        type: selectable
+        label: Тип
+    day:
+        type: selectable
+        label: День
+    time:
+        type: time
+        label: Время
+    duration:
+        type: number
+        label: 'Длительность (минут)'
+    online:
+        type: selectable
+        label: Онлайн
+

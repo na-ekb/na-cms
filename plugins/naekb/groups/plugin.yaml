@@ -1,0 +1,17 @@
+plugin:
+    name: 'naekb.groups::lang.plugin.name'
+    description: 'naekb.groups::lang.plugin.description'
+    author: 'NA Ekb'
+    icon: ph ph-users-four
+    homepage: ''
+permissions:
+    naekb.groups.manage_group:
+        tab: NaEkb.Groups
+        label: 'Manage GroupEntry Items'
+navigation:
+    main-menu-item:
+        label: 'naekb.groups::lang.plugin.name'
+        url: naekb/groups/groups
+        icon: ph ph-users-four
+        permissions:
+            - naekb.groups.manage_group

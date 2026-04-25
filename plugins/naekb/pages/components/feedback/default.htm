@@ -1,0 +1,28 @@
+<form id="feedback" data-request-success="document.getElementById('feedback').reset();" data-request="{{__SELF__}}::onSend" data-request-update='{ "{{__SELF__}}::flash-messages": true }' data-request-validate data-request-flash="success,warning,validate" class="form-control mt-5 pt-4">
+    <div class="row">
+        <div class="heading col-12 mb-3 px-3">Написать письмо</div>
+        <div class="col-12 col-md-6 mb-3 px-3">
+            <label for="feedbackName" class="form-label">Как к вам обращаться</label>
+            <input type="text" name="name" class="form-control" id="feedbackName" autocomplete="given-name" tabindex="1" placeholder="Василий" value="{{ form_value('name') }}">
+        </div>
+        <div class="col-12 col-md-6 px-3">
+            <label for="email" class="form-label">E-mail для ответа</label>
+            <input type="email" name="email" class="form-control" autocomplete="email" tabindex="2" placeholder="mail@example.com" value="{{ form_value('email') }}">
+        </div>
+        <div class="col-12 px-3 mt-4 mt-md-1">
+            <textarea class="form-control" name="msg" autocomplete="off" tabindex="3" placeholder="Письмо (это поле обязательно к заполнению)" required>{{ form_value('msg') }}</textarea>
+            <label for="fz" class="w-100 mt-3">
+                Согласие на использование личной информации, данные используются исключительно для ответа вам.
+                <input type="checkbox" name="fz" id="fz" tabindex="4" required>
+            </label>
+            <br><br>
+            {% ajaxPartial __SELF__ ~ "::flash-messages" %}
+            <br>
+        </div>
+        <div class="col-12 p-0 m-0">
+            <div class="cf-turnstile" data-sitekey="{{ __SELF__.property('site_key') }}" data-theme="light"></div>
+            <button type="submit" class="w-100" tabindex="5">Отправить</button>
+        </div>
+    </div>
+</form>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>

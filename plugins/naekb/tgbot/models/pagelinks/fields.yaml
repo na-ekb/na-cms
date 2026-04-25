@@ -1,0 +1,14 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    text:
+        label: Text
+        span: left
+    url:
+        label: Url
+        span: right
+    data:
+        label: Data
+        span: full

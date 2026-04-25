@@ -1,0 +1,35 @@
+{% if jft %}
+    <div id="jft">
+        <h2>{{ 'naekb.pages::lang.snippet.jft_title' | trans }}</h2>
+        <div class="eg_header">
+            {{ jft.header | raw }}
+        </div>
+        <div class="eg_quote">
+            <em>{{ jft.quote | raw }}</em>
+        </div>
+        <div class="eg_quote_from">
+            {{ jft.from | raw }}
+        </div>
+
+        <div class="eg_more">
+            <a href="{{ __SELF__.property('link') }}" data-bs-toggle="modal" data-bs-target="#jftModal" rel="noopener" target="_blank">
+                {{ 'naekb.pages::lang.snippet.jft_read_more' | trans }}
+            </a>
+        </div>
+    </div>
+    <div class="modal" data-js="modal" id="jftModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ежедневные размышления</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="jftIframe" frameborder="0" allowfullscreen="false" src="{{ __SELF__.property('link') }}"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+

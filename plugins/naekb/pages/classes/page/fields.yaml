@@ -1,0 +1,90 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+    viewBag[title]:
+        span: left
+        label: naekb.pages::lang.editor.title
+        placeholder: naekb.pages::lang.editor.new_title
+        attributes:
+            default-focus: 1
+
+    viewBag[url]:
+        span: right
+        placeholder: /
+        label: naekb.pages::lang.editor.url
+        preset:
+            field: viewBag[title]
+            type: url
+            prefixInput: input[data-parent-url]
+
+    toolbar:
+        type: partial
+        path: page_toolbar
+        cssClass: collapse-visible
+
+tabs:
+    cssClass: master-area
+    fields:
+        viewBag[layout]:
+            tab: cms::lang.editor.settings
+            label: naekb.pages::lang.page.layout
+            type: dropdown
+            options: getLayoutOptions
+
+        viewBag[is_hidden]:
+            tab: cms::lang.editor.settings
+            span: left
+            label: naekb.pages::lang.editor.hidden
+            type: checkbox
+            comment: naekb.pages::lang.editor.hidden_comment
+
+        viewBag[navigation_hidden]:
+            tab: cms::lang.editor.settings
+            span: right
+            label: naekb.pages::lang.editor.navigation_hidden
+            type: checkbox
+            comment: naekb.pages::lang.editor.navigation_hidden_comment
+
+        viewBag[meta_title]:
+            tab: cms::lang.editor.meta
+            label: cms::lang.editor.meta_title
+
+        viewBag[meta_description]:
+            tab: cms::lang.editor.meta
+            label: cms::lang.editor.meta_description
+            type: textarea
+            size: tiny
+
+        viewBag[sitemap_priority]:
+            tab: naekb.pages::lang.editor.sitemap.tab_title
+            label: naekb.pages::lang.editor.sitemap.priority
+            type: number
+            min: 0
+            max: 10
+            step: 1
+            span: left
+
+        viewBag[sitemap_freq]:
+            tab: naekb.pages::lang.editor.sitemap.tab_title
+            label: naekb.pages::lang.editor.sitemap.freq
+            type: dropdown
+            options:
+                always: naekb.pages::lang.editor.sitemap.always
+                hourly: naekb.pages::lang.editor.sitemap.hourly
+                daily: naekb.pages::lang.editor.sitemap.daily
+                weekly: naekb.pages::lang.editor.sitemap.weekly
+                monthly: naekb.pages::lang.editor.sitemap.monthly
+                yearly: naekb.pages::lang.editor.sitemap.yearly
+                never: naekb.pages::lang.editor.sitemap.never
+            span: right
+
+secondaryTabs:
+    stretch: true
+    fields:
+        markup:
+            tab: naekb.pages::lang.editor.content
+            type: richeditor
+            stretch: true
+            size: huge

@@ -1,0 +1,40 @@
+<head>
+    <title>{{ this.theme.site_name }} :: {{ this.page.meta_title ?? '' }}</title>
+    <meta name="description" content="{{ this.page.meta_description ?? '' }}">
+    <meta name="keywords" content="АН, Анонимные Наркоманы">
+    <link rel="icon" type="image/png" href="{{ 'assets/img/og-logo.png'|theme }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <link type="text/plain" rel="author" href="{{ 'assets/humans.txt'|theme }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:url" content="{{ this|page }}">
+    <meta property="og:title" content="{{ this.page.meta_title ?? '' }}">
+    <meta property="og:description" content="{{ this.page.meta_description ?? '' }}">
+    <meta property="og:image" content="{{ asset('img/og-logo.png') }}">
+    <meta property="og:image:width" content="90">
+    <meta property="og:image:height" content="90">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:text:title" content="{{ this.page.meta_title ?? '' }}">
+    <meta name="twitter:image" content="{{ 'assets/img/og-logo.png'|theme }}">
+    <meta name="twitter:text:description" content="{{ this.page.meta_description ?? '' }}">
+
+    <meta property="vk:image" content="{{ 'assets/img/vk-logo.png'|theme }}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ 'assets/img/favicon/apple-touch-icon.png'|theme }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ 'assets/img/favicon/favicon-32x32.png'|theme }}">
+    <link rel="icon" type="image/png" sizes="192x192" href="{{ 'assets/img/favicon/android-chrome-192x192.png'|theme }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ 'assets/img/favicon/favicon-16x16.png'|theme }}">
+    <link rel="manifest" href="{{ 'assets/img/favicon/site.webmanifest'|theme }}">
+    <link rel="mask-icon" href="{{ 'assets/img/favicon/safari-pinned-tab.svg'|theme }}" color="#495c9c">
+    <link rel="shortcut icon" href="{{ 'assets/img/favicon/favicon.ico'|theme }}">
+    <meta name="msapplication-TileColor" content="#495c9c">
+    <meta name="msapplication-config" content="{{ 'assets/img/favicon/browserconfig.xml'|theme }}">
+    <meta name="theme-color" content="#495c9c">
+
+    {{ vite([ { path: 'assets/sass/app.scss', render: false } ]) }}
+    {% styles %}
+
+    {{ body|raw }}
+</head>

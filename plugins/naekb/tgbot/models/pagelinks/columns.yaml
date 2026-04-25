@@ -1,0 +1,17 @@
+# ===================================
+#  List Column Definitions
+# ===================================
+
+columns:
+    text:
+        label: Text
+        searchable: true
+        sortable: true
+    url:
+        label: Url
+        searchable: true
+        sortable: true
+    data:
+        label: Data
+        searchable: true
+        sortable: true

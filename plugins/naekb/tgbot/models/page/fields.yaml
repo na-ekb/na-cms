@@ -1,0 +1,50 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    command:
+        label: Command
+        type: dropdown
+        options:
+            page: Page
+            contacts: Contacts
+        span: left
+    active:
+        label: Active
+        type: switch
+        default: true
+        span: right
+    title:
+        label: Title
+        span: left
+    order:
+        label: Order
+        span: right
+    parents:
+        label: Parents
+        type: relation
+        nameFrom: title
+        span: left
+    childrens:
+        label: Childrens
+        type: relation
+        nameFrom: title
+        span: right
+    content:
+        label: Content
+        type: richeditor
+        toolbarButtons: bold|italic|underline|strikeThrough|undo|redo|html
+        useLineBreaks: true
+        span: full
+    note:
+        label: Note only for members
+        type: richeditor
+        toolbarButtons: bold|italic|underline|strikeThrough|undo|redo|html
+        useLineBreaks: true
+        span: full
+    links:
+        label: Links
+        type: relation
+        nameFrom: text
+        span: full
