@@ -4155,8 +4155,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/octoberrain/all/zipball/52fe1ff9b39601ae4207a545535a4bfc83b7bef1",
-                "reference": "52fe1ff9b39601ae4207a545535a4bfc83b7bef1",
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-all-52fe1ff9b39601ae4207a545535a4bfc83b7bef1-zip-b27d1d.zip",
+                "reference": "",
                 "shasum": ""
             },
             "require": {
@@ -4188,9 +4188,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/backend/october-backend-v3.7.12-06f6c0.zip",
-                "reference": "2bcb01ea3d7efcf8f6e872d1d31afb824012ac0f",
-                "shasum": "94c91b81c7fbdebe6380aeb1a36d78555b103ad9"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-backend.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4220,9 +4220,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/cms/october-cms-v3.7.12-6ac0af.zip",
-                "reference": "2f9ae96fb0c73acd79f5f9d0a1b9bc945e7dcbde",
-                "shasum": "138a9550897184ce980a47296ad0f84ff3b795c7"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-cms.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4252,9 +4252,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/editor/october-editor-v3.7.12-31012d.zip",
-                "reference": "2b4664ebec60c6f00c866673bb0c3a5f38517143",
-                "shasum": "95f8354c6448413e142d16fb88196eefaa8c4e2c"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-editor.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4284,9 +4284,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/media/october-media-v3.7.12-a843b3.zip",
-                "reference": "b5d281904f7e475776b0864a480cefbe5d912291",
-                "shasum": "d2be4d45898f07ba54c4d3beaf283e224b4db8f3"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-media.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4321,8 +4321,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/octobercms/library/zipball/1fa250879fdb9a069e4d729ebdf342a49e2806b0",
-                "reference": "1fa250879fdb9a069e4d729ebdf342a49e2806b0",
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-rain-1fa250879fdb9a069e4d729ebdf342a49e2806b0-zip-e56d2f.zip",
+                "reference": "",
                 "shasum": ""
             },
             "require": {
@@ -4399,9 +4399,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/system/october-system-v3.7.12-af6cb6.zip",
-                "reference": "ca72dabfb3eecf27f65ead890065c0f2a3822f28",
-                "shasum": "37069e8789045e2ad653f94f4721831cecc70d64"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-system.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4431,9 +4431,9 @@
             "version": "v3.7.12",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/october/tailor/october-tailor-v3.7.12-6c491d.zip",
-                "reference": "36b33a85d8988af4dc8f38f038665f40c12f63ca",
-                "shasum": "97863fb1b5146fab42b07233dd4a518986987973"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/october-tailor.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -4468,8 +4468,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OFFLINE-GmbH/oc-sentry-plugin/zipball/91a896e67fa74b54769e6213b8c740f5694f6153",
-                "reference": "91a896e67fa74b54769e6213b8c740f5694f6153",
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/offline-oc-sentry-plugin-91a896e67fa74b54769e6213b8c740f5694f6153-zip-fde3df.zip",
+                "reference": "",
                 "shasum": ""
             },
             "require": {
@@ -4499,9 +4499,9 @@
             "version": "v2.1.1",
             "dist": {
                 "type": "zip",
-                "url": "https://gateway.octobercms.com/composer/dist/offline/oc-vite-plugin/offline-oc-vite-plugin-c59b7f8122f244472a178a983097200bea64ab0d-zip-e4aaba.zip",
-                "reference": "c59b7f8122f244472a178a983097200bea64ab0d",
-                "shasum": "eb7506fdf1c7e779340682307dd3983827c78ab4"
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/offline-oc-vite-plugin.zip",
+                "reference": "",
+                "shasum": ""
             },
             "require": {
                 "composer/installers": "~1.0",
@@ -8751,8 +8751,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vdlp/oc-redirect-plugin/zipball/99c96f62c72dfde98adb4c44a7d28b731ff1eb02",
-                "reference": "99c96f62c72dfde98adb4c44a7d28b731ff1eb02",
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/vdlp-oc-redirect-plugin-99c96f62c72dfde98adb4c44a7d28b731ff1eb02-zip-3c8652.zip",
+                "reference": "",
                 "shasum": ""
             },
             "require": {
@@ -8798,8 +8798,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vdlp/oc-sitemap-plugin/zipball/13df0ca5bd4a00b8faae2643f3eb58577a952b5a",
-                "reference": "13df0ca5bd4a00b8faae2643f3eb58577a952b5a",
+                "url": "https://raw.githubusercontent.com/na-ekb/oc-packages/main/vdlp-oc-sitemap-plugin-13df0ca5bd4a00b8faae2643f3eb58577a952b5a-zip-0d1211.zip",
+                "reference": "",
                 "shasum": ""
             },
             "require": {

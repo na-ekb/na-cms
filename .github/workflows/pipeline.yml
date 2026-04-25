@@ -43,43 +43,6 @@ jobs:
           extensions: mbstring, pdo, pdo_mysql, zip, gd, intl
           coverage: none
 
-      - name: Clone oc-packages mirror
-        run: |
-          git clone https://x-access-token:${{ secrets.OC_PACKAGES_TOKEN }}@github.com/na-ekb/oc-packages.git oc-packages
-
-      - name: Patch composer.lock with local zip paths
-        run: |
-          python3 - << 'EOF'
-          import json, zipfile, glob, os
-
-          with open('composer.lock') as f:
-              lock = json.load(f)
-
-          pkg_zips = {}
-          for zf in glob.glob('oc-packages/*.zip'):
-              try:
-                  with zipfile.ZipFile(zf) as z:
-                      candidates = [n for n in z.namelist() if n.endswith('composer.json')]
-                      candidates.sort(key=lambda x: x.count('/'))
-                      if candidates:
-                          data = json.loads(z.read(candidates[0]))
-                          if 'name' in data:
-                              pkg_zips[data['name']] = os.path.abspath(zf)
-              except Exception as e:
-                  print(f"Skip {zf}: {e}")
-
-          patched = 0
-          for pkg in lock['packages']:
-              if pkg['name'] in pkg_zips:
-                  pkg['dist'] = {'type': 'zip', 'url': 'file://' + pkg_zips[pkg['name']], 'reference': '', 'shasum': ''}
-                  print(f"Patched: {pkg['name']}")
-                  patched += 1
-
-          print(f"Total patched: {patched}")
-          with open('composer.lock', 'w') as f:
-              json.dump(lock, f, indent=4, ensure_ascii=False)
-          EOF
-
       - uses: actions/cache@v4
         with:
           path: ~/.composer/cache
@@ -87,6 +50,8 @@ jobs:
 
       - name: Composer install
         run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+        env:
+          COMPOSER_AUTH: '{"github-oauth":{"github.com":"${{ secrets.OC_PACKAGES_TOKEN }}"}}'
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
