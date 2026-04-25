@@ -1,0 +1,62 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Окружение для отката"
+        required: true
+        type: choice
+        options:
+          - ekb
+
+jobs:
+  rollback:
+    name: Rollback ← ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Resolve environment config
+        id: config
+        run: |
+          case "${{ inputs.environment }}" in
+            ekb)
+              echo "host=design24.beget.tech"              >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                    >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/vk.na-ekb"      >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+      - name: Rollback to previous release
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << 'EOF'
+            set -e
+            BASE=/home/d/design24/vk.na-ekb
+
+            CURRENT=$(readlink $BASE/current)
+            PREV=$(ls -dt $BASE/releases/*/ | sed 's:/$::' | grep -v "^$CURRENT$" | head -1)
+
+            if [ -z "$PREV" ]; then
+              echo "Нет предыдущего релиза для отката"
+              exit 1
+            fi
+
+            echo "Текущий:    $CURRENT"
+            echo "Откат на:   $PREV"
+
+            ln -sfn $PREV $BASE/current
+
+            cd $PREV
+            php8.2 artisan optimize:clear
+            php8.2 artisan optimize
+
+            echo "Готово. Активный релиз: $(readlink $BASE/current)"
+          EOF
