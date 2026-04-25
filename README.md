@@ -1,18 +1,18 @@
 # na-cms
 
-October CMS — сайт НА Екатеринбург.
+October CMS — сайт NA Екатеринбург.
 
 ## Разработка
 
-Требования: PHP 8.2, Node 20, Composer.
+Требования: Docker, Docker Compose.
 
 ```bash
 cp .env.example .env
-composer install
-npm ci
-npm run development
-php artisan key:generate
-php artisan october:migrate
+docker compose up -d
+docker compose exec app composer install
+docker compose exec app php artisan key:generate
+docker compose exec app php artisan october:migrate
+npm ci && npm run development
 ```
 
 ## Сборка фронтенда
