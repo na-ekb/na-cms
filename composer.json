@@ -60,6 +60,6 @@
             "type": "composer",
             "url": "https://gateway.octobercms.com",
             "only": ["october/*", "*-plugin", "*-theme"]
-        },
+        }
     }
 }
