@@ -28,3 +28,9 @@ nbproject
 /bootstrap/compiled.php
 vendor/
 /modules
+
+# Secrets (decrypted envs and age private key must never be committed)
+.env.*
+!.env.example
+!.env.*.enc
+age.key
