@@ -49,13 +49,16 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
 
       - name: Composer install
-        run: composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+        run: composer install --no-interaction --no-dev --prefer-dist --no-scripts
         env:
           COMPOSER_AUTH: >-
             {
               "github-oauth": {"github.com": "${{ secrets.OC_PACKAGES_TOKEN }}"},
               "bearer": {"raw.githubusercontent.com": "${{ secrets.OC_PACKAGES_TOKEN }}"}
             }
+
+      - name: Composer dump-autoload
+        run: composer dump-autoload --no-interaction --no-scripts --optimize
 
       - name: Setup Node 20
         uses: actions/setup-node@v4
