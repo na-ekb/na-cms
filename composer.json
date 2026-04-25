@@ -56,9 +56,10 @@
         }
     },
     "repositories": {
-        "oc-packages": {
-            "type": "artifact",
-            "url": "./oc-packages"
+        "octobercms": {
+            "type": "composer",
+            "url": "https://gateway.octobercms.com",
+            "only": ["october/*", "*-plugin", "*-theme"]
         }
     }
 }
