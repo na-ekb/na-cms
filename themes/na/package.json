@@ -1,0 +1,21 @@
+{
+  "name": "na-ekb-octobercms-theme",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite --host",
+    "build": "vite build",
+    "test": "pnpm build"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
+    "htmx.org": "^1.9.12",
+    "sass": "^1.77.4",
+    "vite": "^5.3.1"
+  }
+}

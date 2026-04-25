@@ -1,0 +1,13 @@
+links:
+    label: Links
+    structure:
+        showTree: false
+        showReorder: true
+        showSorting: false
+        maxDepth: 0
+    view:
+        list: $/naekb/tgbot/models/pagelinks/columns.yaml
+        toolbarButtons: create|delete
+        recordsPerPage: 10
+    manage:
+        form: $/naekb/tgbot/models/pagelinks/fields.yaml

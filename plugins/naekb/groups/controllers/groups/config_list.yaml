@@ -1,0 +1,12 @@
+title: Группы
+modelClass: NaEkb\Groups\Models\Group
+list: $/naekb/groups/models/group/columns.yaml
+recordUrl: 'naekb/groups/groups/update/:id'
+noRecordsMessage: 'backend::lang.list.no_records'
+recordsPerPage: 20
+showSetup: true
+showCheckboxes: true
+toolbar:
+    buttons: list_toolbar
+    search:
+        prompt: 'backend::lang.list.search_prompt'

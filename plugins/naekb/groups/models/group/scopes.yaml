@@ -1,0 +1,4 @@
+scopes:
+    type:
+        type: group
+        label: Тип

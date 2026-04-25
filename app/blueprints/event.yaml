@@ -1,0 +1,29 @@
+uuid: aa0ec0ae-6326-437b-9213-ceeb2e39589a
+handle: Event
+type: entry
+name: EventEntry
+drafts: false
+
+primaryNavigation:
+    label: Events
+    icon: ph ph-calendar
+    order: 120
+
+navigation:
+    parent: Events
+    icon: ph ph-calendar
+    order: 10
+
+fields:
+    image:
+        label: Флаер
+        type: fileupload
+        mode: image
+    datetime:
+        label: Дата и время
+        type: datepicker
+        mode: datetime
+    description:
+        label: Описание
+        type: richeditor
+        size: large

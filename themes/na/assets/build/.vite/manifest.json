@@ -1,0 +1,25 @@
+{
+  "assets/fonts/golos-text_vf.woff": {
+    "file": "assets/golos-text_vf-BzpTeIKP.woff",
+    "src": "assets/fonts/golos-text_vf.woff"
+  },
+  "assets/fonts/golos-text_vf.woff2": {
+    "file": "assets/golos-text_vf-BruIXCNv.woff2",
+    "src": "assets/fonts/golos-text_vf.woff2"
+  },
+  "assets/img/logo.svg": {
+    "file": "assets/logo-BxrDw9-a.svg",
+    "src": "assets/img/logo.svg"
+  },
+  "assets/js/main.js": {
+    "file": "assets/main-Cl0h3rGN.js",
+    "name": "main",
+    "src": "assets/js/main.js",
+    "isEntry": true
+  },
+  "assets/sass/app.scss": {
+    "file": "assets/css-Cp9Evj6j.css",
+    "src": "assets/sass/app.scss",
+    "isEntry": true
+  }
+}

@@ -1,0 +1,79 @@
+{% for group in groupsWeek %}
+    {% for meeting in group.meetings %}
+
+    {% endfor %}
+    <div class="meeting-group week gray-group p-2 p-md-4 flex-column flex-md-row my-3">
+        <div class="group-info-row group-name blue flex-row justify-content-between w-100">
+            {% if group.type == 'online' or group.type == 'stream' %}
+                <span class="icon icon-minilogo-online top-0 me-3 d-none d-md-inline-block"></span>
+            {% else %}
+                <span class="icon icon-minilogo top-0 me-3 d-none d-md-inline-block"></span>
+            {% endif %}
+            <div class="d-flex justify-content-between align-items-baseline w-100">
+                <span class="align-content-end">{{ group.title }}</span>
+                {% if group.location is not empty %}
+                <span class="meeting-description-title m-0">
+                    <button class="btn-href text-center text-md-start" data-js="selectLocation" data-location="{{ group.location }}">{{ group.location }}</button>
+                </span>
+                {% endif %}
+            </div>
+
+        </div>
+        <div class="col-12 col-md-4 meeting-group-info align-items-start text-start">
+            <span class="group-info-row group-address">
+                {% if group.type == 'online' or group.type == 'stream' %}
+                    <div class="d-flex flex-column align-items-start text-start">
+                        <div>
+                            <a rel="noopener" href="{{ group.link }}" target="_blank">{{ group.link_text|replace({' ': '&nbsp;'})|raw }}</a>
+                        </div>
+                        {% if group.password is not empty %}
+                            Код:&nbsp;{{ group.password  }}
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-column align-items-start text-start">
+                        <div>
+                            <button type="button" class="btn-href" data-js="selectCity" data-city="{{ group.city }}">
+                                {{ group.city|replace({' ': '&nbsp;'})|raw }}
+                            </button>
+                        </div>
+                        {% if group.address_desc is not empty %}
+                            {{ group.address|replace({' ': '&nbsp;'})|raw }}, <wbr>{{ group.address_desc|replace({' ': '&nbsp;'})|raw }}
+                        {% else %}
+                            {{ group.address|replace({' ': '&nbsp;'})|raw }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </span>
+            {% if group.address_help is not empty %}
+                <div class="group-info-row group-map icon-text">
+                    <span class="icon icon-path top-0 me-3 d-none d-md-inline-block"></span>
+                    <button class="btn-href" onclick="showPath('')">
+                        Как пройти
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-12 col-md-8 meeting-week">
+            {% set days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'] %}
+            {% for i in 1..7 %}
+                {% set day = (i == 7 ? 0 : i) %}
+                {% set currentMeetingDay = group.meetings.where('day', day).first() %}
+                <span class="group-time-block {% if currentMeetingDay is empty %}none{% endif %}">
+                    <span class="balloon-title">{{ days[day] }}</span>
+                    <div class="meeting-group-time">
+                        {% if currentMeetingDay is not empty %}
+                            {{ currentMeetingDay.timeArray[0] }}{{ currentMeetingDay.timeArray[1] }}:{{ currentMeetingDay.timeArray[2] }}{{ currentMeetingDay.timeArray[3] }}
+                        {% endif %}
+                    </div>
+                </span>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="meeting-group gray-group p-2 p-md-4 flex-column flex-md-row my-3 justify-content-center">
+        <div>
+            Собраний по такому фильтру не найдено.
+        </div>
+    </div>
+{% endfor %}

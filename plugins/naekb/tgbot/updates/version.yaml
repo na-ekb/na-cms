@@ -1,0 +1,13 @@
+v1.0.1: First version of TG-bot
+v2.0.0:
+    - New version of TG Bot
+    - create_pages_table.php
+    - create_page_relations_table.php
+v2.1.1:
+    - create_tg_clean_dates_table.php
+    - create_tg_states_table.php
+    - create_tg_tokens_table.php
+    - create_tg_statistics_table.php
+    - create_tg_token_statistics_table.php
+v2.1.2:
+    - create_page_links_table.php

@@ -1,0 +1,50 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    _get_token:
+        type: vk-connect
+        trigger:
+            action: hide
+            field: group_id
+            condition: value[]
+tabs:
+    fields:
+        confirmation_token:
+            label: naekb.vkbot::lang.settings.confirmation_token
+            tab: naekb.vkbot::lang.settings.primary
+            span: left
+        webhook_token:
+            label: naekb.vkbot::lang.settings.webhook_token
+            tab: naekb.vkbot::lang.settings.primary
+            span: right
+        api_secret:
+            label: naekb.vkbot::lang.settings.secret
+            tab: naekb.vkbot::lang.settings.primary
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
+        group_id:
+            label: naekb.vkbot::lang.settings.group_id
+            tab: naekb.vkbot::lang.settings.primary
+        group_token:
+            label: naekb.vkbot::lang.settings.group_token
+            tab: naekb.vkbot::lang.settings.primary
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
+        admin_token:
+            label: naekb.vkbot::lang.settings.admin_token
+            tab: naekb.vkbot::lang.settings.primary
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
+        jft_link:
+            label: naekb.vkbot::lang.settings.jft_link
+            tab: naekb.vkbot::lang.settings.links
+            placeholder: https://na-russia.org/eg
+        groups_link:
+            label: naekb.vkbot::lang.settings.groups_link
+            tab: naekb.vkbot::lang.settings.links
+            placeholder: http://na-ekb.ru/groups

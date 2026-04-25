@@ -1,0 +1,12 @@
+fields:
+    site_name:
+        label: Site name
+        comment: The website name as it should appear on the front-end
+        default: My Amazing Site!
+    primary_menu:
+        label: Header menu
+        type: staticmenupicker
+    footer:
+        label: Footer text
+        type: text
+        default: Сообщество "Анонимные Наркоманы"

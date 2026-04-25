@@ -1,0 +1,8 @@
+{
+    "name": "na-ekb/na-theme",
+    "type": "october-theme",
+    "description": "NA Theme",
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}

@@ -1,0 +1,244 @@
+uuid: 3222131e-375a-4472-995e-584a376c3568
+handle: Group
+type: entry
+name: GroupEntry
+drafts: true
+
+primaryNavigation:
+    label: Entries
+    icon: icon-magic
+    order: 110
+
+navigation:
+    parent: Group
+    icon: icon-magic
+    order: 10
+
+fields:
+    type:
+        tab: Группа
+        label: Тип
+        type: dropdown
+        options:
+            live: Живая
+            online: Онлайн
+            stream: Живая с трансляцией
+    
+    address_help:
+        tab: Группа
+        label: Поиск адреса
+        type: dadataSuggestions
+        suggestion: address
+        map:
+            address: address
+            city: city
+            lat: geo_lat
+            lon: geo_lon
+            location: area
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    city:
+        tab: Группа
+        label: Город
+        span: left
+        placeholder: Екатеринбург
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    location:
+        tab: Группа
+        label: Район/метро
+        span: right
+        placeholder: Ленинский
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    address:
+        tab: Группа
+        label: Адрес
+        span: left
+        placeholder: ул Пушкина, д 29
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    address_desc:
+        tab: Группа
+        label: Уточнение адреса
+        span: right
+        placeholder: Офис 413
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    lat:
+        tab: Группа
+        label: Широта
+        span: left
+        placeholder: 56.820232
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+
+    lon:
+        tab: Группа
+        label: Долгота
+        span: right
+        placeholder: 60.609306
+        trigger:
+            action: show
+            field: type
+            condition: value[live][stream]
+    
+    link:
+        tab: Группа
+        label: Ссылка на онлайн собрание
+        span: left
+        placeholder: https://us06web.zoom.us/j/9305054531
+        trigger:
+            action: show
+            field: type
+            condition: value[online][stream]
+
+    link_text:
+        tab: Группа
+        label: Текст ссылки
+        span: right
+        placeholder: ZOOM
+        trigger:
+            action: show
+            field: type
+            condition: value[online][stream]
+
+    password:
+        tab: Группа
+        label: Пароль онлайн собрания
+        placeholder: QWERTY    
+        trigger:
+            action: show
+            field: type
+            condition: value[online][stream]
+
+    description:
+        tab: Группа
+        label: Описание
+        comment: К примеру, как пройти к группе
+        type: richeditor
+        size: large
+
+    meetings:
+        tab: Собрания
+        type: repeater
+        prompt: Добавить собрание
+        form:
+            fields:
+                online:
+                    label: Онлайн (трансляция)
+                    type: dropdown
+                    options:
+                        1: С онлайном
+                        2: Только онлайн
+                        0: Без онлайна
+                    trigger:
+                        action: show
+                        field: ^type
+                        condition: value[stream]
+                type:
+                    label: Тип
+                    type: dropdown
+                    options:
+                        0: Каждый
+                        1: Первый
+                        2: Второй
+                        3: Третий
+                        4: Четвёртый
+                        5: Последний
+                    span: left
+                day:
+                    label: День
+                    type: dropdown
+                    options:
+                        1: Понедельник
+                        2: Вторник
+                        3: Среда
+                        4: Четверг
+                        5: Пятница
+                        6: Суббота
+                        7: Воскресенье
+                    span: right
+                time:
+                    label: Время начала
+                    type: datepicker
+                    mode: time
+                    span: left
+                duration:
+                    label: Длительность (минут)
+                    type: number
+                    span: right
+                    placeholder: 60
+                format:
+                    label: Формат
+                    type: dropdown
+                    options:
+                        1: Закрытое
+                        2: Открытое
+                        3: Рабочее
+                        4: Подкомитет
+                    span: left
+                format_second:
+                    label: Второй формат
+                    span: right
+
+    changes:
+        tab: Изменения
+        type: repeater
+        prompt: Добавить изменение
+        form:
+            fields:
+                date:
+                    label: Дата
+                    type: datepicker
+                    mode: date
+                online:
+                    label: Онлайн (трансляция)
+                    type: dropdown
+                    options:
+                        1: С онлайном
+                        2: Только онлайн
+                        0: Без онлайна
+                    trigger:
+                        action: show
+                        field: ^type
+                        condition: value[stream]
+                time:
+                    label: Время начала
+                    type: datepicker
+                    mode: time
+                    span: left
+                duration:
+                    label: Длительность (минут)
+                    type: number
+                    span: right
+                    placeholder: 60
+                format:
+                    label: Формат
+                    type: dropdown
+                    options:
+                        1: Закрытое
+                        2: Открытое
+                        3: Рабочее
+                        4: Подкомитет
+                    span: left
+                format_second:
+                    label: Второй формат
+                    span: right

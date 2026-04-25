@@ -1,0 +1,27 @@
+authtoken: 1qcpsyADAlZH7eX307CAp5fbGdt_2YiJFxzMEor44SA8TXkKB
+api_key: 2UGLqL60aZGCgYXCq4W0fosDcMb_2ZjeTMfhuHLLmC64pMh3i
+connect_timeout: 30s
+console_ui: true
+console_ui_color: transparent
+dns_resolver_ips:
+  - 1.1.1.1
+  - 8.8.8.8
+heartbeat_interval: 1m
+heartbeat_tolerance: 5s
+inspect_db_size: 104857600
+log_level: info
+log_format: json
+log: /var/log/ngrok.log
+region: eu
+remote_management: false
+update_channel: stable
+update_check: false
+version: 2
+web_addr: localhost:4040
+tunnels:
+  website:
+    addr: na-cms.test:80
+    schemes:
+      - https
+    proto: http
+    domain: parrot-fleet-wasp.ngrok-free.app

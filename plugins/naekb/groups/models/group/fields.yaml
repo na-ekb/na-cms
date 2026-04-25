@@ -1,0 +1,139 @@
+fields:
+    title:
+        type: text
+        span: auto
+        label: Title
+    slug:
+        type: text
+        span: auto
+        label: Slug
+        preset:
+            field: title
+            type: slug
+tabs:
+    fields:
+        type:
+            type: dropdown
+            span: full
+            label: Тип
+            tab: Группа
+        address_help:
+            type: dadataSuggestions
+            span: full
+            label: 'Поиск адреса'
+            tab: Группа
+            suggestion: address
+            map:
+                address: address
+                city: city
+                lat: geo_lat
+                lon: geo_lon
+                location: area
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        city:
+            type: text
+            span: left
+            placeholder: Екатеринбург
+            label: Город
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        location:
+            type: text
+            span: right
+            placeholder: Ленинский
+            label: Район/метро
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        address:
+            type: text
+            span: left
+            placeholder: 'ул Пушкина, д 29'
+            label: Адрес
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        address_desc:
+            type: text
+            span: right
+            placeholder: 'Офис 413'
+            label: 'Уточнение адреса'
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        lat:
+            type: text
+            span: left
+            placeholder: 56.820232
+            label: Широта
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        lon:
+            type: text
+            span: right
+            placeholder: 60.609306
+            label: Долгота
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[live][stream]'
+        link:
+            type: text
+            span: left
+            placeholder: 'https://us06web.zoom.us/j/9305054531'
+            label: 'Ссылка на онлайн собрание'
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[online][stream]'
+        link_text:
+            type: text
+            span: right
+            placeholder: ZOOM
+            label: 'Текст ссылки'
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[online][stream]'
+        password:
+            type: text
+            span: full
+            placeholder: QWERTY
+            label: 'Пароль онлайн собрания'
+            tab: Группа
+            trigger:
+                action: show
+                field: type
+                condition: 'value[online][stream]'
+        description:
+            type: richeditor
+            span: full
+            comment: 'К примеру, как пройти к группе'
+            label: Описание
+            tab: Группа
+        meetings:
+            type: relation
+            span: full
+            tab: Собрания
+        changes:
+            type: relation
+            span: full
+            tab: Изменения

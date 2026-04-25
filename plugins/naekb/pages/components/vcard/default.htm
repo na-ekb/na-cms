@@ -1,0 +1,25 @@
+<hr><br>
+<div class="row justify-content-center row-gap-4">
+    {% set md = (12 / contacts|length)|round(1, 'floor') < 4 ? 4 : (12 / contacts|length)|round(1, 'floor') %}
+    {% for contact in contacts %}
+        <div class="col-12 col-sm-6 col-md-{{ md }} contact">
+            <span class="contact-content">
+                {% if contact.iconImg is not empty %}
+                    <span class="icon icon-{{ contact.iconImg }}"></span>
+                {% else %}
+                    <span class="icon icon-{{ contact.icon }}"></span>
+                {% endif %}
+                {{ contact.label }}
+            </span>
+            <span class="contact-content">
+                <a href="{{ contact.link }}" target="_blank">{{ contact.contact }}</a>
+            </span>
+            <span class="contact-content text-muted">
+                {{ contact.desc }}
+            </span>
+        </div>
+    {% endfor %}
+</div><hr><br>
+<button data-request="{{ __SELF__ }}::onDownload" data-request-download>
+    {{ 'naekb.pages::lang.snippet.vcard_download' | trans }}
+</button>

@@ -1,0 +1,30 @@
+columns:
+    id:
+        type: text
+        invisible: true
+        label: ID
+    title:
+        type: text
+        searchable: true
+        label: Title
+    slug:
+        type: text
+        searchable: true
+        invisible: true
+        label: Slug
+    type:
+        type: selectable
+        label: Тип
+    city:
+        type: text
+        label: Город
+    location:
+        type: text
+        label: Район/метро
+    address:
+        type: text
+        label: Адрес
+    description:
+        type: summary
+        searchable: true
+        label: Описание

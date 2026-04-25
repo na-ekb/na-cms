@@ -1,0 +1,65 @@
+magephp:
+    log_dir: ./.mage/logs
+    log_limit: 10
+    ssh_needs_tty: false
+    exclude:
+        - .git
+        - .github
+        - .idea
+        - .DS_Store
+        - .mage
+        - .gitattributes
+        - .gitignore
+        - .env.*
+        - .env
+        - storage
+        - .editorconfig
+        - .gitattributes
+        - .gitignore
+        - .php_cs
+        - phpcs.xml
+        - phpunit.xml
+        - README.MD
+        - SECURITY.md
+        - package.json
+        - package-lock.json
+        - LICENSE.md
+        - CHANGELOG.md
+        - .mage.yml
+        - .jshintrc
+        - .babelrc
+        - .php_cs.cache
+        - .phpstorm.meta.php
+        - .travis.yml
+        - _ide_helper.php
+        - /server.php
+        - /vendor
+        - node_modules
+        - /webpack.config.js
+        - /webpack.mix.js
+        - .styleci.yml
+        - tests
+        - .mage
+    environments:
+        ekb:
+            user: design24_niko
+            host_path: /home/d/design24/vk.na-ekb
+            timeout: 600
+            from: ./
+            to: ./
+            releases: 3
+            hosts:
+                - design24.beget.tech
+            on-deploy:
+                - fs/remove: { file: './storage', flags: '-rf' }
+                - fs/remove: { file: '../../storage/framework/config.php', flags: '-rf' }
+                - fs/link: { from: '../../storage', to: './storage' }
+                - fs/copy: { from: '../../.env', to: './.env' }
+                - fs/copy: { from: '../../robots.txt', to: './robots.txt' }
+                - exec: { cmd: 'php8.2 artisan optimize:clear', desc: 'Clear Laravel Optimize' }
+                - exec: { cmd: '/usr/local/bin/php8.2 /home/d/design24/.local/bin/composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader', desc: 'Composer install' }
+            post-release:
+                - exec: { cmd: 'php8.2 artisan optimize', desc: 'Optimize Laravel' }
+                - exec: { cmd: 'php8.2 artisan october:migrate', desc: 'Migrate DB' }
+                - fs/remove: { file: '../../public_html', flags: '-rf' }
+                - fs/link: { from: './current', to: '../../public_html' }

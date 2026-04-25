@@ -1,0 +1,44 @@
+[staticMenu]
+code=primary
+==
+<div class="row">
+    <div class="fixed-top d-md-none top-contacts">
+        <div class="container">
+            {% if menuEmail %}
+            <a href="mailto:{{ menuEmail }}">{{ menuEmail }}</a>
+            {% endif %}
+            {% if menuPhone %}
+            <a href="tel:{{ menuPhoneLink }}">{{ menuPhone }}</a>
+            {% endif %}
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-xl fixed-bottom fixed-md-top navbar-blue mobile-nav">
+        <div class="container">
+            <div class="logo-nav order-2 order-md-1">
+                <div class="col-auto col-img">
+                    <img src="{{ 'assets/img/logo-header.svg'|theme }}" alt="Логотип">
+                </div>
+                <div class="col-auto">
+                    <div class="first-line">
+                        Анонимные Наркоманы
+                    </div>
+                    <div class="second-line">
+                        Екатеринбург и область
+                    </div>
+                </div>
+            </div>
+            <button id="toggle-nav" class="navbar-toggler order-3 order-md-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-controls="mainMenu" aria-expanded="false" aria-label="Открыть меню">
+                Меню
+            </button>
+            <div class="collapse navbar-collapse order-1 order-md-3" id="mainMenu">
+                <ul class="navbar-nav me-auto mt-4 mt-xl-0 mb-4 mb-xl-0">
+                    {% for item in menuItems %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if item.isActive %} active {% endif %}" href="{{ item.url }}">{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>

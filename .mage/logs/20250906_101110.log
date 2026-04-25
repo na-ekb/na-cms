@@ -1,0 +1,7 @@
+[2025-09-06T10:11:10.840947+00:00] magephp.DEBUG: Environment: ekb [] []
+[2025-09-06T10:11:10.842039+00:00] magephp.DEBUG: Release ID: 20250906101110 [] []
+[2025-09-06T10:11:10.842208+00:00] magephp.DEBUG: Running task [Exec] Clear Laravel Optimize (exec) [] []
+[2025-09-06T10:11:10.842229+00:00] magephp.INFO: php8.2 artisan optimize:clear [] []
+[2025-09-06T10:11:10.854948+00:00] magephp.DEBUG:  [] []
+[2025-09-06T10:11:10.854987+00:00] magephp.ERROR: sh: php8.2: command not found  [] []
+[2025-09-06T10:11:10.855036+00:00] magephp.DEBUG: Task [Exec] Clear Laravel Optimize (exec) finished with FAIL [] []

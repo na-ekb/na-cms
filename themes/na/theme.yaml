@@ -1,0 +1,10 @@
+name: 'NA Theme'
+description: ''
+author: 'NA Ekaterinburg'
+homepage: 'https://na-ekb.ru'
+authorCode: na-ekb
+code: na
+parent: ''
+database: '0'
+previewImage: assets/img/preview.png
+form: config/fields.yaml

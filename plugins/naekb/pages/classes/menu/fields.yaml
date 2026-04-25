@@ -1,0 +1,34 @@
+# ===================================
+#  Field Definitions
+# ===================================
+
+fields:
+    name:
+        span: left
+        label: naekb.pages::lang.menu.name
+        placeholder: naekb.pages::lang.menu.new_name
+        attributes:
+            default-focus: 1
+
+    code:
+        span: right
+        placeholder: naekb.pages::lang.menu.new_code
+        label: naekb.pages::lang.menu.code
+        preset:
+            field: name
+            type: file
+
+    toolbar:
+        type: partial
+        path: menu_toolbar
+        cssClass: collapse-visible
+
+tabs:
+    stretch: true
+    cssClass: master-area
+    paneCssClass: pane-compact
+    fields:
+        items:
+            stretch: true
+            tab: naekb.pages::lang.menu.items
+            type: NAEkb\Pages\FormWidgets\MenuItems

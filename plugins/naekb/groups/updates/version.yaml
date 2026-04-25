@@ -1,0 +1,11 @@
+v1.0.1:
+    - 'Initialize plugin'
+v1.0.2:
+    - 'Create GroupEntry Content Table'
+    - create_groups_table.php
+v1.0.3:
+    - 'Create GroupEntry Repeater Table for meetings'
+    - create_group_meetings_table.php
+v1.0.4:
+    - 'Create GroupEntry Repeater Table for changes'
+    - create_group_changes_table.php

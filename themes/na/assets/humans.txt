@@ -1,0 +1,12 @@
+/* TEAM */
+	Codeman: Anonymous
+	From: Yekaterinburg, Russia
+
+	Web designer: Anonymous
+	From: Yekaterinburg, Russia
+
+/* SITE */
+	Last update: 2024/02/17
+	Language: Russian
+	Doctype: HTML5
+	Tech: PHP, HTMX, UnDraw

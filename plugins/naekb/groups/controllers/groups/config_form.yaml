@@ -1,0 +1,10 @@
+name: Группа
+form: $/naekb/groups/models/group/fields.yaml
+modelClass: NaEkb\Groups\Models\Group
+defaultRedirect: naekb/groups/groups
+create:
+    redirect: 'naekb/groups/groups/update/:id'
+    redirectClose: naekb/groups/groups
+update:
+    redirect: naekb/groups/groups
+    redirectClose: naekb/groups/groups

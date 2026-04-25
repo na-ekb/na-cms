@@ -1,0 +1,46 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    _get_token:
+        type: tg-connect
+        trigger:
+            action: hide
+            field: bot_secret
+            condition: value[]
+tabs:
+    fields:
+        bot_secret:
+            label: naekb.tgbot::lang.settings.bot_secret
+            tab: naekb.tgbot::lang.settings.primary
+            span: left
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
+        webhook_token:
+            label: naekb.tgbot::lang.settings.webhook_token
+            tab: naekb.tgbot::lang.settings.primary
+            span: right
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
+        channel_id:
+            label: naekb.tgbot::lang.settings.channel_id
+            tab: naekb.tgbot::lang.settings.primary
+            span: left
+        chat_id:
+            label: naekb.tgbot::lang.settings.chat_id
+            tab: naekb.tgbot::lang.settings.primary
+            span: right
+        send_meetings:
+            label: naekb.tgbot::lang.settings.send_meetings
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: switch
+            span: left
+        send_time:
+            label: naekb.tgbot::lang.settings.send_time
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: datepicker
+            mode: time
+            span: right

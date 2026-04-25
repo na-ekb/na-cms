@@ -1,0 +1,125 @@
+{
+    "name": "october/october",
+    "description": "Built using October CMS: The Laravel-Based CMS Engineered For Simplicity // composer update -o --no-dev",
+    "type": "project",
+    "homepage": "https://octobercms.com",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.1",
+        "bensampo/laravel-enum": "^6.12.0",
+        "jeroendesloovere/vcard": "^1.7.4",
+        "laravel/framework": "^9.52.20",
+        "laravel/sail": "^1.23",
+        "october/all": "^3",
+        "october/rain": "^3.7.11",
+        "offline/oc-sentry-plugin": "^3.0.3",
+        "offline/oc-vite-plugin": "^2.0.12",
+        "vdlp/oc-redirect-plugin": "^3.1",
+        "vdlp/oc-sitemap-plugin": "^2.3",
+        "wapmorgan/morphos": "^3.2.29"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6.22",
+        "andres-montanez/magallanes": "^5.0.1"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "php artisan key:generate --ansi"
+        ],
+        "post-autoload-dump": [
+            "System\\Console\\ComposerScript::postAutoloadDump"
+        ],
+        "post-update-cmd": [
+            "System\\Console\\ComposerScript::postUpdateCmd"
+        ],
+        "pre-package-uninstall": [
+            "System\\Console\\ComposerScript::prePackageUninstall"
+        ],
+        "test": [
+            "phpunit --stop-on-failure"
+        ]
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/installers": true,
+            "php-http/discovery": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app",
+            "System\\Console\\": "modules/system/console"
+        }
+    },
+    "repositories": {
+        "octobercms": {
+            "type": "composer",
+            "url": "https://gateway.octobercms.com",
+            "only": ["october/*", "*-plugin", "*-theme"]
+        },
+        "magallanes": {
+            "type":"package",
+            "package": {
+                "name": "andres-montanez/magallanes",
+                "version": "5.0.1",
+                "description": "The Deployment Tool for PHP Applications",
+                "homepage": "https://magephp.com",
+                "license": "MIT",
+                "type": "library",
+                "keywords": ["deployment"],
+                "authors": [
+                    {
+                        "name": "Andrés Montañez",
+                        "email": "andresmontanez@gmail.com"
+                    }
+                ],
+                "require": {
+                    "php": "^8.0",
+                    "monolog/monolog": "^2.5|^3.0",
+                    "symfony/console": "^6.0|^7.0",
+                    "symfony/filesystem": "^6.0|^7.0",
+                    "symfony/event-dispatcher": "^6.0|^7.0",
+                    "symfony/finder": "^6.0|^7.0",
+                    "symfony/yaml": "^6.0|^7.0",
+                    "symfony/process": "^6.0|^7.0"
+                },
+                "require-dev": {
+                    "phpunit/phpunit": "^9.5",
+                    "phpstan/phpstan": "^1.5",
+                    "squizlabs/php_codesniffer": "^3.6",
+                    "php-coveralls/php-coveralls": "^2.5"
+                },
+                "suggest": {
+                    "ext-posix": "*"
+                },
+                "autoload": {
+                    "psr-4": {
+                        "Mage\\": "src/"
+                    }
+                },
+                "autoload-dev": {
+                    "psr-4": {
+                        "Mage\\Tests\\": "tests/"
+                    }
+                },
+                "bin": ["bin/mage"],
+                "extra": {
+                    "branch-alias": {
+                        "dev-master": "5.0.x-dev",
+                        "dev-galactica": "5.x-dev"
+                    }
+                },
+                "source": {
+                    "url": "https://github.com/andres-montanez/Magallanes",
+                    "type": "git",
+                    "reference":"0ccc2bb"
+                }
+            }
+        }
+    }
+}

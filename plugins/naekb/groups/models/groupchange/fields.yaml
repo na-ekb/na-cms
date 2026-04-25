@@ -1,0 +1,28 @@
+fields:
+    date:
+        type: datepicker
+        span: full
+        label: Дата
+        mode: date
+    online:
+        type: dropdown
+        span: full
+        label: 'Онлайн (трансляция)'
+    time:
+        type: datepicker
+        span: left
+        label: 'Время начала'
+        mode: time
+    duration:
+        type: number
+        span: right
+        placeholder: 60
+        label: 'Длительность (минут)'
+    format:
+        type: dropdown
+        span: left
+        label: Формат
+    format_second:
+        type: text
+        span: right
+        label: 'Второй формат'
