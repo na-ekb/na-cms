@@ -2,6 +2,9 @@
     <title>{{ this.theme.site_name }} :: {{ this.page.meta_title ?? '' }}</title>
     <meta name="description" content="{{ this.page.meta_description ?? '' }}">
     <meta name="keywords" content="АН, Анонимные Наркоманы">
+    {% if environment('NOINDEX') %}
+    <meta name="robots" content="noindex, nofollow">
+    {% endif %}
     <link rel="icon" type="image/png" href="{{ 'assets/img/og-logo.png'|theme }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <link type="text/plain" rel="author" href="{{ 'assets/humans.txt'|theme }}">
