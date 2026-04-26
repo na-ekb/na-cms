@@ -43,7 +43,7 @@ magephp:
     environments:
         test:
             user: design24_niko
-            host_path: /home/d/design24/test.na-ekb  # TODO: уточнить путь к папке поддомена на сервере
+            host_path: /home/d/design24/test.na-ekb.ru
             timeout: 600
             from: ./
             to: ./
@@ -60,8 +60,8 @@ magephp:
             post-release:
                 - exec: { cmd: 'php8.2 artisan optimize', desc: 'Optimize Laravel' }
                 - exec: { cmd: 'php8.2 artisan october:migrate', desc: 'Migrate DB' }
-                - fs/remove: { file: '../../test.na-ekb.ru', flags: '-rf' }  # TODO: путь к public_html поддомена
-                - fs/link: { from: './current', to: '../../test.na-ekb.ru' }  # TODO: путь к public_html поддомена
+                - fs/remove: { file: './public_html', flags: '-rf' }
+                - fs/link: { from: './current', to: './public_html' }
 
         ekb:
             user: design24_niko
