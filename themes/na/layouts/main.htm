@@ -4,6 +4,7 @@ description = "Default layout"
 <?php
 use NAEkb\Integrations\Models\IntegrationsSettings;
 $this['metrikaId'] = (int) IntegrationsSettings::get('metrika_id');
+$this['noindex'] = (bool) IntegrationsSettings::get('noindex');
 ?>
 ==
 <!DOCTYPE html>

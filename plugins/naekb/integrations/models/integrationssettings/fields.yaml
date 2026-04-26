@@ -74,6 +74,13 @@ tabs:
                         type: checkbox
                         span: left
 
+        noindex:
+            tab: naekb.integrations::lang.settings.tabs.analytics
+            label: naekb.integrations::lang.settings.noindex
+            comment: naekb.integrations::lang.settings.noindex_comment
+            type: checkbox
+            span: full
+
         metrika_id:
             tab: naekb.integrations::lang.settings.tabs.analytics
             label: naekb.integrations::lang.settings.metrika_id

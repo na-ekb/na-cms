@@ -30,6 +30,8 @@
         'site' => 'Website',
         'menu' => 'Show in site mobile menu',
         'desc' => 'Description',
+        'noindex' => 'Disable search engine indexing',
+        'noindex_comment' => 'Adds <meta name="robots" content="noindex, nofollow"> to all pages. Use for staging/test environments.',
         'metrika_id' => 'Yandex.Metrika Counter ID',
         'metrika_id_comment' => 'Numeric counter identifier (e.g. 12345678). Leave empty to disable.',
         'tabs' => [
