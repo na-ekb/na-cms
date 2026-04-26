@@ -2,7 +2,7 @@
     <title>{{ this.theme.site_name }} :: {{ this.page.meta_title ?? '' }}</title>
     <meta name="description" content="{{ this.page.meta_description ?? '' }}">
     <meta name="keywords" content="АН, Анонимные Наркоманы">
-    {% if environment('NOINDEX') %}
+    {% if noindex %}
     <meta name="robots" content="noindex, nofollow">
     {% endif %}
     <link rel="icon" type="image/png" href="{{ 'assets/img/og-logo.png'|theme }}">
