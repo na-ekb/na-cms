@@ -41,6 +41,28 @@ magephp:
         - tests
         - .mage
     environments:
+        test:
+            user: design24_niko
+            host_path: /home/d/design24/test.na-ekb  # TODO: уточнить путь к папке поддомена на сервере
+            timeout: 600
+            from: ./
+            to: ./
+            releases: 3
+            hosts:
+                - design24.beget.tech
+            on-deploy:
+                - fs/remove: { file: './storage', flags: '-rf' }
+                - fs/remove: { file: '../../storage/framework/config.php', flags: '-rf' }
+                - fs/link: { from: '../../storage', to: './storage' }
+                - fs/copy: { from: '../../.env', to: './.env' }
+                - exec: { cmd: 'php8.2 artisan optimize:clear', desc: 'Clear Laravel Optimize' }
+                - exec: { cmd: '/usr/local/bin/php8.2 /home/d/design24/.local/bin/composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader', desc: 'Composer install' }
+            post-release:
+                - exec: { cmd: 'php8.2 artisan optimize', desc: 'Optimize Laravel' }
+                - exec: { cmd: 'php8.2 artisan october:migrate', desc: 'Migrate DB' }
+                - fs/remove: { file: '../../test.na-ekb.ru', flags: '-rf' }  # TODO: путь к public_html поддомена
+                - fs/link: { from: './current', to: '../../test.na-ekb.ru' }  # TODO: путь к public_html поддомена
+
         ekb:
             user: design24_niko
             host_path: /home/d/design24/vk.na-ekb
