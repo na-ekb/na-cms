@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - ekb
+          - test
 
 jobs:
   rollback:
@@ -22,9 +23,14 @@ jobs:
         run: |
           case "${{ inputs.environment }}" in
             ekb)
-              echo "host=design24.beget.tech"              >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                    >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/vk.na-ekb"      >> $GITHUB_OUTPUT
+              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/vk.na-ekb"            >> $GITHUB_OUTPUT
+              ;;
+            test)
+              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/test.na-ekb.ru"       >> $GITHUB_OUTPUT
               ;;
           esac
 
@@ -37,12 +43,12 @@ jobs:
 
       - name: Rollback to previous release
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << 'EOF'
+          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << EOF
             set -e
-            BASE=/home/d/design24/vk.na-ekb
+            BASE=${{ steps.config.outputs.base }}
 
-            CURRENT=$(readlink $BASE/current)
-            PREV=$(ls -dt $BASE/releases/*/ | sed 's:/$::' | grep -v "^$CURRENT$" | head -1)
+            CURRENT=\$(readlink \$BASE/current)
+            PREV=\$(ls -dt \$BASE/releases/*/ | sed 's:/$::' | grep -v "^\$CURRENT\$" | head -1)
 
             if [ -z "$PREV" ]; then
               echo "Нет предыдущего релиза для отката"

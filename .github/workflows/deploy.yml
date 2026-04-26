@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - ekb
+          - test
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -101,18 +102,17 @@ jobs:
         run: |
           case "${{ inputs.environment }}" in
             ekb)
-              echo "host=design24.beget.tech"              >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                    >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/vk.na-ekb"      >> $GITHUB_OUTPUT
-              echo "env_file=.env.ekb.enc"                 >> $GITHUB_OUTPUT
+              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/vk.na-ekb"            >> $GITHUB_OUTPUT
+              echo "env_file=.env.ekb.enc"                       >> $GITHUB_OUTPUT
               ;;
-            # добавить новое окружение:
-            # staging)
-            #   echo "host=staging.example.com"            >> $GITHUB_OUTPUT
-            #   echo "user=deploy_user"                    >> $GITHUB_OUTPUT
-            #   echo "base=/home/user/project"             >> $GITHUB_OUTPUT
-            #   echo "env_file=.env.staging.enc"           >> $GITHUB_OUTPUT
-            #   ;;
+            test)
+              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
+              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
+              echo "base=/home/d/design24/test.na-ekb.ru"       >> $GITHUB_OUTPUT
+              echo "env_file=.env.test.enc"                      >> $GITHUB_OUTPUT
+              ;;
           esac
 
       - name: Download build artifact
@@ -163,8 +163,6 @@ jobs:
             --exclude='.idea' \
             --exclude='.docker' \
             --exclude='.DS_Store' \
-            --exclude='.mage' \
-            --exclude='.mage.yml' \
             --exclude='.gitattributes' \
             --exclude='.gitignore' \
             --exclude='.editorconfig' \
