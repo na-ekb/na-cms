@@ -13,6 +13,10 @@ class Plugin extends PluginBase
 {
     public function boot()
     {
+        \Event::listen('backend.page.beforeDisplay', function ($controller) {
+            $controller->addJs('/plugins/naekb/integrations/assets/js/metrika-redactor.js');
+        });
+
         \App::error(function(\Throwable $exception) {
             $controller = new Controller(Theme::getActiveTheme());
             //$controller->setStatusCode($exception->getStatusCode());
