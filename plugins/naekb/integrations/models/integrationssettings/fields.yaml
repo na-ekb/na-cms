@@ -74,6 +74,13 @@ tabs:
                         type: checkbox
                         span: left
 
+        metrika_id:
+            tab: naekb.integrations::lang.settings.tabs.analytics
+            label: naekb.integrations::lang.settings.metrika_id
+            comment: naekb.integrations::lang.settings.metrika_id_comment
+            span: full
+            type: text
+
         others:
             tab: naekb.integrations::lang.settings.tabs.contacts
             label: naekb.integrations::lang.settings.others

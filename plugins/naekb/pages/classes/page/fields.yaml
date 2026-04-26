@@ -88,3 +88,5 @@ secondaryTabs:
             type: richeditor
             stretch: true
             size: huge
+            plugins:
+                - metrikaGoal

@@ -30,8 +30,11 @@
         'site' => 'Website',
         'menu' => 'Show in site mobile menu',
         'desc' => 'Description',
+        'metrika_id' => 'Yandex.Metrika Counter ID',
+        'metrika_id_comment' => 'Numeric counter identifier (e.g. 12345678). Leave empty to disable.',
         'tabs' => [
-            'contacts' => 'Contacts'
+            'contacts' => 'Contacts',
+            'analytics' => 'Analytics'
         ],
     ]
 ];
