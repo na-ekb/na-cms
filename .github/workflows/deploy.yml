@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.build.outputs.matrix }}
+      has: ${{ steps.build.outputs.has }}
     steps:
       - uses: actions/checkout@v4
 
@@ -65,15 +66,19 @@ jobs:
             else
               ROLE="prod"
             fi
-            MATRIX=$(jq -c --arg role "$ROLE" '[.[] | select(.role == $role)]' .github/deploy-environments.json)
-            echo "🎯 Release (${ROLE}) → $MATRIX"
+            SEL=$(jq -c --arg role "$ROLE" '[.[] | select(.role == $role)]' .github/deploy-environments.json)
+            echo "🎯 Release (${ROLE}) → $SEL"
           else
             NAME="${{ inputs.environment }}"
-            MATRIX=$(jq -c --arg name "$NAME" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
-            echo "🎯 Manual (${NAME}) → $MATRIX"
+            SEL=$(jq -c --arg name "$NAME" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
+            echo "🎯 Manual (${NAME}) → $SEL"
           fi
+          # name — реальная ось matrix (иначе ${{ matrix.name }} не раскрывается
+          # в имени job); include доносит остальные поля окружения
+          MATRIX=$(echo "$SEL" | jq -c '{name: [.[].name], include: .}')
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
-          if [ "$MATRIX" = "[]" ]; then
+          echo "has=$(echo "$SEL" | jq 'length > 0')" >> "$GITHUB_OUTPUT"
+          if [ "$(echo "$SEL" | jq 'length')" = "0" ]; then
             echo "::warning::Нет подходящих окружений в манифесте — деплой не будет выполнен"
           fi
 
@@ -150,15 +155,14 @@ jobs:
     if: >-
       always() &&
       needs.set-matrix.result == 'success' &&
-      needs.set-matrix.outputs.matrix != '[]' &&
+      needs.set-matrix.outputs.has == 'true' &&
       needs.resolve.result == 'success' &&
       (needs.build.result == 'success' || needs.build.result == 'skipped')
     runs-on: ubuntu-latest
     environment: ${{ matrix.name }}
     strategy:
       fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
 
     steps:
       - name: Download build artifact

@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.build.outputs.matrix }}
+      has: ${{ steps.build.outputs.has }}
     steps:
       - uses: actions/checkout@v4
 
@@ -30,18 +31,21 @@ jobs:
         run: |
           case "${{ inputs.environment }}" in
             all-prod)
-              MATRIX=$(jq -c '[.[] | select(.role == "prod")]' .github/deploy-environments.json)
+              SEL=$(jq -c '[.[] | select(.role == "prod")]' .github/deploy-environments.json)
               ;;
             all-test)
-              MATRIX=$(jq -c '[.[] | select(.role == "test")]' .github/deploy-environments.json)
+              SEL=$(jq -c '[.[] | select(.role == "test")]' .github/deploy-environments.json)
               ;;
             *)
-              MATRIX=$(jq -c --arg name "${{ inputs.environment }}" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
+              SEL=$(jq -c --arg name "${{ inputs.environment }}" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
               ;;
           esac
-          echo "🎯 Rollback targets: $MATRIX"
+          echo "🎯 Rollback targets: $SEL"
+          # name — реальная ось matrix, чтобы ${{ matrix.name }} раскрывался в имени job
+          MATRIX=$(echo "$SEL" | jq -c '{name: [.[].name], include: .}')
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
-          if [ "$MATRIX" = "[]" ]; then
+          echo "has=$(echo "$SEL" | jq 'length > 0')" >> "$GITHUB_OUTPUT"
+          if [ "$(echo "$SEL" | jq 'length')" = "0" ]; then
             echo "::warning::Нет подходящих окружений в манифесте — откат не будет выполнен"
           fi
 
@@ -49,13 +53,12 @@ jobs:
   rollback:
     name: Rollback → ${{ matrix.name }}
     needs: set-matrix
-    if: needs.set-matrix.outputs.matrix != '[]'
+    if: needs.set-matrix.outputs.has == 'true'
     runs-on: ubuntu-latest
     environment: ${{ matrix.name }}
     strategy:
       fail-fast: false
-      matrix:
-        include: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
 
     steps:
       - name: Setup SSH
