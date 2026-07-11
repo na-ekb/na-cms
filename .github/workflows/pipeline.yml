@@ -84,3 +84,19 @@ jobs:
 
       - name: Build assets
         run: npm run production
+
+      # Артефакт для переиспользования при деплое этого же коммита (см. deploy.yml -> resolve)
+      - name: Upload build artifact
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ github.sha }}
+          include-hidden-files: true
+          path: |
+            .
+            !.git
+            !node_modules
+            !vendor
+            !.docker
+            !tests
+          retention-days: 7
