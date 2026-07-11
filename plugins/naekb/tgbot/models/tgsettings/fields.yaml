@@ -33,14 +33,48 @@ tabs:
             label: naekb.tgbot::lang.settings.chat_id
             tab: naekb.tgbot::lang.settings.primary
             span: right
+        _meetings_section:
+            type: section
+            label: naekb.tgbot::lang.settings.meetings_section
+            tab: naekb.tgbot::lang.settings.newsletter
         send_meetings:
             label: naekb.tgbot::lang.settings.send_meetings
             tab: naekb.tgbot::lang.settings.newsletter
             type: switch
-            span: left
         send_time:
             label: naekb.tgbot::lang.settings.send_time
             tab: naekb.tgbot::lang.settings.newsletter
             type: datepicker
             mode: time
-            span: right
+            span: left
+        send_meetings_header:
+            label: naekb.tgbot::lang.settings.send_meetings_header
+            comment: naekb.tgbot::lang.settings.send_meetings_header_comment
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: textarea
+            size: small
+        groups_link:
+            label: naekb.tgbot::lang.settings.groups_link
+            comment: naekb.tgbot::lang.settings.groups_link_comment
+            tab: naekb.tgbot::lang.settings.newsletter
+            placeholder: http://na-ekb.ru/groups
+        _jft_section:
+            type: section
+            label: naekb.tgbot::lang.settings.jft_section
+            tab: naekb.tgbot::lang.settings.newsletter
+        send_jft:
+            label: naekb.tgbot::lang.settings.send_jft
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: switch
+        send_jft_time:
+            label: naekb.tgbot::lang.settings.send_jft_time
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: datepicker
+            mode: time
+            span: left
+        send_jft_header:
+            label: naekb.tgbot::lang.settings.send_jft_header
+            comment: naekb.tgbot::lang.settings.send_jft_header_comment
+            tab: naekb.tgbot::lang.settings.newsletter
+            type: textarea
+            size: small

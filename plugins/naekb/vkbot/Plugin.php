@@ -6,6 +6,7 @@ use System\Classes\PluginBase;
 use VK\Client\VKApiClient;
 use VK\Exceptions\Api\VKApiMessagesContactNotFoundException;
 use VK\Exceptions\Api\VKApiMessagesGroupPeerAccessException;
+use VK\Exceptions\Api\VKApiUserDeletedException;
 
 use NAEkb\VkBot\Models\VkSettings;
 use NAEkb\VkBot\Widgets\ConnectToken;
@@ -132,7 +133,7 @@ class Plugin extends PluginBase
                             'keyboard'  => json_encode($keyboard, JSON_UNESCAPED_SLASHES)
                         ]);
                         $cleanDate->touch();
-                    } catch (VKApiMessagesContactNotFoundException|VKApiMessagesGroupPeerAccessException $e) {
+                    } catch (VKApiMessagesContactNotFoundException|VKApiMessagesGroupPeerAccessException|VKApiUserDeletedException $e) {
                         $cleanDate->delete();
                     } catch (\Throwable $e) {
                         report($e);
