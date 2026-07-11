@@ -149,7 +149,6 @@ jobs:
             .
             !.git
             !node_modules
-            !vendor
             !.docker
             !tests
           retention-days: 7
@@ -237,7 +236,6 @@ jobs:
             --exclude='.styleci.yml' \
             --exclude='.travis.yml' \
             --exclude='.sops.yaml' \
-            --exclude='/vendor' \
             --exclude='node_modules' \
             --exclude='tests' \
             --exclude='/server.php' \
@@ -335,7 +333,9 @@ jobs:
             ln -sfn \$BASE/storage \$RELEASE/storage
 
             cd \$RELEASE
-            /usr/local/bin/php8.2 /home/d/design24/.local/bin/composer install --no-interaction --no-dev --prefer-dist --optimize-autoloader
+            # vendor приезжает из CI-артефакта; на сервере лишь пересобираем
+            # автозагрузчик под серверные пути (без сети, без oc-packages)
+            /usr/local/bin/php8.2 /home/d/design24/.local/bin/composer dump-autoload --no-interaction --no-dev --optimize --no-scripts
             php8.2 artisan optimize:clear
             php8.2 artisan optimize
             php8.2 artisan october:migrate
