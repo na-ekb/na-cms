@@ -35,7 +35,7 @@ class ConnectToken extends FormWidgetBase
     public function onAutoSettingsToken()
     {
         $oauth = new VKOAuth(config('naekb.vkbot::vkbot.api_version'));
-        $client_id = config('naekb.vkbot::vkbot.app_client_id');
+        $client_id = VkSettings::get('app_client_id');
         $redirect_uri = url()->current();
         $display = VKOAuthDisplay::PAGE;
         $scope = config('naekb.vkbot::vkbot.scope');
@@ -63,7 +63,7 @@ class ConnectToken extends FormWidgetBase
     public function onGetExtendedSettingsToken()
     {
         $oauth = new VKOAuth(config('naekb.vkbot::vkbot.api_version'));
-        $client_id = config('naekb.vkbot::vkbot.app_client_id');
+        $client_id = VkSettings::get('app_client_id');
         $redirect_uri = 'https://oauth.vk.ru/blank.html';
         $display = VKOAuthDisplay::PAGE;
         $scope = config('naekb.vkbot::vkbot.scope');
@@ -166,7 +166,7 @@ class ConnectToken extends FormWidgetBase
     public function onGetGroupToken()
     {
         $oauth = new VKOAuth(config('naekb.vkbot::vkbot.api_version'));
-        $client_id = config('naekb.vkbot::vkbot.app_client_id');
+        $client_id = VkSettings::get('app_client_id');
         $redirect_uri = url()->current();
         $display = VKOAuthDisplay::PAGE;
         $scope = config('naekb.vkbot::vkbot.scope_group');
@@ -185,8 +185,8 @@ class ConnectToken extends FormWidgetBase
     {
         if (!empty(input('code'))) {
             $oauth = new VKOAuth();
-            $client_id = config('naekb.vkbot::vkbot.app_client_id');
-            $client_secret = config('naekb.vkbot::vkbot.app_client_secret');
+            $client_id = VkSettings::get('app_client_id');
+            $client_secret = VkSettings::get('app_client_secret');
             $redirect_uri = url()->current();
             $code = input('code');
 

@@ -20,7 +20,9 @@
         'groups_link'           => 'Расписание собраний',
         'auto_settings'         => 'Автоматическая настройка',
         'auto_success'          => 'Настройка завершена!',
-        'ext_settings'          => 'Расширенная настройка'
+        'ext_settings'          => 'Расширенная настройка',
+        'app_client_id'         => 'App client ID',
+        'app_client_secret'     => 'App client secret'
     ],
     'notifications' => [
         'new_user' => 'Пользователь [id:id|:name] подал заявку на вступление в группу.',

@@ -40,6 +40,17 @@ tabs:
             type: sensitive
             allowCopy: true
             hideOnTabChange: true
+        app_client_id:
+            label: naekb.vkbot::lang.settings.app_client_id
+            tab: naekb.vkbot::lang.settings.primary
+            span: left
+        app_client_secret:
+            label: naekb.vkbot::lang.settings.app_client_secret
+            tab: naekb.vkbot::lang.settings.primary
+            span: right
+            type: sensitive
+            allowCopy: true
+            hideOnTabChange: true
         jft_link:
             label: naekb.vkbot::lang.settings.jft_link
             tab: naekb.vkbot::lang.settings.links
