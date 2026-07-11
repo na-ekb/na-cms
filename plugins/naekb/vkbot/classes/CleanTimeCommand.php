@@ -263,14 +263,14 @@ class CleanTimeCommand extends AbstractCommand
             return;
         }
 
-        // Кнопка отказа: если передумал публиковаться — переход к поздравлению от бота
+        // Кнопка отказа: если передумал загружать фото — возврат в меню выбора (Аватар/Без фото/Передумал)
         $cancelKeyboard = [
             'inline' => true,
             'buttons' => [[
                 [
                     'action' => [
                         'type' => 'callback',
-                        'payload' => json_encode(['command' => 'cleanTime', 'action' => 'congrPriv'], JSON_UNESCAPED_SLASHES),
+                        'payload' => json_encode(['command' => 'cleanTime', 'action' => 'congr'], JSON_UNESCAPED_SLASHES),
                         'label' => __('naekb.vkbot::lang.commands.clean_time.changed_mind')
                     ]
                 ]
