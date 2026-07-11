@@ -13,7 +13,7 @@ return [
     'app_client_id'     => 51576532,
     'api_oauth_url'     => 'https://oauth.vk.ru/authorize',
     'api_token_url'     => 'https://oauth.vk.ru/access_token',
-    'app_client_secret' => 'REDACTED',
+    'app_client_secret' => env('VKBOT_APP_CLIENT_SECRET'),
     'scope'             => [
         VKOAuthUserScope::WALL,
         VKOAuthUserScope::OFFLINE,

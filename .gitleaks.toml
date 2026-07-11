@@ -1,0 +1,14 @@
+# Gitleaks configuration
+# Extends the default ruleset with an allowlist for known non-secrets.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public age recipient keys are not secrets (used in .sops.yaml / SOPS.md docs)"
+regexes = [
+  '''age1[0-9a-z]{58,}''',
+]
+paths = [
+  '''SOPS\.md''',
+  '''\.sops\.yaml''',
+]

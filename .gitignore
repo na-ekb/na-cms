@@ -32,3 +32,7 @@ vendor/
 !.env.example
 !.env.*.enc
 age.key
+
+# Local dev / tooling artifacts
+ngrok.yml
+/.mage
