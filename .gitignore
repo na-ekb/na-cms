@@ -36,3 +36,6 @@ age.key
 # Local dev / tooling artifacts
 ngrok.yml
 /.mage
+
+# Deploy version metadata — генерируется CI в папке релиза, в репозиторий не коммитим
+/version.json

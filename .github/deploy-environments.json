@@ -1,0 +1,18 @@
+[
+  {
+    "name": "ekb",
+    "role": "prod",
+    "host": "design24.beget.tech",
+    "user": "design24_niko",
+    "base": "/home/d/design24/vk.na-ekb",
+    "env_file": ".env.ekb.enc"
+  },
+  {
+    "name": "test",
+    "role": "test",
+    "host": "design24.beget.tech",
+    "user": "design24_niko",
+    "base": "/home/d/design24/test.na-ekb.ru",
+    "env_file": ".env.test.enc"
+  }
+]

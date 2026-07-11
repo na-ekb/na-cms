@@ -4,65 +4,89 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Окружение для отката"
+        description: "Что откатываем"
         required: true
         type: choice
         options:
           - ekb
           - test
+          - all-prod
+          - all-test
+
+permissions:
+  contents: read
 
 jobs:
-  rollback:
-    name: Rollback ← ${{ inputs.environment }}
+  # ─── Resolve target environments from manifest ────────────────────────────
+  set-matrix:
+    name: Resolve rollback targets
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
     steps:
-      - name: Resolve environment config
-        id: config
+      - uses: actions/checkout@v4
+
+      - id: build
         run: |
           case "${{ inputs.environment }}" in
-            ekb)
-              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/vk.na-ekb"            >> $GITHUB_OUTPUT
+            all-prod)
+              MATRIX=$(jq -c '[.[] | select(.role == "prod")]' .github/deploy-environments.json)
               ;;
-            test)
-              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/test.na-ekb.ru"       >> $GITHUB_OUTPUT
+            all-test)
+              MATRIX=$(jq -c '[.[] | select(.role == "test")]' .github/deploy-environments.json)
+              ;;
+            *)
+              MATRIX=$(jq -c --arg name "${{ inputs.environment }}" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
               ;;
           esac
+          echo "🎯 Rollback targets: $MATRIX"
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          if [ "$MATRIX" = "[]" ]; then
+            echo "::warning::Нет подходящих окружений в манифесте — откат не будет выполнен"
+          fi
 
+  # ─── Rollback (fan-out по выбранной группе) ───────────────────────────────
+  rollback:
+    name: Rollback → ${{ matrix.name }}
+    needs: set-matrix
+    if: needs.set-matrix.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    environment: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
+
+    steps:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
 
       - name: Rollback to previous release
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << EOF
+          ssh -i ~/.ssh/id_ed25519 ${{ matrix.user }}@${{ matrix.host }} bash -se << EOF
             set -e
-            BASE=${{ steps.config.outputs.base }}
+            BASE="${{ matrix.base }}"
 
-            CURRENT=\$(readlink \$BASE/current)
-            PREV=\$(ls -dt \$BASE/releases/*/ | sed 's:/$::' | grep -v "^\$CURRENT\$" | head -1)
+            CURRENT=\$(readlink "\$BASE/current")
+            PREV=\$(ls -dt "\$BASE"/releases/*/ | sed 's:/\$::' | grep -v "^\$CURRENT\$" | head -1)
 
-            if [ -z "$PREV" ]; then
+            if [ -z "\$PREV" ]; then
               echo "Нет предыдущего релиза для отката"
               exit 1
             fi
 
-            echo "Текущий:    $CURRENT"
-            echo "Откат на:   $PREV"
+            echo "Текущий:  \$CURRENT"
+            echo "Откат на: \$PREV"
 
-            ln -sfn $PREV $BASE/current
+            ln -sfn "\$PREV" "\$BASE/current"
 
-            cd $PREV
+            cd "\$PREV"
             php8.2 artisan optimize:clear
             php8.2 artisan optimize
 
-            echo "Готово. Активный релиз: $(readlink $BASE/current)"
+            echo "Готово. Активный релиз: \$(readlink "\$BASE/current")"
           EOF

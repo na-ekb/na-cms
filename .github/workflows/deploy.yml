@@ -1,6 +1,12 @@
 name: Deploy
 
 on:
+  # Релиз-модель: публикация GitHub Release веером катит на группу окружений.
+  #   pre-release  → все окружения с role: test
+  #   full release → все окружения с role: prod
+  release:
+    types: [published]
+  # Ручной fallback: катит одно выбранное окружение.
   workflow_dispatch:
     inputs:
       environment:
@@ -40,6 +46,35 @@ jobs:
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
             echo "🔨 Артефакта нет — будет сборка"
+          fi
+
+  # ─── 0b. Resolve target environments from manifest ────────────────────────
+  set-matrix:
+    name: Resolve target environments
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.build.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: build
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+              ROLE="test"
+            else
+              ROLE="prod"
+            fi
+            MATRIX=$(jq -c --arg role "$ROLE" '[.[] | select(.role == $role)]' .github/deploy-environments.json)
+            echo "🎯 Release (${ROLE}) → $MATRIX"
+          else
+            NAME="${{ inputs.environment }}"
+            MATRIX=$(jq -c --arg name "$NAME" '[.[] | select(.name == $name)]' .github/deploy-environments.json)
+            echo "🎯 Manual (${NAME}) → $MATRIX"
+          fi
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          if [ "$MATRIX" = "[]" ]; then
+            echo "::warning::Нет подходящих окружений в манифесте — деплой не будет выполнен"
           fi
 
   # ─── 1. Gitleaks: scan for leaked secrets ─────────────────────────────────
@@ -119,37 +154,25 @@ jobs:
             !tests
           retention-days: 7
 
-  # ─── 3. Deploy ────────────────────────────────────────────────────────────
+  # ─── 3. Deploy (fan-out по окружениям из set-matrix) ──────────────────────
   deploy:
-    name: Deploy → ekb
-    needs: [secrets, resolve, build]
+    name: Deploy → ${{ matrix.name }}
+    needs: [secrets, resolve, build, set-matrix]
     if: >-
       always() &&
+      needs.set-matrix.result == 'success' &&
+      needs.set-matrix.outputs.matrix != '[]' &&
       needs.secrets.result == 'success' &&
       needs.resolve.result == 'success' &&
       (needs.build.result == 'success' || needs.build.result == 'skipped')
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
+    environment: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
 
     steps:
-      - name: Resolve environment config
-        id: config
-        run: |
-          case "${{ inputs.environment }}" in
-            ekb)
-              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/vk.na-ekb"            >> $GITHUB_OUTPUT
-              echo "env_file=.env.ekb.enc"                       >> $GITHUB_OUTPUT
-              ;;
-            test)
-              echo "host=design24.beget.tech"                    >> $GITHUB_OUTPUT
-              echo "user=design24_niko"                          >> $GITHUB_OUTPUT
-              echo "base=/home/d/design24/test.na-ekb.ru"       >> $GITHUB_OUTPUT
-              echo "env_file=.env.test.enc"                      >> $GITHUB_OUTPUT
-              ;;
-          esac
-
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
@@ -165,7 +188,7 @@ jobs:
           mv /tmp/age/age /usr/local/bin/age
 
       - name: Decrypt .env
-        run: sops -d ${{ steps.config.outputs.env_file }} > .env
+        run: sops -d ${{ matrix.env_file }} > .env
         env:
           SOPS_AGE_KEY: ${{ secrets.SOPS_AGE_KEY }}
 
@@ -183,14 +206,14 @@ jobs:
         id: release
         run: |
           RELEASE_NAME=$(date +%Y%m%d%H%M%S)
-          RELEASE_DIR="${{ steps.config.outputs.base }}/releases/$RELEASE_NAME"
-          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} "mkdir -p $RELEASE_DIR"
+          RELEASE_DIR="${{ matrix.base }}/releases/$RELEASE_NAME"
+          ssh -i ~/.ssh/id_ed25519 ${{ matrix.user }}@${{ matrix.host }} "mkdir -p $RELEASE_DIR"
           echo "dir=$RELEASE_DIR" >> $GITHUB_OUTPUT
 
       - name: Upload .env to shared folder
         run: |
           scp -i ~/.ssh/id_ed25519 .env \
-            ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }}:${{ steps.config.outputs.base }}/.env
+            ${{ matrix.user }}@${{ matrix.host }}:${{ matrix.base }}/.env
 
       - name: rsync to release dir
         run: |
@@ -234,13 +257,78 @@ jobs:
             --exclude='DEPLOY.md' \
             --exclude='SOPS.md' \
             -e "ssh -i ~/.ssh/id_ed25519" \
-            ./ ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }}:${{ steps.release.outputs.dir }}/
+            ./ ${{ matrix.user }}@${{ matrix.host }}:${{ steps.release.outputs.dir }}/
+
+      # version.json пишется per-окружение прямо в папку релиза, ПОСЛЕ rsync
+      # (иначе rsync --delete снёс бы его) и ДО переключения симлинка current
+      # в Post-deploy (чтобы прочитать sha предыдущего релиза для changelog).
+      - name: Write version.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ENVIRONMENT: ${{ matrix.name }}
+          ROLE: ${{ matrix.role }}
+          DEPLOY_HOST: ${{ matrix.host }}
+          DEPLOY_USER: ${{ matrix.user }}
+          BASE: ${{ matrix.base }}
+          RELEASE_DIR: ${{ steps.release.outputs.dir }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+          EVENT: ${{ github.event_name }}
+          ACTOR: ${{ github.actor }}
+          REF_NAME: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+          RELEASE_BODY: ${{ github.event.release.body }}
+          RELEASE_TARGET: ${{ github.event.release.target_commitish }}
+        run: |
+          set -e
+          SHORT_SHA="${SHA:0:7}"
+          if [ "$EVENT" = "release" ]; then
+            REF_TYPE="release"; VERSION="$RELEASE_TAG"; BRANCH="$RELEASE_TARGET"
+          else
+            REF_TYPE="manual"; VERSION="$SHORT_SHA"; BRANCH="$REF_NAME"
+          fi
+          COMMIT_URL="https://github.com/$REPO/commit/$SHA"
+          DEPLOYED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+
+          # sha предыдущего релиза этого окружения (симлинк current ещё не переключён)
+          PREV=$(ssh -i ~/.ssh/id_ed25519 "$DEPLOY_USER@$DEPLOY_HOST" \
+            "cat $BASE/current/version.json 2>/dev/null" | jq -r '.sha // empty' 2>/dev/null || true)
+
+          # changelog: коммиты с прошлого деплоя (compare), иначе последние 10
+          if [ -n "$PREV" ] && gh api "repos/$REPO/compare/$PREV...$SHA" > /tmp/cmp.json 2>/dev/null; then
+            CHANGELOG=$(jq '[.commits[] | {sha: .sha, short: .sha[0:7], subject: (.commit.message | split("\n")[0]), url: .html_url}]' /tmp/cmp.json)
+          else
+            gh api "repos/$REPO/commits?sha=$SHA&per_page=10" > /tmp/commits.json
+            CHANGELOG=$(jq '[.[] | {sha: .sha, short: .sha[0:7], subject: (.commit.message | split("\n")[0]), url: .html_url}]' /tmp/commits.json)
+          fi
+
+          jq -n \
+            --arg environment "$ENVIRONMENT" \
+            --arg role "$ROLE" \
+            --arg version "$VERSION" \
+            --arg ref_type "$REF_TYPE" \
+            --arg sha "$SHA" \
+            --arg short_sha "$SHORT_SHA" \
+            --arg branch "$BRANCH" \
+            --arg deployed_at "$DEPLOYED_AT" \
+            --arg actor "$ACTOR" \
+            --arg repo "$REPO" \
+            --arg commit_url "$COMMIT_URL" \
+            --arg release_url "$RELEASE_URL" \
+            --arg release_notes "$RELEASE_BODY" \
+            --arg prev_sha "$PREV" \
+            --argjson changelog "$CHANGELOG" \
+            '{environment: $environment, role: $role, version: $version, ref_type: $ref_type, sha: $sha, short_sha: $short_sha, branch: $branch, deployed_at: $deployed_at, actor: $actor, repo: $repo, commit_url: $commit_url, release_url: $release_url, release_notes: $release_notes, prev_sha: $prev_sha, changelog: $changelog}' \
+            > version.json
+
+          scp -i ~/.ssh/id_ed25519 version.json "$DEPLOY_USER@$DEPLOY_HOST:$RELEASE_DIR/version.json"
 
       - name: Post-deploy
         run: |
-          ssh -i ~/.ssh/id_ed25519 ${{ steps.config.outputs.user }}@${{ steps.config.outputs.host }} << EOF
+          ssh -i ~/.ssh/id_ed25519 ${{ matrix.user }}@${{ matrix.host }} << EOF
             set -e
-            BASE=${{ steps.config.outputs.base }}
+            BASE=${{ matrix.base }}
             RELEASE=${{ steps.release.outputs.dir }}
 
             cp \$BASE/.env \$RELEASE/.env
