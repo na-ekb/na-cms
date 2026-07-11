@@ -413,42 +413,23 @@ class CleanTimeCommand extends AbstractCommand
                 'user_ids' => $this->userId,
                 'fields' => 'has_photo,photo_max_orig,photo_id'
             ]);
-            /*
-            if (!$user[0]['has_photo']) {
-                $keyboard = [
-                    'inline' => true,
-                    'buttons' => [
-                        [
-                            [
-                                'action' => [
-                                    'type' => 'callback',
-                                    'payload'  => json_encode([
-                                        'command' => 'cleanTime',
-                                        'action' => 'photo',
-                                    ], JSON_UNESCAPED_SLASHES),
-                                    'label' => __('naekb.vkbot::lang.commands.clean_time.photo')
-                                ]
-                            ],
-                            [
-                                'action' => [
-                                    'type' => 'callback',
-                                    'payload' => json_encode([
-                                        'command' => 'cleanTime',
-                                        'action' => 'send',
-                                    ], JSON_UNESCAPED_SLASHES),
-                                    'label' => __('naekb.vkbot::lang.commands.clean_time.no_img')
-                                ]
-                            ]
-                        ]
-                    ]
-                ];
-                $this->reply(__('naekb.vkbot::lang.commands.clean_time.no_ava'), $keyboard, false, false);
+
+            // Guard: авы нет / профиль закрыт / поле не пришло / URL недоступен
+            $avatarUrl = $user[0]['photo_max_orig'] ?? null;
+            if (empty($user[0]['has_photo'])
+                || empty($avatarUrl)
+                || !$this->isUrlAccessible($avatarUrl)
+            ) {
+                $this->setCommandState('main', 'start');
+                $this->replyWithAvaFallback();
                 return;
             }
-            */
+
+            // Пытаемся получить полноразмерное фото профиля, иначе фолбэк на photo_max_orig (≤400px)
+            $fullUrl = $this->resolveFullAvatarUrl($user[0]['photo_id'] ?? null, $avatarUrl);
 
             $photoModel = Photo::create([
-                'original_url' => $user[0]['photo_max_orig']
+                'original_url' => $fullUrl
             ]);
 
             if (empty($user[0]['photo_id'])) {
@@ -553,7 +534,12 @@ class CleanTimeCommand extends AbstractCommand
         ];
 
         if (!empty($arguments['photoId'])) {
-            $params['attachments'] = $this->saveAndSendPhoto($arguments['photoId']);
+            try {
+                $params['attachments'] = $this->saveAndSendPhoto($arguments['photoId']);
+            } catch (\Throwable $e) {
+                // Публикуем пост без фото, чтобы не терять поздравление
+                report($e);
+            }
         }
 
         $this->callApi('wall.post', $params, true);
@@ -564,7 +550,7 @@ class CleanTimeCommand extends AbstractCommand
                     'id' => $this->userId,
                     'name' => $this->getUserName()
                 ]);
-            $this->sendToAdmins($text, [], [$params['attachments']]);
+            $this->sendToAdmins($text, [], array_filter([$params['attachments'] ?? null]));
             return;
         }
 
@@ -593,6 +579,50 @@ class CleanTimeCommand extends AbstractCommand
     {
         $headers = @get_headers($url);
         return $headers !== false && strpos($headers[0], '200') !== false;
+    }
+
+    /**
+     * Возвращает URL максимального размера фотографии профиля по photo_id ("{owner_id}_{photo_id}").
+     * Фолбэк на $fallbackUrl (photo_max_orig, ≤400px), если photo_id пуст, фото недоступно или произошла ошибка.
+     */
+    private function resolveFullAvatarUrl(?string $photoId, string $fallbackUrl): string
+    {
+        if (empty($photoId)) {
+            return $fallbackUrl;
+        }
+
+        try {
+            $result = $this->callApi('photos.getById', [
+                'photos'      => $photoId,
+                'photo_sizes' => 1,
+            ]);
+        } catch (\Throwable $e) {
+            report($e);
+            return $fallbackUrl;
+        }
+
+        if (empty($result[0]['sizes'])) {
+            return $fallbackUrl;
+        }
+
+        // Приоритет типов размеров VK (как в photo()), от меньшего к большему: w≈2560px — максимум
+        $priority = [
+            's' => 1, 'm' => 2, 'x' => 3,
+            'o' => 4, 'p' => 5, 'q' => 6, 'r' => 7,
+            'y' => 8, 'z' => 9, 'w' => 10,
+        ];
+        $best = null;
+        foreach ($result[0]['sizes'] as $size) {
+            $type = $size['type'] ?? null;
+            if (empty($priority[$type])) {
+                continue;
+            }
+            if ($best === null || $priority[$best['type']] < $priority[$type]) {
+                $best = $size;
+            }
+        }
+
+        return $best['url'] ?? $fallbackUrl;
     }
 
     private function replyWithAvaFallback(): void
@@ -633,16 +663,22 @@ class CleanTimeCommand extends AbstractCommand
             return $photo->attachment;
         }
 
-        $filename = explode('?', $photo);
-        if (is_array($filename)) {
-            $filename = array_shift($filename);
-        }
-        $filename = explode('/', $filename);
-        if (is_array($filename)) {
-            $filename = array_pop($filename);
+        if (empty($photo->original_url)) {
+            throw new \RuntimeException("Photo #{$photoId}: original_url is empty");
         }
 
-        \Storage::disk('local')->put($filename, file_get_contents($photo->original_url));
+        // Имя файла из URL: часть до '?' + последний сегмент пути
+        $filename = basename(explode('?', $photo->original_url)[0]);
+        if ($filename === '') {
+            $filename = "vk_photo_{$photoId}.jpg";
+        }
+
+        $contents = @file_get_contents($photo->original_url);
+        if ($contents === false || $contents === '') {
+            throw new \RuntimeException("Photo #{$photoId}: failed to download {$photo->original_url}");
+        }
+
+        \Storage::disk('local')->put($filename, $contents);
         $server = $this->callApi('photos.getWallUploadServer', [
             'group_id' => VkSettings::get('group_id')
         ], true);
@@ -653,6 +689,9 @@ class CleanTimeCommand extends AbstractCommand
             'photo' => $uploadedPhoto['photo'],
             'hash' => $uploadedPhoto['hash'],
         ], true);
+
+        // Временный файл больше не нужен
+        \Storage::disk('local')->delete($filename);
 
         $photo->attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}_{$savedPhotos[0]['access_key']}";
         $photo->save();

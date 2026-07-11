@@ -20,7 +20,7 @@ class Photo extends Model
     /** @inheritdoc */
     protected $fillable = [
         'original_url',
-        'file_url'
+        'attachment'
     ];
 
     /** @inheritdoc */
