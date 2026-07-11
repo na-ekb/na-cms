@@ -59,3 +59,19 @@ tabs:
             label: naekb.vkbot::lang.settings.groups_link
             tab: naekb.vkbot::lang.settings.links
             placeholder: http://na-ekb.ru/groups
+        schedule_post:
+            label: naekb.vkbot::lang.settings.schedule_post
+            tab: naekb.vkbot::lang.settings.autopost
+            type: switch
+        schedule_post_time:
+            label: naekb.vkbot::lang.settings.schedule_post_time
+            tab: naekb.vkbot::lang.settings.autopost
+            type: datepicker
+            mode: time
+            span: left
+        schedule_post_header:
+            label: naekb.vkbot::lang.settings.schedule_post_header
+            comment: naekb.vkbot::lang.settings.schedule_post_header_comment
+            tab: naekb.vkbot::lang.settings.autopost
+            type: textarea
+            size: small

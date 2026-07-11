@@ -10,9 +10,13 @@ use VK\Exceptions\Api\VKApiMessagesGroupPeerAccessException;
 use NAEkb\VkBot\Models\VkSettings;
 use NAEkb\VkBot\Widgets\ConnectToken;
 use NAEkb\VKBot\Models\CleanDate;
+use NaEkb\Groups\Models\GroupMeeting;
 
 class Plugin extends PluginBase
 {
+    /** @inheritdoc */
+    public $require = ['NaEkb.Groups'];
+
     /** @inheritdoc */
     public function pluginDetails()
     {
@@ -134,5 +138,57 @@ class Plugin extends PluginBase
                     }
                 });
         })->name('vk.cleanDates')->withoutOverlapping()->everyMinute()->between('09:00', '21:00');
+
+        // Ежедневный автопост расписания собраний на стену группы
+        try {
+            $schedulePostEnabled = VkSettings::get('schedule_post');
+            $schedulePostTime = VkSettings::get('schedule_post_time');
+        } catch (\Throwable $e) {
+            $schedulePostEnabled = false;
+            $schedulePostTime = null;
+        }
+
+        if ($schedulePostEnabled && !empty($schedulePostTime)) {
+            $postTime = Carbon::parse($schedulePostTime)->format('H:i');
+            $schedule->call(function () {
+                if (empty(VkSettings::get('group_token'))) {
+                    return;
+                }
+
+                $meetings = GroupMeeting::with('group')->day(Carbon::today())->orderBy('time')->get();
+                if ($meetings->isEmpty()) {
+                    return;
+                }
+
+                $lines = [VkSettings::get('schedule_post_header')];
+                foreach ($meetings as $meeting) {
+                    $time = Carbon::parse($meeting->time)->format('H:i');
+                    $line = "🕘 {$time} — {$meeting->group->title}";
+                    $place = trim(($meeting->group->city ? $meeting->group->city . ', ' : '') . $meeting->group->address);
+                    if ($place !== '') {
+                        $line .= "\n📍 {$place}";
+                    }
+                    if (!empty($meeting->format_name)) {
+                        $line .= "\n{$meeting->format_name}";
+                    }
+                    $lines[] = $line;
+                }
+
+                if (!empty(VkSettings::get('groups_link'))) {
+                    $lines[] = 'Полное расписание: ' . VkSettings::get('groups_link');
+                }
+
+                try {
+                    $vkApi = new VKApiClient(config('naekb.vkbot::vkbot.api_version'));
+                    $vkApi->wall()->post(VkSettings::get('group_token'), [
+                        'owner_id'   => VkSettings::get('group_id') * -1,
+                        'from_group' => 1,
+                        'message'    => implode("\n\n", array_filter($lines)),
+                    ]);
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+            })->name('vk.dailySchedule')->withoutOverlapping()->dailyAt($postTime);
+        }
     }
 }

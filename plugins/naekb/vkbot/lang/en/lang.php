@@ -22,7 +22,12 @@
         'auto_success'          => 'Настройка завершена!',
         'ext_settings'          => 'Расширенная настройка',
         'app_client_id'         => 'App client ID',
-        'app_client_secret'     => 'App client secret'
+        'app_client_secret'     => 'App client secret',
+        'autopost'              => 'Schedule autopost',
+        'schedule_post'         => 'Post meetings schedule to the wall',
+        'schedule_post_time'    => 'Post time',
+        'schedule_post_header'  => 'Post header text',
+        'schedule_post_header_comment' => 'Intro text before the meetings list, e.g. "Today\'s meetings schedule:"'
     ],
     'notifications' => [
         'new_user' => 'Пользователь [id:id|:name] подал заявку на вступление в группу.',
