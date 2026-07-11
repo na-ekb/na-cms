@@ -27,7 +27,13 @@
         'schedule_post'         => 'Post meetings schedule to the wall',
         'schedule_post_time'    => 'Post time',
         'schedule_post_header'  => 'Post header text',
-        'schedule_post_header_comment' => 'Intro text before the meetings list, e.g. "Today\'s meetings schedule:"'
+        'schedule_post_header_comment' => 'Intro text before the meetings list, e.g. "Today\'s meetings schedule:"',
+        'schedule_section'      => 'Meetings schedule',
+        'jft_section'           => 'Just For Today reflections',
+        'jft_post'              => 'Post the daily reflection to the wall',
+        'jft_post_time'         => 'Post time',
+        'jft_post_header'       => 'Post header text',
+        'jft_post_header_comment' => 'Intro text before the reflection, e.g. "Just for today:"'
     ],
     'notifications' => [
         'new_user' => 'Пользователь [id:id|:name] подал заявку на вступление в группу.',

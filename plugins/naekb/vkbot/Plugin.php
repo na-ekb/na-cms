@@ -11,11 +11,12 @@ use NAEkb\VkBot\Models\VkSettings;
 use NAEkb\VkBot\Widgets\ConnectToken;
 use NAEkb\VKBot\Models\CleanDate;
 use NaEkb\Groups\Models\GroupMeeting;
+use NAEkb\Pages\Models\Jft;
 
 class Plugin extends PluginBase
 {
     /** @inheritdoc */
-    public $require = ['NaEkb.Groups'];
+    public $require = ['NaEkb.Groups', 'NAEkb.Pages'];
 
     /** @inheritdoc */
     public function pluginDetails()
@@ -189,6 +190,54 @@ class Plugin extends PluginBase
                     report($e);
                 }
             })->name('vk.dailySchedule')->withoutOverlapping()->dailyAt($postTime);
+        }
+
+        // Ежедневный автопост размышления Just For Today на стену группы
+        try {
+            $jftPostEnabled = VkSettings::get('jft_post');
+            $jftPostTime = VkSettings::get('jft_post_time');
+        } catch (\Throwable $e) {
+            $jftPostEnabled = false;
+            $jftPostTime = null;
+        }
+
+        if ($jftPostEnabled && !empty($jftPostTime)) {
+            $jftTime = Carbon::parse($jftPostTime)->format('H:i');
+            $schedule->call(function () {
+                if (empty(VkSettings::get('group_token'))) {
+                    return;
+                }
+
+                $jft = Jft::today()->first();
+                if (empty($jft)) {
+                    return;
+                }
+
+                $clean = fn ($html) => trim(strip_tags(str_ireplace(['<br>', '<br/>', '<br />', '</p>'], "\n", (string) $html)));
+
+                $parts = [
+                    VkSettings::get('jft_post_header'),
+                    $clean($jft->header),
+                    $clean($jft->quote),
+                ];
+                if (!empty($jft->from)) {
+                    $parts[] = '— ' . $clean($jft->from);
+                }
+                if (!empty(VkSettings::get('jft_link'))) {
+                    $parts[] = 'Читать полностью: ' . VkSettings::get('jft_link');
+                }
+
+                try {
+                    $vkApi = new VKApiClient(config('naekb.vkbot::vkbot.api_version'));
+                    $vkApi->wall()->post(VkSettings::get('group_token'), [
+                        'owner_id'   => VkSettings::get('group_id') * -1,
+                        'from_group' => 1,
+                        'message'    => implode("\n\n", array_filter($parts)),
+                    ]);
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+            })->name('vk.dailyJft')->withoutOverlapping()->dailyAt($jftTime);
         }
     }
 }
