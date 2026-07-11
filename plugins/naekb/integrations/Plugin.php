@@ -78,4 +78,15 @@ class Plugin extends PluginBase
             ]
         ];
     }
+
+    /** @inheritdoc */
+    public function registerReportWidgets()
+    {
+        return [
+            \NAEkb\Integrations\ReportWidgets\DeployVersion::class => [
+                'label'   => 'naekb.integrations::lang.deploy_version.label',
+                'context' => 'dashboard',
+            ],
+        ];
+    }
 }

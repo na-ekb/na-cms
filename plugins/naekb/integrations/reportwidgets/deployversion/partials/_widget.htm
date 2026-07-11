@@ -1,0 +1,70 @@
+<div class="report-widget">
+    <h3><?= e(__($this->property('title'))) ?></h3>
+
+    <?php if (empty($data)): ?>
+        <p class="no-data"><?= e(__('naekb.integrations::lang.deploy_version.no_data')) ?></p>
+    <?php else: ?>
+        <div class="deploy-version">
+            <div class="deploy-version__head" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
+                <?php
+                    $isProd = ($data['role'] ?? null) === 'prod';
+                    $badgeColor = $isProd ? '#e67e22' : '#3498db';
+                ?>
+                <?php if (!empty($data['environment'])): ?>
+                    <span style="display:inline-block;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;background:<?= $badgeColor ?>;">
+                        <?= e($data['environment']) ?><?php if (!empty($data['role'])): ?> · <?= e($data['role']) ?><?php endif ?>
+                    </span>
+                <?php endif ?>
+
+                <span style="font-size:20px;font-weight:700;">
+                    <?php $verUrl = $data['release_url'] ?: $data['commit_url']; ?>
+                    <?php if ($verUrl): ?>
+                        <a href="<?= e($verUrl) ?>" target="_blank" rel="noopener"><?= e($data['version'] ?: '—') ?></a>
+                    <?php else: ?>
+                        <?= e($data['version'] ?: '—') ?>
+                    <?php endif ?>
+                </span>
+            </div>
+
+            <ul class="deploy-version__meta" style="list-style:none;padding:0;margin:0 0 12px;color:#7f8c8d;font-size:13px;">
+                <?php if ($data['deployed_at']): ?>
+                    <li>
+                        <?= e(__('naekb.integrations::lang.deploy_version.deployed_at')) ?>:
+                        <strong><?= e($data['deployed_at']) ?></strong>
+                        <?php if ($data['deployed_ago']): ?>(<?= e($data['deployed_ago']) ?>)<?php endif ?>
+                    </li>
+                <?php endif ?>
+                <?php if ($data['branch']): ?>
+                    <li><?= e(__('naekb.integrations::lang.deploy_version.branch')) ?>: <strong><?= e($data['branch']) ?></strong></li>
+                <?php endif ?>
+                <?php if ($data['actor']): ?>
+                    <li><?= e(__('naekb.integrations::lang.deploy_version.actor')) ?>: <strong><?= e($data['actor']) ?></strong></li>
+                <?php endif ?>
+            </ul>
+
+            <?php if (!empty($data['release_notes'])): ?>
+                <div class="deploy-version__notes" style="margin-bottom:12px;padding:8px 12px;background:rgba(0,0,0,.03);border-radius:4px;font-size:13px;white-space:pre-line;">
+                    <?= e($data['release_notes']) ?>
+                </div>
+            <?php endif ?>
+
+            <?php if (!empty($data['changelog'])): ?>
+                <h4 style="font-size:13px;text-transform:uppercase;color:#95a5a6;margin:0 0 6px;">
+                    <?= e(__('naekb.integrations::lang.deploy_version.changelog')) ?>
+                </h4>
+                <ul class="deploy-version__changelog" style="list-style:none;padding:0;margin:0;font-size:13px;">
+                    <?php foreach ($data['changelog'] as $entry): ?>
+                        <li style="padding:3px 0;border-bottom:1px solid rgba(0,0,0,.05);">
+                            <?php if (!empty($entry['url'])): ?>
+                                <a href="<?= e($entry['url']) ?>" target="_blank" rel="noopener" style="font-family:monospace;color:#95a5a6;"><?= e($entry['short'] ?? '') ?></a>
+                            <?php elseif (!empty($entry['short'])): ?>
+                                <span style="font-family:monospace;color:#95a5a6;"><?= e($entry['short']) ?></span>
+                            <?php endif ?>
+                            <?= e($entry['subject'] ?? '') ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+</div>

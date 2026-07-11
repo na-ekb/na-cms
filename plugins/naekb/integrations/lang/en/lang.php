@@ -2,6 +2,16 @@
     'title' => 'Integrations',
     'description' => 'Shared settings',
     'settings-group' => 'Integrations',
+    'deploy_version' => [
+        'label' => 'Deploy version',
+        'title_label' => 'Widget title',
+        'title_error' => 'Widget title is required',
+        'no_data' => 'No version data. version.json will appear after the next deploy.',
+        'deployed_at' => 'Deployed',
+        'branch' => 'Branch',
+        'actor' => 'Deployed by',
+        'changelog' => 'Changes since previous deploy',
+    ],
     'settings' => [
         'name' => 'Name',
         'lastName' => 'Last Name',
