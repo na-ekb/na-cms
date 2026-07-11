@@ -172,9 +172,12 @@ jobs:
       - name: Setup SSH
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          printf '%s\n' "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          # Проверяем, что ключ валиден и распознаётся до попытки подключения
+          ssh-keygen -y -f ~/.ssh/id_ed25519 > /dev/null \
+            || { echo "::error::SSH_PRIVATE_KEY невалиден (error in libcrypto): проверьте формат/переносы строк/passphrase"; exit 1; }
 
       - name: Create release dir
         id: release
