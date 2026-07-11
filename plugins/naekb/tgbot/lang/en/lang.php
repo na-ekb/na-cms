@@ -14,6 +14,9 @@
         'chat_id'               => 'Notifications chat ID',
         'channel_id'            => 'Channel ID',
         'webhook_token'         => 'Webhook secret',
-        'set_webhook'           => 'Set webhook for bot'
+        'set_webhook'           => 'Set webhook for bot',
+        'newsletter'            => 'Newsletter',
+        'send_meetings'         => 'Send meetings',
+        'send_time'             => 'Send time'
     ],
 ];

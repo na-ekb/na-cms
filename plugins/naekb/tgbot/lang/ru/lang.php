@@ -14,6 +14,9 @@
         'chat_id'               => 'ID чата оповещений',
         'channel_id'            => 'ID канала',
         'webhook_token'         => 'Секрет webhook',
-        'set_webhook'           => 'Установить вебхук'
+        'set_webhook'           => 'Установить вебхук',
+        'newsletter'            => 'Рассылка',
+        'send_meetings'         => 'Отправлять собрания',
+        'send_time'             => 'Время рассылки'
     ],
 ];
