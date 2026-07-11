@@ -77,18 +77,8 @@ jobs:
             echo "::warning::Нет подходящих окружений в манифесте — деплой не будет выполнен"
           fi
 
-  # ─── 1. Gitleaks: scan for leaked secrets ─────────────────────────────────
-  secrets:
-    name: Gitleaks
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Gitleaks здесь не нужен: секреты сканируются в pipeline.yml на каждый
+  # push/PR, а gitleaks-action@v2 к тому же не поддерживает событие release.
 
   # ─── 2. Build: PHP deps + frontend assets ─────────────────────────────────
   build:
@@ -156,12 +146,11 @@ jobs:
   # ─── 3. Deploy (fan-out по окружениям из set-matrix) ──────────────────────
   deploy:
     name: Deploy → ${{ matrix.name }}
-    needs: [secrets, resolve, build, set-matrix]
+    needs: [resolve, build, set-matrix]
     if: >-
       always() &&
       needs.set-matrix.result == 'success' &&
       needs.set-matrix.outputs.matrix != '[]' &&
-      needs.secrets.result == 'success' &&
       needs.resolve.result == 'success' &&
       (needs.build.result == 'success' || needs.build.result == 'skipped')
     runs-on: ubuntu-latest
