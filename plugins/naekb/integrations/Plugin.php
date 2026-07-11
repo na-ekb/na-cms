@@ -18,12 +18,25 @@ class Plugin extends PluginBase
         });
 
         \App::error(function(\Throwable $exception) {
-            $controller = new Controller(Theme::getActiveTheme());
-            //$controller->setStatusCode($exception->getStatusCode());
-            $handler = resolve(Handler::class);
-            $handler->report($exception);
+            // Сообщаем об исходном исключении в первую очередь, чтобы оно не потерялось,
+            // если кастомный рендер страницы ошибки сам упадёт.
+            resolve(Handler::class)->report($exception);
 
-            return $controller->run('/error');
+            // Кастомную CMS-страницу /error рендерим только при наличии активной темы.
+            // Без темы (не выбрана/не найдена, либо не-CMS запрос вроде вебхука)
+            // new Controller(null) бросает CmsException и маскирует реальную ошибку —
+            // в этом случае отдаём стандартную обработку исключения фреймворком.
+            $theme = Theme::getActiveTheme();
+            if (empty($theme)) {
+                return null;
+            }
+
+            try {
+                return (new Controller($theme))->run('/error');
+            } catch (\Throwable $e) {
+                resolve(Handler::class)->report($e);
+                return null;
+            }
         });
     }
 
