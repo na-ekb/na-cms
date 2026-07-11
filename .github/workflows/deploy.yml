@@ -97,7 +97,7 @@ jobs:
       - name: Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.4"
           extensions: mbstring, pdo, pdo_mysql, zip, gd, intl
           coverage: none
 
@@ -344,10 +344,10 @@ jobs:
             cd \$RELEASE
             # vendor приезжает из CI-артефакта; на сервере лишь пересобираем
             # автозагрузчик под серверные пути (без сети, без oc-packages)
-            /usr/local/bin/php8.2 /home/d/design24/.local/bin/composer dump-autoload --no-interaction --no-dev --optimize --no-scripts
-            php8.2 artisan optimize:clear
-            php8.2 artisan optimize
-            php8.2 artisan october:migrate
+            php8.4 /home/d/design24/.local/bin/composer dump-autoload --no-interaction --no-dev --optimize --no-scripts
+            php8.4 artisan optimize:clear
+            php8.4 artisan optimize
+            php8.4 artisan october:migrate
 
             ln -sfn \$RELEASE \$BASE/current
             ln -sfn \$BASE/current \$BASE/public_html
