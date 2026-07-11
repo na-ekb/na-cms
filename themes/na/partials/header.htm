@@ -1,13 +1,7 @@
-==
-<?php
-use NAEkb\Integrations\Models\IntegrationsSettings;
-
-// Читаем прямо в partial: переменные layout не прокидываются в partial,
-// поэтому счётчик Метрики и noindex должны резолвиться здесь.
-$this['metrikaId'] = (int) IntegrationsSettings::get('metrika_id');
-$this['noindex'] = (bool) IntegrationsSettings::get('noindex');
-?>
-==
+{# Настройки читаем через Twig-функцию: переменные layout не прокидываются
+   в partial, а PHP-секция в partial допускает только функции. #}
+{% set metrikaId = integrationsSetting('metrika_id')|default(0) %}
+{% set noindex = integrationsSetting('noindex') %}
 <head>
     <title>{{ this.theme.site_name }} :: {{ this.page.meta_title ?? '' }}</title>
     <meta name="description" content="{{ this.page.meta_description ?? '' }}">

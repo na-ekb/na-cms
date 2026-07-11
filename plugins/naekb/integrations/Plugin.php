@@ -79,6 +79,21 @@ class Plugin extends PluginBase
         ];
     }
 
+    /**
+     * registerMarkupTags — доступ к общим настройкам из любого Twig-шаблона
+     * (в т.ч. partial, куда переменные layout не прокидываются).
+     */
+    public function registerMarkupTags()
+    {
+        return [
+            'functions' => [
+                'integrationsSetting' => function ($key, $default = null) {
+                    return IntegrationsSettings::get($key, $default);
+                },
+            ],
+        ];
+    }
+
     /** @inheritdoc */
     public function registerReportWidgets()
     {
