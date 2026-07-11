@@ -75,6 +75,17 @@ class DeployVersion extends ReportWidgetBase
             }
         }
 
+        // Release notes из GitHub — markdown; рендерим в HTML для вывода в виджете.
+        $releaseNotes = $raw['release_notes'] ?? null;
+        $releaseNotesHtml = null;
+        if (!empty($releaseNotes)) {
+            try {
+                $releaseNotesHtml = \Markdown::parse($releaseNotes);
+            } catch (\Throwable $e) {
+                $releaseNotesHtml = null;
+            }
+        }
+
         return [
             'environment'   => $raw['environment'] ?? null,
             'role'          => $raw['role'] ?? null,
@@ -85,10 +96,11 @@ class DeployVersion extends ReportWidgetBase
             'actor'         => $raw['actor'] ?? null,
             'deployed_at'   => $deployedAt,
             'deployed_ago'  => $deployedAgo,
-            'commit_url'    => $raw['commit_url'] ?? null,
-            'release_url'   => $raw['release_url'] ?? null,
-            'release_notes' => $raw['release_notes'] ?? null,
-            'changelog'     => is_array($raw['changelog'] ?? null) ? $raw['changelog'] : [],
+            'commit_url'         => $raw['commit_url'] ?? null,
+            'release_url'        => $raw['release_url'] ?? null,
+            'release_notes'      => $releaseNotes,
+            'release_notes_html' => $releaseNotesHtml,
+            'changelog'          => is_array($raw['changelog'] ?? null) ? $raw['changelog'] : [],
         ];
     }
 }

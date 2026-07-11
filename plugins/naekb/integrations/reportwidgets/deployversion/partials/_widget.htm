@@ -42,7 +42,11 @@
                 <?php endif ?>
             </ul>
 
-            <?php if (!empty($data['release_notes'])): ?>
+            <?php if (!empty($data['release_notes_html'])): ?>
+                <div class="deploy-version__notes" style="margin-bottom:12px;padding:8px 12px;background:rgba(0,0,0,.03);border-radius:4px;font-size:13px;">
+                    <?= $data['release_notes_html'] ?>
+                </div>
+            <?php elseif (!empty($data['release_notes'])): ?>
                 <div class="deploy-version__notes" style="margin-bottom:12px;padding:8px 12px;background:rgba(0,0,0,.03);border-radius:4px;font-size:13px;white-space:pre-line;">
                     <?= e($data['release_notes']) ?>
                 </div>
