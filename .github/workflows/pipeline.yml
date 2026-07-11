@@ -59,6 +59,22 @@ jobs:
       - name: Composer dump-autoload
         run: composer dump-autoload --no-interaction --no-scripts --optimize
 
+      # Плагины vkbot/tgbot держат изолированные зависимости (VK/Telegram SDK)
+      # в собственном vendor; October подхватывает их plugins/*/vendor/autoload.php.
+      # Ставим их здесь, чтобы vendor доехал до сервера в build-артефакте.
+      # (Новый плагин с вложенными зависимостями — дописать в список.)
+      - name: Install isolated plugin dependencies
+        run: |
+          for dir in plugins/naekb/vkbot plugins/naekb/tgbot; do
+            echo "→ composer install in $dir"
+            composer install -d "$dir" --no-interaction --no-dev --prefer-dist --no-scripts
+          done
+        env:
+          COMPOSER_AUTH: >-
+            {
+              "github-oauth": {"github.com": "${{ secrets.OC_PACKAGES_TOKEN }}"}
+            }
+
       - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
