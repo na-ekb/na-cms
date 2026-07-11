@@ -14,7 +14,34 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
+  # ─── 0. Resolve: reuse existing build artifact for this commit ────────────
+  resolve:
+    name: Resolve build artifact
+    runs-on: ubuntu-latest
+    outputs:
+      exists: ${{ steps.check.outputs.exists }}
+      run_id: ${{ steps.check.outputs.run_id }}
+    steps:
+      - id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest=$(gh api "repos/${{ github.repository }}/actions/artifacts?name=build-${{ github.sha }}&per_page=100" \
+            --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | last')
+          if [ -n "$latest" ] && [ "$latest" != "null" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "run_id=$(echo "$latest" | jq -r '.workflow_run.id')" >> "$GITHUB_OUTPUT"
+            echo "♻️ Найден артефакт build-${{ github.sha }}, сборку пропускаем"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+            echo "🔨 Артефакта нет — будет сборка"
+          fi
+
   # ─── 1. Gitleaks: scan for leaked secrets ─────────────────────────────────
   secrets:
     name: Gitleaks
@@ -31,6 +58,8 @@ jobs:
   # ─── 2. Build: PHP deps + frontend assets ─────────────────────────────────
   build:
     name: Build
+    needs: resolve
+    if: needs.resolve.outputs.exists != 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -93,7 +122,12 @@ jobs:
   # ─── 3. Deploy ────────────────────────────────────────────────────────────
   deploy:
     name: Deploy → ekb
-    needs: [secrets, build]
+    needs: [secrets, resolve, build]
+    if: >-
+      always() &&
+      needs.secrets.result == 'success' &&
+      needs.resolve.result == 'success' &&
+      (needs.build.result == 'success' || needs.build.result == 'skipped')
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
@@ -120,6 +154,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-${{ github.sha }}
+          run-id: ${{ needs.resolve.outputs.exists == 'true' && needs.resolve.outputs.run_id || github.run_id }}
+          github-token: ${{ github.token }}
 
       - name: Install SOPS + age
         run: |
