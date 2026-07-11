@@ -263,8 +263,22 @@ class CleanTimeCommand extends AbstractCommand
             return;
         }
 
+        // Кнопка отказа: если передумал публиковаться — переход к поздравлению от бота
+        $cancelKeyboard = [
+            'inline' => true,
+            'buttons' => [[
+                [
+                    'action' => [
+                        'type' => 'callback',
+                        'payload' => json_encode(['command' => 'cleanTime', 'action' => 'congrPriv'], JSON_UNESCAPED_SLASHES),
+                        'label' => __('naekb.vkbot::lang.commands.clean_time.changed_mind')
+                    ]
+                ]
+            ]]
+        ];
+
         if (empty($this->object['message']->attachments)) {
-            $this->reply(__('naekb.vkbot::lang.commands.clean_time.photo_request'), [], false, false);
+            $this->reply(__('naekb.vkbot::lang.commands.clean_time.photo_request'), $cancelKeyboard, false, false);
             return;
         }
 
@@ -277,7 +291,7 @@ class CleanTimeCommand extends AbstractCommand
         }
 
         if ($photo === false) {
-            $this->reply(__('naekb.vkbot::lang.commands.clean_time.photo_non'), [], false, false);
+            $this->reply(__('naekb.vkbot::lang.commands.clean_time.photo_non'), $cancelKeyboard, false, false);
             return;
         }
 
