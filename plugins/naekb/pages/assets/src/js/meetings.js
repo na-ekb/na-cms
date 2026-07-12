@@ -260,6 +260,9 @@ function switchToMap() {
         document.querySelector('.all-meetings').style.display = 'none';
         document.querySelector('.week-meetings').style.display = 'none';
         document.querySelector('#map').style.display = 'block';
+        // Контейнер только что стал видимым — теперь у него реальный размер,
+        // поэтому подгоняем границы под все метки именно здесь.
+        fitMapToGroups();
     });
 }
 
@@ -402,19 +405,25 @@ function addGroupsToMap() {
         return;
     }
     window.meetingsMap.geoObjects.add(meetingsClusterer);
-    setTimeout(() => {
-        // Карта создаётся в скрытом контейнере (#map display:none) и кеширует
-        // нулевой размер; без пересчёта размеров setBounds считает границы неверно
-        // и метки не вписываются. Пересчитываем размеры перед подгонкой границ.
-        window.meetingsMap.container.fitToViewport();
-        const bounds = window.meetingsMap.geoObjects.getBounds();
-        if (bounds) {
-            window.meetingsMap.setBounds(bounds, {
-                checkZoomRange: true,
-                zoomMargin: 30
-            });
-        }
-    }, 500);
+    fitMapToGroups();
+}
+
+function fitMapToGroups() {
+    if (typeof window.meetingsMap === 'undefined') {
+        return;
+    }
+    // Карта нередко создаётся/наполняется, пока контейнер #map ещё display:none,
+    // и кеширует нулевой размер. Без пересчёта размеров setBounds считает границы
+    // по нулевому вьюпорту — метки не вписываются и карта не центрируется.
+    // Пересчитываем размеры перед подгонкой; вызывается и при показе карты.
+    window.meetingsMap.container.fitToViewport();
+    const bounds = window.meetingsMap.geoObjects.getBounds();
+    if (bounds) {
+        window.meetingsMap.setBounds(bounds, {
+            checkZoomRange: true,
+            zoomMargin: 30
+        });
+    }
 }
 
 function findAndCall(selector, map, callback) {
