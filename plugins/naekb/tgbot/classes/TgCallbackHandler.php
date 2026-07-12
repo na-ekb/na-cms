@@ -32,7 +32,14 @@ class TgCallbackHandler extends Controller
             ]);
 
             $update = $telegram->getWebhookUpdate();
-            $userId = $update->getMessage()->getChat()->getId();
+
+            // Апдейты без обычного сообщения/чата (my_chat_member, poll_answer и т.п.)
+            // не содержат chat — getMessage() отдаёт пустой Collection без getChat().
+            // Такие обновления не обрабатываем, иначе падаем с BadMethodCallException.
+            $userId = $update->getChat()->get('id');
+            if (empty($userId)) {
+                return 'OK';
+            }
 
             $state = TgState::firstOrCreate(['user_id' => $userId], ['state' => 'start']);
 
