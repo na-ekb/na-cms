@@ -9,7 +9,6 @@
     {% if noindex %}
     <meta name="robots" content="noindex, nofollow">
     {% endif %}
-    <link rel="icon" type="image/png" href="{{ 'assets/img/og-logo.png'|theme }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <link type="text/plain" rel="author" href="{{ 'assets/humans.txt'|theme }}">
 
@@ -29,16 +28,13 @@
 
     <meta property="vk:image" content="{{ 'assets/img/vk-logo.png'|theme }}">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ 'assets/img/favicon/apple-touch-icon.png'|theme }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ 'assets/img/favicon/favicon-32x32.png'|theme }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ 'assets/img/favicon/android-chrome-192x192.png'|theme }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ 'assets/img/favicon/favicon-16x16.png'|theme }}">
-    <link rel="manifest" href="{{ 'assets/img/favicon/site.webmanifest'|theme }}">
-    <link rel="mask-icon" href="{{ 'assets/img/favicon/safari-pinned-tab.svg'|theme }}" color="#495c9c">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ 'assets/img/favicon/favicon-96x96.png'|theme }}">
+    <link rel="icon" type="image/svg+xml" href="{{ 'assets/img/favicon/favicon.svg'|theme }}">
     <link rel="shortcut icon" href="{{ 'assets/img/favicon/favicon.ico'|theme }}">
-    <meta name="msapplication-TileColor" content="#495c9c">
-    <meta name="msapplication-config" content="{{ 'assets/img/favicon/browserconfig.xml'|theme }}">
-    <meta name="theme-color" content="#495c9c">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ 'assets/img/favicon/apple-touch-icon.png'|theme }}">
+    <meta name="apple-mobile-web-app-title" content="Анонимные Наркоманы">
+    <link rel="manifest" href="{{ 'assets/img/favicon/site.webmanifest'|theme }}">
+    <meta name="theme-color" content="#30509C">
 
     {{ vite([ { path: 'assets/sass/app.scss', render: false } ]) }}
     {% styles %}
