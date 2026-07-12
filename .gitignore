@@ -39,3 +39,6 @@ ngrok.yml
 
 # Deploy version metadata — генерируется CI в папке релиза, в репозиторий не коммитим
 /version.json
+
+# Собранный Vite-бандл темы na (собирается в CI, см. pipeline.yml)
+/themes/na/assets/build/

@@ -80,6 +80,9 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
+          cache-dependency-path: |
+            package-lock.json
+            themes/na/package-lock.json
 
       - name: npm install
         run: npm ci
@@ -101,6 +104,13 @@ jobs:
       - name: Build assets
         run: npm run production
 
+      # Тема na — отдельный Vite-проект (themes/na) со своими зависимостями.
+      # Собираем её здесь, чтобы свежий бандл (themes/na/assets/build) уехал в артефакт.
+      - name: Build theme assets (Vite)
+        run: |
+          npm ci --prefix themes/na
+          npm run build --prefix themes/na
+
       # Артефакт для переиспользования при деплое этого же коммита (см. deploy.yml -> resolve)
       - name: Upload build artifact
         if: github.event_name == 'push'
@@ -112,6 +122,7 @@ jobs:
             .
             !.git
             !node_modules
+            !themes/na/node_modules
             !.docker
             !tests
           retention-days: 7
