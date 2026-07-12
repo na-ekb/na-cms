@@ -403,10 +403,17 @@ function addGroupsToMap() {
     }
     window.meetingsMap.geoObjects.add(meetingsClusterer);
     setTimeout(() => {
-        window.meetingsMap.setBounds(window.meetingsMap.geoObjects.getBounds(), {
-            checkZoomRange: true,
-            zoomMargin: 2
-        });
+        // Карта создаётся в скрытом контейнере (#map display:none) и кеширует
+        // нулевой размер; без пересчёта размеров setBounds считает границы неверно
+        // и метки не вписываются. Пересчитываем размеры перед подгонкой границ.
+        window.meetingsMap.container.fitToViewport();
+        const bounds = window.meetingsMap.geoObjects.getBounds();
+        if (bounds) {
+            window.meetingsMap.setBounds(bounds, {
+                checkZoomRange: true,
+                zoomMargin: 30
+            });
+        }
     }, 500);
 }
 
