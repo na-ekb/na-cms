@@ -55,7 +55,7 @@
                             </button>
                         </div>
                         {% if meeting.group.address_desc is not empty %}
-                            {{ meeting.group.address|replace({' ': '&nbsp;'})|raw }}, {{ meeting.group.address_desc|replace({' ': '&nbsp;'})|raw }}
+                            {{ meeting.group.address|replace({' ': '&nbsp;'})|raw }}, {{ meeting.group.address_desc }}
                         {% else %}
                             {{ meeting.group.address|replace({' ': '&nbsp;'})|raw }}
                         {% endif %}

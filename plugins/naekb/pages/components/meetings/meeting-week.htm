@@ -38,7 +38,7 @@
                             </button>
                         </div>
                         {% if group.address_desc is not empty %}
-                            {{ group.address|replace({' ': '&nbsp;'})|raw }}, <wbr>{{ group.address_desc|replace({' ': '&nbsp;'})|raw }}
+                            {{ group.address|replace({' ': '&nbsp;'})|raw }}, <wbr>{{ group.address_desc }}
                         {% else %}
                             {{ group.address|replace({' ': '&nbsp;'})|raw }}
                         {% endif %}
