@@ -321,8 +321,12 @@ function addGroupsToMap() {
             };
 
             if (typeof meetingDays[meeting.day] !== 'undefined') {
+                // Первое собрание в этот день хранится как объект, второе и далее —
+                // как массив. Оборачиваем существующий объект, чтобы не спредить
+                // неитерируемое значение (рендер баллуна умеет и объект, и массив).
+                const existing = meetingDays[meeting.day];
                 meetingDays[meeting.day] = [
-                    ...meetingDays[meeting.day],
+                    ...(Array.isArray(existing) ? existing : [existing]),
                     meetingDay
                 ];
             } else {
