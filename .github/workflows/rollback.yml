@@ -88,8 +88,8 @@ jobs:
             ln -sfn "\$PREV" "\$BASE/current"
 
             cd "\$PREV"
-            php8.2 artisan optimize:clear
-            php8.2 artisan optimize
+            php8.4 artisan optimize:clear
+            php8.4 artisan optimize
 
             echo "Готово. Активный релиз: \$(readlink "\$BASE/current")"
           EOF
