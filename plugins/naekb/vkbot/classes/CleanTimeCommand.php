@@ -681,11 +681,16 @@ class CleanTimeCommand extends AbstractCommand
             throw new \RuntimeException("Photo #{$photoId}: original_url is empty");
         }
 
-        // Имя файла из URL: часть до '?' + последний сегмент пути
-        $filename = basename(explode('?', $photo->original_url)[0]);
-        if ($filename === '') {
-            $filename = "vk_photo_{$photoId}.jpg";
+        // Имя временного файла обязано иметь валидное графическое расширение:
+        // современные VK CDN-ссылки (impg/impf) не содержат его в пути (оно уходит
+        // в query), из-за чего Guzzle отправляет файл как application/octet-stream,
+        // VK отклоняет картинку и возвращает пустое photo => "photo is undefined".
+        $urlPath = explode('?', $photo->original_url)[0];
+        $ext = strtolower(pathinfo($urlPath, PATHINFO_EXTENSION));
+        if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'], true)) {
+            $ext = 'jpg';
         }
+        $filename = "vk_photo_{$photoId}.{$ext}";
 
         $contents = @file_get_contents($photo->original_url);
         if ($contents === false || $contents === '') {
@@ -693,19 +698,29 @@ class CleanTimeCommand extends AbstractCommand
         }
 
         \Storage::disk('local')->put($filename, $contents);
-        $server = $this->callApi('photos.getWallUploadServer', [
-            'group_id' => VkSettings::get('group_id')
-        ], true);
-        $uploadedPhoto = $this->api->getRequest()->upload($server['upload_url'], 'photo', storage_path("app/{$filename}"));
-        $savedPhotos = $this->callApi('photos.saveWallPhoto', [
-            'group_id' => VkSettings::get('group_id'),
-            'server' => $uploadedPhoto['server'],
-            'photo' => $uploadedPhoto['photo'],
-            'hash' => $uploadedPhoto['hash'],
-        ], true);
 
-        // Временный файл больше не нужен
-        \Storage::disk('local')->delete($filename);
+        try {
+            $server = $this->callApi('photos.getWallUploadServer', [
+                'group_id' => VkSettings::get('group_id')
+            ], true);
+            $uploadedPhoto = $this->api->getRequest()->upload($server['upload_url'], 'photo', storage_path("app/{$filename}"));
+
+            // VK при неудачной загрузке возвращает пустое photo (пустая строка или "[]"),
+            // а photos.saveWallPhoto затем падает с "photo is undefined". Отсекаем заранее.
+            if (empty($uploadedPhoto['photo']) || $uploadedPhoto['photo'] === '[]') {
+                throw new \RuntimeException("Photo #{$photoId}: VK upload returned empty photo for {$photo->original_url}");
+            }
+
+            $savedPhotos = $this->callApi('photos.saveWallPhoto', [
+                'group_id' => VkSettings::get('group_id'),
+                'server' => $uploadedPhoto['server'],
+                'photo' => $uploadedPhoto['photo'],
+                'hash' => $uploadedPhoto['hash'],
+            ], true);
+        } finally {
+            // Временный файл больше не нужен ни при успехе, ни при ошибке
+            \Storage::disk('local')->delete($filename);
+        }
 
         $photo->attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}_{$savedPhotos[0]['access_key']}";
         $photo->save();
