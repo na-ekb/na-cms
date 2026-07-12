@@ -408,16 +408,49 @@ function addGroupsToMap() {
     fitMapToGroups();
 }
 
+function getGroupsBounds() {
+    // Считаем границы вручную по координатам групп. Метки добавляются внутрь
+    // кластеризатора, а map.geoObjects.getBounds() объекты кластеризатора не
+    // агрегирует и возвращает null — тогда setBounds не срабатывает и карта
+    // остаётся в дефолтном центре. Набор совпадает с добавляемыми метками:
+    // все офлайн-группы с валидными координатами (см. addGroupsToMap).
+    let minLat, minLon, maxLat, maxLon;
+    for (let i = 0; i < window.groups.length; i++) {
+        let group = window.groups[i];
+        if (group.type === 'online') {
+            continue;
+        }
+        let lat = parseFloat(group.lat);
+        let lon = parseFloat(group.lon);
+        if (isNaN(lat) || isNaN(lon)) {
+            continue;
+        }
+        if (typeof minLat === 'undefined') {
+            minLat = maxLat = lat;
+            minLon = maxLon = lon;
+        } else {
+            minLat = Math.min(minLat, lat);
+            maxLat = Math.max(maxLat, lat);
+            minLon = Math.min(minLon, lon);
+            maxLon = Math.max(maxLon, lon);
+        }
+    }
+    if (typeof minLat === 'undefined') {
+        return null;
+    }
+    return [[minLat, minLon], [maxLat, maxLon]];
+}
+
 function fitMapToGroups() {
     if (typeof window.meetingsMap === 'undefined') {
         return;
     }
     // Карта нередко создаётся/наполняется, пока контейнер #map ещё display:none,
     // и кеширует нулевой размер. Без пересчёта размеров setBounds считает границы
-    // по нулевому вьюпорту — метки не вписываются и карта не центрируется.
-    // Пересчитываем размеры перед подгонкой; вызывается и при показе карты.
+    // по нулевому вьюпорту — метки не вписываются. Пересчитываем размеры перед
+    // подгонкой; вызывается и при показе карты.
     window.meetingsMap.container.fitToViewport();
-    const bounds = window.meetingsMap.geoObjects.getBounds();
+    const bounds = getGroupsBounds();
     if (bounds) {
         window.meetingsMap.setBounds(bounds, {
             checkZoomRange: true,
