@@ -4,6 +4,7 @@ use Illuminate\Support\Carbon;
 use System\Classes\PluginBase;
 
 use VK\Client\VKApiClient;
+use VK\Exceptions\Api\VKApiAccessGroupException;
 use VK\Exceptions\Api\VKApiMessagesContactNotFoundException;
 use VK\Exceptions\Api\VKApiMessagesGroupPeerAccessException;
 use VK\Exceptions\Api\VKApiUserDeletedException;
@@ -133,7 +134,7 @@ class Plugin extends PluginBase
                             'keyboard'  => json_encode($keyboard, JSON_UNESCAPED_SLASHES)
                         ]);
                         $cleanDate->touch();
-                    } catch (VKApiMessagesContactNotFoundException|VKApiMessagesGroupPeerAccessException|VKApiUserDeletedException $e) {
+                    } catch (VKApiAccessGroupException|VKApiMessagesContactNotFoundException|VKApiMessagesGroupPeerAccessException|VKApiUserDeletedException $e) {
                         $cleanDate->delete();
                     } catch (\Throwable $e) {
                         report($e);
