@@ -728,7 +728,7 @@ class CleanTimeCommand extends AbstractCommand
         return $photo->attachment;
     }
 
-    protected function sendImage()
+    protected function sendImage(): void
     {
         $folderPath = plugins_path('naekb/vkbot/assets/img/');
         $imgFiles = [];
@@ -737,21 +737,92 @@ class CleanTimeCommand extends AbstractCommand
             $imgFiles[] = $fileInfo->getFilename();
         }
 
-        $imgIdx = rand(0, count($imgFiles) - 1);
-        $img = $folderPath . $imgFiles[$imgIdx];
+        if (empty($imgFiles)) {
+            \Log::warning('VK message image was not sent: image directory is empty');
+            return;
+        }
 
-        $server = $this->callApi('photos.getMessagesUploadServer', [
-            'peer_id' => $this->userId
-        ]);
-        $photo = $this->api->getRequest()->upload($server['upload_url'], 'photo', $img);
-        $savedPhotos = $this->callApi('photos.saveMessagesPhoto', [
-            'server' => $photo['server'],
-            'photo' => $photo['photo'],
-            'hash' => $photo['hash'],
-        ]);
+        shuffle($imgFiles);
+        $attempts = min(3, count($imgFiles));
+        $failures = [];
 
-        $attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}_{$savedPhotos[0]['access_key']}";
-        $this->reply(__('naekb.vkbot::lang.commands.clean_time.image'), [], false, true, [$attachment]);
+        for ($attempt = 0; $attempt < $attempts; $attempt++) {
+            $image = $imgFiles[$attempt];
+            $img = $folderPath . $image;
+
+            try {
+                // Для каждой попытки получаем новый upload URL и берём другую картинку.
+                $server = $this->callApi('photos.getMessagesUploadServer', [
+                    'peer_id' => $this->userId
+                ]);
+
+                if (empty($server['upload_url'])) {
+                    $failures[$image] = 'upload_url_missing';
+                    continue;
+                }
+
+                $uploadedPhoto = $this->api->getRequest()->upload($server['upload_url'], 'photo', $img);
+
+                // При отклонённом VK файле upload endpoint может вернуть пустое photo.
+                // Не вызываем photos.saveMessagesPhoto с невалидным параметром: иначе
+                // VK отвечает VKApiParamException с сообщением "photo is undefined".
+                if (empty($uploadedPhoto['server'])
+                    || empty($uploadedPhoto['photo'])
+                    || $uploadedPhoto['photo'] === '[]'
+                    || empty($uploadedPhoto['hash'])
+                ) {
+                    $failures[$image] = 'upload_data_incomplete';
+                    continue;
+                }
+
+                $savedPhotos = $this->callApi('photos.saveMessagesPhoto', [
+                    'server' => $uploadedPhoto['server'],
+                    'photo' => $uploadedPhoto['photo'],
+                    'hash' => $uploadedPhoto['hash'],
+                ]);
+
+                if (empty($savedPhotos[0]['owner_id']) || empty($savedPhotos[0]['id'])) {
+                    $failures[$image] = 'saved_photo_missing';
+                    continue;
+                }
+            } catch (VKClientException $e) {
+                // Транспортный сбой может быть временным — пробуем следующую картинку.
+                $failures[$image] = 'transport_error';
+                continue;
+            } catch (VKApiException $e) {
+                // Неизвестная/серверная ошибка, сбой загрузки и timeout могут быть временными.
+                if (in_array($e->getErrorCode(), [1, 10, 22, 36], true)) {
+                    $failures[$image] = "temporary_api_error_{$e->getErrorCode()}";
+                    continue;
+                }
+
+                // Ошибки токена, прав и параметров повтором с другой картинкой не исправить.
+                report($e);
+                return;
+            } catch (\Throwable $e) {
+                report($e);
+                return;
+            }
+
+            $attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}";
+            if (!empty($savedPhotos[0]['access_key'])) {
+                $attachment .= "_{$savedPhotos[0]['access_key']}";
+            }
+
+            try {
+                $this->reply(__('naekb.vkbot::lang.commands.clean_time.image'), [], false, true, [$attachment]);
+            } catch (\Throwable $e) {
+                // Файл уже сохранён в VK: повторная загрузка здесь не поможет.
+                report($e);
+            }
+            return;
+        }
+
+        \Log::warning('VK message image was not sent after retries', [
+            'attempts' => $attempts,
+            'failures' => $failures,
+            'user_id' => $this->userId,
+        ]);
     }
 
     protected function humanDate(?CleanDate $cleanDate) {
