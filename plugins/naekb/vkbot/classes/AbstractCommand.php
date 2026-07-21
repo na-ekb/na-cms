@@ -4,6 +4,7 @@ use Exception;
 use Illuminate\Support\Str;
 
 use VK\Client\VKApiClient;
+use VK\Exceptions\VKApiException;
 use VK\Exceptions\Api\VKApiAccessException;
 use VK\Exceptions\Api\VKApiMessagesDenySendException;
 use VK\Exceptions\Api\VKApiMessagesGroupPeerAccessException;
@@ -110,10 +111,12 @@ abstract class AbstractCommand
     public function handle(array $arguments = []): string
     {
         if (empty($arguments['noActivity'])) {
-            $this->callApi('messages.setActivity', [
-                'type'      => 'typing',
-                'peer_id'   => $this->userId
-            ]);
+            try {
+                $this->callApi('messages.setActivity', [
+                    'type'      => 'typing',
+                    'peer_id'   => $this->userId
+                ]);
+            } catch (VKApiException $e) {}
         }
 
         $this->{$arguments['action'] ?? $this->defaultAction}();
