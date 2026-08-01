@@ -247,8 +247,7 @@ abstract class AbstractCommand
                     'type' => 'typing',
                     'peer_id' => $admin['id']
                 ]);
-            } catch (VKApiMessagesDenySendException|VKApiMessagesGroupPeerAccessException $e) {
-                report($e);
+            } catch (VKApiMessagesDenySendException|VKApiMessagesGroupPeerAccessException) {
                 $exclude[] = $admin['id'];
                 $this->sendToAdmins(__('naekb.vkbot::lang.notifications.admin_access', [
                     'id' => $admin['id'],
@@ -282,8 +281,7 @@ abstract class AbstractCommand
 
             try {
                 $this->callApi('messages.send', $options);
-            } catch (VKApiMessagesDenySendException|VKApiMessagesGroupPeerAccessException $e) {
-                report($e);
+            } catch (VKApiMessagesDenySendException|VKApiMessagesGroupPeerAccessException) {
                 continue;
             } catch (VKApiAccessException $e) {
                 if (!empty($attachments)) {

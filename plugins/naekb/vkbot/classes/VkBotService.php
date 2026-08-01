@@ -49,42 +49,55 @@ class VkBotService extends VKCallbackApiHandler {
         if (!empty($object['message']->peer_id) && $object['message']->peer_id > 2000000000) {
             return 'ok';
         }
+
         if (!empty($object['message'])) {
+            if (empty($object['message']->from_id) || $object['message']->from_id < 1) {
+                return 'ok';
+            }
+
+            State::where('user_id', $object['message']->from_id)->update([
+                'allow' => 1
+            ]);
+
             if (!empty($object['message']->payload)) {
                 $payload = json_decode($object['message']->payload);
-                $command = ucfirst($payload->command);
-                if (!empty($payload->command) && array_key_exists($command, config('naekb.vkbot::vkbot.commands'))) {
+                $command = null;
+                if (is_object($payload) && !empty($payload->command)) {
+                    $command = ucfirst($payload->command);
+                }
+
+                if (!empty($command) && array_key_exists($command, config('naekb.vkbot::vkbot.commands'))) {
                     $commandClass = config('naekb.vkbot::vkbot.commands')[$command];
-                    if (!empty($payload->argument))
-                        return (new $commandClass($object, $this->groupToken, $this->adminToken))->handle();
+                    return (new $commandClass($object, $this->groupToken, $this->adminToken))->handle();
                 }
-            } else {
-                $state = State::where([
-                    'user_id' => $object['message']->from_id
-                ])->first();
-
-                if (!empty($state) && $state->action == 'conversation') {
-                    return 'ok';
-                }
-
-                if ($state) {
-                    $arguments = [];
-                    if (!empty($state->action)) {
-                        $arguments['action'] = $state->action;
-                    }
-
-                    $command = ucfirst($state->state);
-                    if (array_key_exists($command, config('naekb.vkbot::vkbot.commands'))) {
-                        $commandClass = new (config('naekb.vkbot::vkbot.commands')[$command])($object, $this->groupToken, $this->adminToken);
-                        if (in_array($arguments['action'] ?? $commandClass->defaultAction, $commandClass->text)) {
-                            return $commandClass->handle($arguments);
-                        }
-                    }
-                }
-
-                return (new StartCommand($object, $this->groupToken, $this->adminToken))->handle();
             }
+
+            $state = State::where([
+                'user_id' => $object['message']->from_id
+            ])->first();
+
+            if (!empty($state) && $state->action == 'conversation') {
+                return 'ok';
+            }
+
+            if ($state) {
+                $arguments = [];
+                if (!empty($state->action)) {
+                    $arguments['action'] = $state->action;
+                }
+
+                $command = ucfirst($state->state);
+                if (array_key_exists($command, config('naekb.vkbot::vkbot.commands'))) {
+                    $commandClass = new (config('naekb.vkbot::vkbot.commands')[$command])($object, $this->groupToken, $this->adminToken);
+                    if (in_array($arguments['action'] ?? $commandClass->defaultAction, $commandClass->text)) {
+                        return $commandClass->handle($arguments);
+                    }
+                }
+            }
+
+            return (new StartCommand($object, $this->groupToken, $this->adminToken))->handle();
         }
+
         return 'ok';
     }
 
