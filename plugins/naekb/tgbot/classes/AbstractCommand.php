@@ -94,7 +94,7 @@ abstract class AbstractCommand extends Command
         $this->update = $update;
         $this->entity = $entity;
         $this->arguments = $this->parseCallbackCommandArguments();
-        $this->userId = $this->getUpdate()->getMessage()->getChat()->getId();
+        $this->userId = $this->getUpdate()->getChat()->get('id');
         return $this->handle();
     }
 
