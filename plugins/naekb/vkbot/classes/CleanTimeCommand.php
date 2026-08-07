@@ -690,7 +690,9 @@ class CleanTimeCommand extends AbstractCommand
         if (!in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'], true)) {
             $ext = 'jpg';
         }
-        $filename = "vk_photo_{$photoId}.{$ext}";
+        // Уникальное имя исключает гонку, если два администратора одновременно
+        // подтверждают одну фотографию и один процесс удаляет файл другого.
+        $filename = "vk_photo_{$photoId}_" . bin2hex(random_bytes(6)) . ".{$ext}";
 
         $contents = @file_get_contents($photo->original_url);
         if ($contents === false || $contents === '') {
@@ -700,15 +702,51 @@ class CleanTimeCommand extends AbstractCommand
         \Storage::disk('local')->put($filename, $contents);
 
         try {
-            $server = $this->callApi('photos.getWallUploadServer', [
-                'group_id' => VkSettings::get('group_id')
-            ], true);
-            $uploadedPhoto = $this->api->getRequest()->upload($server['upload_url'], 'photo', storage_path("app/{$filename}"));
+            $uploadedPhoto = null;
+            for ($attempt = 1; $attempt <= 3; $attempt++) {
+                try {
+                    // Upload URL одноразовый и может протухнуть или вернуть временно пустой
+                    // photo, поэтому для каждой попытки запрашиваем новый сервер.
+                    $server = $this->callApi('photos.getWallUploadServer', [
+                        'group_id' => VkSettings::get('group_id')
+                    ], true);
 
-            // VK при неудачной загрузке возвращает пустое photo (пустая строка или "[]"),
-            // а photos.saveWallPhoto затем падает с "photo is undefined". Отсекаем заранее.
-            if (empty($uploadedPhoto['photo']) || $uploadedPhoto['photo'] === '[]') {
-                throw new \RuntimeException("Photo #{$photoId}: VK upload returned empty photo for {$photo->original_url}");
+                    if (empty($server['upload_url'])) {
+                        continue;
+                    }
+
+                    $uploadedPhoto = $this->api->getRequest()->upload(
+                        $server['upload_url'],
+                        'photo',
+                        storage_path("app/{$filename}")
+                    );
+                } catch (VKClientException $e) {
+                    if ($attempt === 3) {
+                        throw $e;
+                    }
+                    continue;
+                } catch (VKApiException $e) {
+                    if ($attempt === 3 || !in_array($e->getErrorCode(), [1, 10, 22, 36], true)) {
+                        throw $e;
+                    }
+                    continue;
+                }
+
+                if (!empty($uploadedPhoto['server'])
+                    && !empty($uploadedPhoto['photo'])
+                    && $uploadedPhoto['photo'] !== '[]'
+                    && !empty($uploadedPhoto['hash'])
+                ) {
+                    break;
+                }
+            }
+
+            if (empty($uploadedPhoto['server'])
+                || empty($uploadedPhoto['photo'])
+                || $uploadedPhoto['photo'] === '[]'
+                || empty($uploadedPhoto['hash'])
+            ) {
+                throw new \RuntimeException("Photo #{$photoId}: VK upload returned incomplete data after 3 attempts for {$photo->original_url}");
             }
 
             $savedPhotos = $this->callApi('photos.saveWallPhoto', [
@@ -717,12 +755,19 @@ class CleanTimeCommand extends AbstractCommand
                 'photo' => $uploadedPhoto['photo'],
                 'hash' => $uploadedPhoto['hash'],
             ], true);
+
+            if (empty($savedPhotos[0]['owner_id']) || empty($savedPhotos[0]['id'])) {
+                throw new \RuntimeException("Photo #{$photoId}: VK saveWallPhoto returned empty result");
+            }
         } finally {
             // Временный файл больше не нужен ни при успехе, ни при ошибке
             \Storage::disk('local')->delete($filename);
         }
 
-        $photo->attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}_{$savedPhotos[0]['access_key']}";
+        $photo->attachment = "photo{$savedPhotos[0]['owner_id']}_{$savedPhotos[0]['id']}";
+        if (!empty($savedPhotos[0]['access_key'])) {
+            $photo->attachment .= "_{$savedPhotos[0]['access_key']}";
+        }
         $photo->save();
 
         return $photo->attachment;
