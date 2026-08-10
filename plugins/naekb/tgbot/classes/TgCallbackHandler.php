@@ -33,9 +33,14 @@ class TgCallbackHandler extends Controller
 
             $update = $telegram->getWebhookUpdate();
 
-            // Апдейты без обычного сообщения/чата (my_chat_member, poll_answer и т.п.)
-            // не содержат chat — getMessage() отдаёт пустой Collection без getChat().
-            // Такие обновления не обрабатываем, иначе падаем с BadMethodCallException.
+            // Служебные обновления (my_chat_member при блокировке бота,
+            // poll_answer и т.п.) могут содержать chat, но не являются командами.
+            // Подтверждаем их без попытки отправить пользователю typing/сообщение.
+            $isCallback = $update->has('callback_query');
+            if (!$update->has('message') && !$isCallback) {
+                return 'OK';
+            }
+
             $userId = $update->getChat()->get('id');
             if (empty($userId)) {
                 return 'OK';
@@ -43,7 +48,7 @@ class TgCallbackHandler extends Controller
 
             $state = TgState::firstOrCreate(['user_id' => $userId], ['state' => 'start']);
 
-            if ($update->has('callback_query')) {
+            if ($isCallback) {
                 try {
                     $telegram->answerCallbackQuery(['callback_query_id' => $update->callbackQuery->get('id')]);
                 } catch (\Throwable) { }
